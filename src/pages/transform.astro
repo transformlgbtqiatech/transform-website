@@ -1,0 +1,19 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { Menu as MenuIcon } from "lucide-react";
+import ThemeToggle from "@components/astro/ThemeToggle.astro";
+---
+
+<BaseLayout title="Transform" description="Transform tool">
+  <!-- class="p-6 py-4 lg:p-10" -->
+  <main>
+    <header class="p-2 flex">
+      <button class="px-3 text-gray-500">
+        <MenuIcon />
+      </button>
+      <div class="ml-auto text-gray-700">
+        <ThemeToggle />
+      </div>
+    </header>
+  </main>
+</BaseLayout>

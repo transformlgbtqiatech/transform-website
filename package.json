@@ -1,0 +1,40 @@
+{
+  "name": "transform",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "rm -rf .astro && astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "eslint": "eslint"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.7.0",
+    "@astrojs/markdoc": "^0.11.0",
+    "@astrojs/node": "^8.3.1",
+    "@astrojs/react": "^3.6.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "@floating-ui/react": "^0.26.17",
+    "@keystar/ui": "^0.7.6",
+    "@keystatic/astro": "^5.0.0",
+    "@keystatic/core": "^0.5.22",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "astro": "^4.11.0",
+    "astro-seo": "^0.8.4",
+    "lucide-react": "^0.395.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.13.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.5.0",
+    "eslint": "^9.5.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "globals": "^15.6.0"
+  }
+}
