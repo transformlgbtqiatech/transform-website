@@ -1,0 +1,14 @@
+---
+import ThemeToggle from "@components/astro/ThemeToggle.astro";
+import { KnowledgeSidebar } from "@components/react/KnowledgeSidebar";
+import Logo from "./Logo.astro";
+---
+
+<header class="p-2 flex items-center">
+  <KnowledgeSidebar client:idle />
+  <Logo />
+
+  <div class="ml-auto text-gray-700">
+    <ThemeToggle />
+  </div>
+</header>

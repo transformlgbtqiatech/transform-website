@@ -46,23 +46,23 @@ const {
           { name: "msapplication-TileColor", content: "#da532c" },
           { name: "theme-color", content: "#ffffff" },
         ],
-        link: [
-          {
-            rel: "apple-touch-icon",
-            sizes: "180x180",
-            href: "/apple-touch-icon.png",
-          },
-          {
-            rel: "icon",
-            type: "image/png",
-            sizes: "16x16",
-            href: "/favicon-16x16.png",
-          },
-          {
-            rel: "manifest",
-            href: "/site.webmanifest",
-          },
-        ],
+        // link: [
+        //   {
+        //     rel: "apple-touch-icon",
+        //     sizes: "180x180",
+        //     href: "/apple-touch-icon.png",
+        //   },
+        //   {
+        //     rel: "icon",
+        //     type: "image/png",
+        //     sizes: "16x16",
+        //     href: "/favicon-16x16.png",
+        //   },
+        //   {
+        //     rel: "manifest",
+        //     href: "/site.webmanifest",
+        //   },
+        // ],
       }}
     />
   </head>
@@ -123,5 +123,42 @@ const {
         -ms-overflow-style: none;
       }
     </style>
+    <script>
+      import { theme as themeAtom } from "@store/global";
+
+      // https://adropincalm.com/blog/notes-on-typescript-custom-events/
+      const themeChangedCallback = (
+        e: CustomEvent<{
+          themeValue: "light" | "dark";
+        }>,
+      ) => {
+        themeAtom.set(e.detail.themeValue);
+      };
+
+      function setupEvents() {
+        document.addEventListener(
+          "theme-changed",
+          themeChangedCallback as EventListener,
+        );
+      }
+
+      function init() {
+        setupEvents();
+        /** since the inline script inside `ThemeToggle.astro` executes before this script might be downloaded and executed, we need to depend on this global theme value to init the theme nano store atom for the first time. For the latter switching of theme, manually by the user, we listen to the 'theme-changed' custom event in `setupEvents` */
+        if (window.themeValue) {
+          themeAtom.set(window.themeValue);
+        }
+      }
+
+      function astroInit() {
+        init();
+
+        document.addEventListener("astro:page-load", () => {
+          init();
+        });
+      }
+
+      astroInit();
+    </script>
   </body>
 </html>

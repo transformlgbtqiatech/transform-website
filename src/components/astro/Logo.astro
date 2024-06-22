@@ -1,0 +1,46 @@
+---
+import { Image } from "astro:assets";
+import logoBlack from "@assets/images/transform-logo-black.png";
+import logoWhite from "@assets/images/transform-logo-white.png";
+---
+
+<div>
+  <div class="w-36">
+    <Image
+      id="show-in-light"
+      src={logoBlack}
+      alt="Transform Logo"
+      quality={100}
+      class="hidden"
+    />
+    <Image
+      id="show-in-dark"
+      src={logoWhite}
+      alt="Transform Logo"
+      quality={100}
+      class="hidden"
+    />
+  </div>
+</div>
+
+<script>
+  import { theme as themeAtom } from "@store/global";
+  const showInLightLogo = document.getElementById("show-in-light");
+  const showInDarkLogo = document.getElementById("show-in-dark");
+
+  if (!(showInLightLogo && showInDarkLogo)) {
+    throw new Error("Logo elements not found");
+  }
+
+  themeAtom.subscribe((theme) => {
+    if (theme === "dark") {
+      // show the image that should be shown in dark mode and hide the other one
+      showInDarkLogo.classList.remove("hidden");
+      showInLightLogo.classList.add("hidden");
+    } else {
+      // show the image that should be shown in light mode and hide the other one
+      showInDarkLogo.classList.add("hidden");
+      showInLightLogo.classList.remove("hidden");
+    }
+  });
+</script>

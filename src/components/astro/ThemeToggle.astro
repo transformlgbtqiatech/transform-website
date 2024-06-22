@@ -95,15 +95,14 @@
   }
 </style>
 
-<script>
-  const storageKey = "theme-preference";
-  const theme = {
-    value: getColorPreference(),
-  };
+<!-- this is inline to prevent FOUC -->
+<script is:inline>
+  const THEME_LOCALSTORAGE_KEY = "theme-preference";
+  const themeToggleButton = document.querySelector("#theme-toggle");
 
-  function getColorPreference() {
-    if (localStorage.getItem(storageKey)) {
-      return localStorage.getItem(storageKey) as "dark" | "light";
+  function getThemeValue() {
+    if (localStorage.getItem(THEME_LOCALSTORAGE_KEY)) {
+      return localStorage.getItem(THEME_LOCALSTORAGE_KEY);
     } else {
       return window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
@@ -111,44 +110,67 @@
     }
   }
 
-  function setPreference() {
-    localStorage.setItem(storageKey, theme.value);
-    reflectPreference();
+  function toggleThemeClickHandler() {
+    const themeValue = getThemeValue();
+    // toggle value
+    const newThemeValue = themeValue === "light" ? "dark" : "light";
+    savePreference(newThemeValue);
   }
 
-  function reflectPreference() {
-    const firstEl = document.firstElementChild!;
+  function savePreference(themeValue) {
+    // save to local storage
+    localStorage.setItem(THEME_LOCALSTORAGE_KEY, themeValue);
 
-    if (theme.value === "light") {
+    // reflect in html
+    reflectPreference(themeValue);
+  }
+
+  function reflectPreference(incomingThemeValue) {
+    const firstEl = document.firstElementChild;
+
+    if (incomingThemeValue === "light") {
       firstEl.classList.remove("dark");
     } else {
       firstEl.classList.add("dark");
     }
 
-    document
-      .querySelector("#theme-toggle")
-      ?.setAttribute("aria-label", theme.value);
-  }
+    const themeEvent = new CustomEvent("theme-changed", {
+      detail: {
+        themeValue: incomingThemeValue,
+      },
+    });
 
-  function onClick() {
-    // flip current value
-    theme.value = theme.value === "light" ? "dark" : "light";
-    setPreference();
+    document.dispatchEvent(themeEvent);
+    window.themeValue = incomingThemeValue;
   }
 
   function setupEvents() {
-    document.querySelector("#theme-toggle")?.addEventListener("click", onClick);
+    // toggle button
+    themeToggleButton?.addEventListener("click", toggleThemeClickHandler);
+
+    // match media
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", ({ matches: isDark }) => {
-        theme.value = isDark ? "dark" : "light";
-        setPreference();
+        const newThemeValue = isDark ? "dark" : "light";
+        savePreference(newThemeValue);
       });
   }
 
-  setupEvents();
+  function applySavedPreference() {
+    const themeValue = getThemeValue();
+    reflectPreference(themeValue);
+  }
 
-  document.addEventListener("astro:page-load", () => {
+  function astroInit() {
     setupEvents();
-  });
+    applySavedPreference();
+
+    document.addEventListener("astro:page-load", () => {
+      setupEvents();
+      applySavedPreference();
+    });
+  }
+
+  astroInit();
 </script>
