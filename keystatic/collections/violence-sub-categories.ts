@@ -1,6 +1,6 @@
 import { fields, collection } from "@keystatic/core";
 
-export const violenceSubCategoryCollection = collection({
+export const violenceSubCategory = collection({
   label: "Violence Sub Categories",
   slugField: "name",
   path: "src/content/violence-sub-categories/*",
@@ -22,7 +22,7 @@ export const violenceSubCategoryCollection = collection({
     category: fields.relationship({
       label: "Violence Category",
       description: "The violence category this subcategory belongs to",
-      collection: "violenceCategories",
+      collection: "violenceCategory",
       validation: {
         isRequired: true,
       },

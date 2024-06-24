@@ -1,6 +1,6 @@
 import { fields, collection } from "@keystatic/core";
 
-export const identityGroupCollection = collection({
+export const identityGroup = collection({
   label: "Trans Identity Groups",
   slugField: "name",
   path: "src/content/identity-groups/*",

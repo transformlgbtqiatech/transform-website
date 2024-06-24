@@ -1,6 +1,6 @@
 import { fields, collection } from "@keystatic/core";
 
-export const glossaryCollection = collection({
+export const glossary = collection({
   label: "Glossary",
   slugField: "name",
   path: "src/content/glossary/*",

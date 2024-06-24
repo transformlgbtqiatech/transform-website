@@ -1,6 +1,6 @@
 import { fields, collection } from "@keystatic/core";
 
-export const violenceCategoryCollection = collection({
+export const violenceCategory = collection({
   label: "Violence Categories",
   slugField: "name",
   path: "src/content/violence-categories/*",

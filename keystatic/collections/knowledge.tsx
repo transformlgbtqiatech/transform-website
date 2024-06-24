@@ -6,7 +6,7 @@ import { footprintsIcon } from "@keystar/ui/icon/icons/footprintsIcon";
 import { bookAIcon } from "@keystar/ui/icon/icons/bookAIcon";
 import { Icon } from "@keystar/ui/icon";
 
-export const knowledgeCollection = collection({
+export const knowledge = collection({
   label: "Knowledge",
   slugField: "title",
   path: "src/content/knowledge-posts/*",
@@ -27,7 +27,7 @@ export const knowledgeCollection = collection({
     }),
     triggerWarning: fields.relationship({
       label: "Trigger Warning",
-      collection: "triggerWarningContentPosts",
+      collection: "triggerWarning",
     }),
     content: fields.mdx({
       label: "Content",

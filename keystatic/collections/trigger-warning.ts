@@ -1,6 +1,6 @@
 import { fields, collection } from "@keystatic/core";
 
-export const triggerWarningCollection = collection({
+export const triggerWarning = collection({
   label: "Trigger Warning Content Posts",
   slugField: "title",
   path: "src/content/trigger-warning-content-posts/*",
