@@ -40,7 +40,7 @@ export const DialogContent = React.forwardRef<
   } = props;
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className="fixed inset-0 bg-[#24273f] dark:bg-slate-400 opacity-75 z-40" />
+      <DialogPrimitive.Overlay className="fixed inset-0 bg-zinc-500 opacity-75 z-40" />
       <DialogPrimitive.Content
         {...rest}
         ref={forwardedRef}
