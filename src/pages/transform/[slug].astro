@@ -1,0 +1,133 @@
+---
+import { getEntry } from "astro:content";
+import Header from "@components/astro/Header.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Prose from "@components/astro/Prose.astro";
+import Footnote from "@components/astro/Footnote.astro";
+import Glossary from "@components/astro/Glossary.astro";
+import { cms } from "@cms/reader";
+import type { CollectionEntry } from "astro:content";
+import "react-a11y-footnotes/dist/styles.css";
+
+export async function getStaticPaths() {
+  const identityGroupSlugsList = await cms.collections.identityGroup.list();
+  const violenceSubCategorySlugsList =
+    await cms.collections.violenceSubCategory.list();
+  const knowledgePosts = await cms.collections.knowledge.all({
+    resolveLinkedFiles: true,
+  });
+
+  const paths = identityGroupSlugsList.flatMap((identityGroupSlug) => {
+    return violenceSubCategorySlugsList.map((violenceSubCategorySlug) => {
+      const knowledgePost = knowledgePosts.find((knowledgePost) => {
+        return (
+          knowledgePost.entry.transIdentityGroup === identityGroupSlug &&
+          knowledgePost.entry.violenceSubCategory === violenceSubCategorySlug
+        );
+      });
+
+      return {
+        params: {
+          slug: `${identityGroupSlug}-${violenceSubCategorySlug}`,
+        },
+        props: {
+          identityGroupSlug,
+          violenceSubCategorySlug,
+          knowledgePost,
+        },
+      };
+    });
+  });
+
+  return paths;
+}
+
+async function getContentComponent() {
+  const knowledgeSlug = Astro.props.knowledgePost?.slug;
+  if (!knowledgeSlug) {
+    return null;
+  }
+
+  const knowledgePostSlug = Astro.props.knowledgePost
+    ?.slug as CollectionEntry<"knowledge-posts">["slug"];
+
+  const entry = await getEntry("knowledge-posts", knowledgePostSlug);
+  const { Content } = await entry.render();
+
+  return Content;
+}
+
+const Component = await getContentComponent();
+
+const { identityGroupSlug, violenceSubCategorySlug } = Astro.props;
+
+const identityGroupData =
+  await cms.collections.identityGroup.read(identityGroupSlug);
+
+const violenceSubCategoryData = await cms.collections.violenceSubCategory.read(
+  violenceSubCategorySlug,
+);
+
+const identityGroupHeading = identityGroupData?.name;
+const violenceSubCategoryHeading =
+  violenceSubCategoryData?.descriptiveText ?? violenceSubCategoryData?.name;
+
+let subCategoryTextColor = "";
+switch (violenceSubCategoryData?.category) {
+  case "assault":
+    subCategoryTextColor = "text-red-transform"; // Tailwind CSS class for red text
+    break;
+  case "degradation":
+    subCategoryTextColor = "text-orange-transform"; // Tailwind CSS class for yellow text
+    break;
+  case "normalisation":
+    subCategoryTextColor = "text-yellow-transform"; // Tailwind CSS class for green text
+    break;
+  default:
+    break;
+}
+---
+
+<BaseLayout title="Transform" description="Transform tool">
+  <Header
+    preSelectedSlugs={{
+      identityGroupSlug: identityGroupSlug,
+      violenceSubCategorySlug: violenceSubCategorySlug,
+    }}
+  />
+
+  <main class="p-6 lg:p-10 max-w-3xl mx-auto">
+    <p
+      class:list={[
+        "m-0 font-oswaldHeading font-medium text-2xl uppercase",
+        subCategoryTextColor,
+      ]}
+    >
+      {violenceSubCategoryHeading} Faced by
+    </p>
+
+    <h1 class="italic m-0 dark:text-zinc-100 font-bold text-4xl">
+      <span>{identityGroupHeading}</span>
+    </h1>
+
+    <h2 class:list={[subCategoryTextColor, "font-bold text-2xl my-2 mt-5"]}>
+      Overview
+    </h2>
+
+    <Prose class="mx-auto prose-a:text-blue-600 dark:text-zinc-300 max-w-none">
+      {
+        Component ? (
+          <Component
+            components={{
+              /** @note
+               * make sure that these are astro components if you want client side functionality with react components. You can use `client:` directives in the react component to make it interactive
+               */
+              Footnote: Footnote,
+              Glossary: Glossary,
+            }}
+          />
+        ) : null
+      }
+    </Prose>
+  </main>
+</BaseLayout>
