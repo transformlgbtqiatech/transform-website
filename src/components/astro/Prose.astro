@@ -1,0 +1,18 @@
+---
+type Props = {
+  class?: string;
+};
+
+const { class: className } = Astro.props;
+---
+
+<div
+  class="prose"
+  class:list={[
+    {
+      [className ?? ""]: !!className,
+    },
+  ]}
+>
+  <slot />
+</div>

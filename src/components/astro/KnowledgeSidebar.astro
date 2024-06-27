@@ -1,0 +1,32 @@
+---
+import { KnowledgeSidebar as KnowledgeSidebarReact } from "@components/react/KnowledgeSidebar";
+import { cms } from "@cms/reader";
+
+const identityGroupsList = await cms.collections.identityGroup.all();
+const subCategoriesList = await cms.collections.violenceSubCategory.all();
+const categoriesList = await cms.collections.violenceCategory.all();
+
+type PreSelectedSlugs = {
+  identityGroupSlug?: string;
+  violenceSubCategorySlug?: string;
+};
+
+export type PreSelectedSlugsProp = {
+  preSelectedSlugs?: PreSelectedSlugs;
+};
+
+type Props = {
+  openKnowledgeSidebarByDefault?: boolean;
+} & PreSelectedSlugsProp;
+
+const { openKnowledgeSidebarByDefault, preSelectedSlugs } = Astro.props;
+---
+
+<KnowledgeSidebarReact
+  client:idle
+  identityGroupsList={identityGroupsList}
+  subCategoriesList={subCategoriesList}
+  categoriesList={categoriesList}
+  openKnowledgeSidebarByDefault={openKnowledgeSidebarByDefault}
+  preSelectedSlugs={preSelectedSlugs}
+/>

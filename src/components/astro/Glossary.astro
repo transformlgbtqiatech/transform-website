@@ -1,0 +1,20 @@
+---
+import type { GlossaryProps } from "@cms/keystatic-config-components/keystatic-config-components";
+import { Glossary as GlossaryReact } from "@components/react/Glossary";
+import { getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+type Props = GlossaryProps;
+
+type GlossaryAstroItemId = CollectionEntry<"glossary">["id"];
+export type GlossaryAstroItem = CollectionEntry<"glossary">;
+
+const entry = await getEntry(
+  "glossary",
+  Astro.props.glossaryTerm as GlossaryAstroItemId,
+);
+
+const { data } = entry;
+const { name, definition } = data;
+---
+
+<GlossaryReact name={name} definition={definition} client:idle />

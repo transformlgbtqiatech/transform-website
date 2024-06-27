@@ -5,12 +5,14 @@
     "baseUrl": ".",
     "jsxImportSource": "react",
     "paths": {
-      "@cms/*": ["./keystatic/*"],
+      "@cms/*": ["./src/keystatic/*"],
       "@assets/*": ["./src/assets/*"],
       "@components/*": ["./src/components/*"],
       "@layouts/*": ["./src/layouts/*"],
       "@styles/*": ["./src/styles/*"],
-      "@store/*": ["./src/store/*"]
+      "@store/*": ["./src/store/*"],
+      "@astro-collections/*": ["./src/astro-collections/*"],
+      "@root/*": ["./*"]
     }
   }
 }

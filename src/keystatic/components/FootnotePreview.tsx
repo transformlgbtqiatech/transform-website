@@ -2,11 +2,6 @@ import { Box } from "@keystar/ui/layout";
 import { footprintsIcon } from "@keystar/ui/icon/icons/footprintsIcon";
 import { Icon } from "@keystar/ui/icon";
 
-// import type keystaticConfig from "../../keystatic.config";
-
-// type MDXField =
-// (typeof keystaticConfig)["collections"]["knowledge"]["schema"]["content"];
-
 type Props = {
   readonly inlineText: string;
   readonly footNoteText: string;
