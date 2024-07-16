@@ -33,7 +33,7 @@ export function KnowledgeSidebar(
         <MenuIcon />
       </DialogTrigger>
       <DialogContent
-        className="fixed dark:bg-zinc-800 dark:text-gray-200 motion-safe:data-[state=closed]:animate-sidebar-unmount motion-safe:data-[state=open]:animate-sidebar will-change-transform"
+        className="fixed bg-zinc-50 dark:bg-zinc-800 dark:text-gray-200 motion-safe:data-[state=closed]:animate-sidebar-unmount motion-safe:data-[state=open]:animate-sidebar will-change-transform"
         widthClass="w-[800px] lg:max-w-[75%] max-w-full"
         title="Select identity group and sub category"
         description="Select identity group and violence sub category. Post that you'll be show the knowledge post for that group and sub category"

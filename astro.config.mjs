@@ -4,6 +4,7 @@ import markdoc from "@astrojs/markdoc";
 import keystatic from "@keystatic/astro";
 import node from "@astrojs/node";
 import tailwind from "@astrojs/tailwind";
+import { keystaticFootnotes } from "./src/markdown-plugins/keystatic-footnotes.mjs";
 
 import mdx from "@astrojs/mdx";
 
@@ -14,6 +15,9 @@ export default defineConfig({
     enabled: false,
   },
   integrations: [tailwind(), react(), markdoc(), mdx(), keystatic()],
+  markdown: {
+    remarkPlugins: [keystaticFootnotes],
+  },
   adapter: node({
     mode: "standalone",
   }),

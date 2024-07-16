@@ -1,10 +1,8 @@
 import { Box } from "@keystar/ui/layout";
-import { footprintsIcon } from "@keystar/ui/icon/icons/footprintsIcon";
-import { Icon } from "@keystar/ui/icon";
+import { FootprintsIcon } from "lucide-react";
 
 type Props = {
   readonly inlineText: string;
-  readonly footNoteText: string;
 };
 
 function Span(props: { children: React.ReactNode }) {
@@ -33,7 +31,7 @@ export function FootnotePreview(props: Props) {
         style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}
       >
         {props.inlineText}
-        <Icon UNSAFE_style={{ display: "inline" }} src={footprintsIcon} />
+        <FootprintsIcon size={16} />
       </span>
     </Span>
   );

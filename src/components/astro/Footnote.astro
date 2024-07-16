@@ -1,7 +1,7 @@
 ---
-import { Footnote as FootnoteReact } from "@components/react/Footnote";
 import type { FootnoteProps } from "@cms/keystatic-config-components/keystatic-config-components";
 type Props = FootnoteProps;
+const { text } = Astro.props;
 ---
 
-<FootnoteReact {...Astro.props} client:idle />
+<span>{text}</span>

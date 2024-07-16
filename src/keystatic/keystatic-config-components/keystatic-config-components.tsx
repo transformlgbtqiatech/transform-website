@@ -1,39 +1,34 @@
-import { inline } from "@keystatic/core/content-components";
-import { FootnotePreview } from "../components/FootnotePreview";
+import { inline, mark } from "@keystatic/core/content-components";
 import { GlossaryPreview } from "../components/GlossaryPreview";
-import { footprintsIcon } from "@keystar/ui/icon/icons/footprintsIcon";
 import { bookAIcon } from "@keystar/ui/icon/icons/bookAIcon";
 import { Icon } from "@keystar/ui/icon";
 import { fields } from "@keystatic/core";
 import type { Entry } from "@keystatic/core/reader";
+import { FootprintsIcon } from "lucide-react";
 
 export type FootnoteProps = Entry<typeof KeyStaticFootnoteComponent>;
 export type GlossaryProps = Entry<typeof KeyStaticGlossaryComponent>;
 
-export const KeyStaticFootnoteComponent = inline({
+export const KeyStaticFootnoteComponent = mark({
   label: "Footnote",
-  icon: <Icon src={footprintsIcon} />,
+  icon: <FootprintsIcon />,
   schema: {
-    inlineText: fields.text({
+    text: fields.text({
       label: "Inline Text",
+      description: "The inline footer reference text",
       validation: {
         isRequired: true,
+        length: {
+          min: 1,
+        },
       },
     }),
-    footNoteText: fields.text({
-      label: "Footnote Text",
-      multiline: true,
-      validation: {
-        isRequired: true,
-      },
-    }),
-    //
-    // footNoteText: fields.mdx({
-    //   label: "Footnote Text",
-    // }),
   },
-  NodeView: (props) => {
-    return <FootnotePreview {...props.value} />;
+  style: {
+    backgroundColor: "#fbefeb",
+    padding: "2px 4px",
+    borderRadius: "8px",
+    border: "1px solid #cacaca",
   },
 });
 

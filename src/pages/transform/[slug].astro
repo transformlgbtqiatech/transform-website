@@ -7,7 +7,6 @@ import Footnote from "@components/astro/Footnote.astro";
 import Glossary from "@components/astro/Glossary.astro";
 import { cms } from "@cms/reader";
 import type { CollectionEntry } from "astro:content";
-import "react-a11y-footnotes/dist/styles.css";
 
 export async function getStaticPaths() {
   const identityGroupSlugsList = await cms.collections.identityGroup.list();
@@ -42,22 +41,38 @@ export async function getStaticPaths() {
   return paths;
 }
 
+type KnowledgePost = CollectionEntry<"knowledge-posts">;
+
 async function getContentComponent() {
-  const knowledgeSlug = Astro.props.knowledgePost?.slug;
-  if (!knowledgeSlug) {
+  const knowledgePostSlug = Astro.props.knowledgePost
+    ?.slug as KnowledgePost["slug"];
+
+  if (!knowledgePostSlug) {
     return null;
   }
 
-  const knowledgePostSlug = Astro.props.knowledgePost
-    ?.slug as CollectionEntry<"knowledge-posts">["slug"];
+  const mainContentEntry = await getEntry("knowledge-posts", knowledgePostSlug);
+  const recommentedReadingEntry = await getEntry(
+    "knowledge-posts",
+    `${knowledgePostSlug}/recommendedreading`,
+  );
 
-  const entry = await getEntry("knowledge-posts", knowledgePostSlug);
-  const { Content } = await entry.render();
+  const { Content: MainContent } = await mainContentEntry.render();
+  const renderDataRecommendedReading = await recommentedReadingEntry?.render();
 
-  return Content;
+  return {
+    MainContent,
+    RecommendedReadingContent: renderDataRecommendedReading?.Content,
+  };
 }
 
-const Component = await getContentComponent();
+const contentRenderers = await getContentComponent();
+
+if (!contentRenderers) {
+  return null;
+}
+
+const { MainContent, RecommendedReadingContent } = contentRenderers;
 
 const { identityGroupSlug, violenceSubCategorySlug } = Astro.props;
 
@@ -114,10 +129,12 @@ switch (violenceSubCategoryData?.category) {
       Overview
     </h2>
 
-    <Prose class="mx-auto prose-a:text-blue-600 dark:text-zinc-300 max-w-none">
+    <Prose
+      class="mx-auto prose-a:dark:text-sky-400 prose-a:text-sky-500 dark:text-zinc-300 max-w-none prose-h2:my-6 prose-h2:dark:text-white"
+    >
       {
-        Component ? (
-          <Component
+        MainContent ? (
+          <MainContent
             components={{
               /** @note
                * make sure that these are astro components if you want client side functionality with react components. You can use `client:` directives in the react component to make it interactive
@@ -128,6 +145,44 @@ switch (violenceSubCategoryData?.category) {
           />
         ) : null
       }
+
+      {
+        RecommendedReadingContent ? (
+          <>
+            <h2>Recommended</h2>
+            <RecommendedReadingContent
+              components={{
+                /** @note
+                 * make sure that these are astro components if you want client side functionality with react components. You can use `client:` directives in the react component to make it interactive
+                 */
+                Footnote: Footnote,
+                Glossary: Glossary,
+              }}
+            />
+          </>
+        ) : null
+      }
     </Prose>
   </main>
 </BaseLayout>
+
+<style is:global>
+  /* FOOTNOTES STYLES */
+  .footnotes :target {
+    background: hsl(240 5.9% 90%);
+    border-radius: 8px;
+  }
+
+  html.dark .footnotes :target {
+    background: hsl(240 5.3% 26.1%);
+  }
+
+  html.dark .footnotes h2 {
+    color: white;
+  }
+
+  [data-footnote-ref]:focus {
+    outline: thin dotted;
+    outline-offset: 2px;
+  }
+</style>

@@ -1,68 +1,7 @@
-import { config, fields } from "@keystatic/core";
-import { inline } from "@keystatic/core/content-components";
+// import { inline } from "@keystatic/core/content-components";
+// import type { Config } from "@markdoc/markdoc";
+import { config } from "@keystatic/core";
 import * as categories from "@cms/collections";
-import type { Config } from "@markdoc/markdoc";
-
-export const components = {
-  footnote: inline({
-    label: "Footnote",
-    schema: {
-      inlineText: fields.text({
-        label: "Inline Text",
-        validation: {
-          isRequired: true,
-        },
-      }),
-      footNoteText: fields.text({
-        label: "Footnote Text",
-        multiline: true,
-        validation: {
-          isRequired: true,
-        },
-      }),
-    },
-
-    NodeView: () => {
-      return <div>footnote</div>;
-    },
-  }),
-  glossary: inline({
-    label: "Glossary",
-    schema: {
-      inlineText: fields.text({
-        label: "Inline Text",
-        validation: {
-          isRequired: true,
-        },
-      }),
-      footNoteText: fields.text({
-        label: "Footnote Text",
-        multiline: true,
-        validation: {
-          isRequired: true,
-        },
-      }),
-    },
-
-    NodeView: () => {
-      return <div>glosssary</div>;
-    },
-  }),
-};
-
-const tags = fields.markdoc.createMarkdocConfig({
-  components,
-  render: {
-    tags: {
-      footnote: "Footnote",
-      glossary: "Glossary",
-    },
-  },
-}).tags;
-
-export const markdocConfig: Config = {
-  tags,
-};
 
 export const githubStorage = {
   kind: "github",
@@ -102,3 +41,65 @@ export default config({
     ...categories,
   },
 });
+
+// @note: see comment in `src/components/react/KeyStaticRenderer.tsx`
+// export const components = {
+//   footnote: inline({
+//     label: "Footnote",
+//     schema: {
+//       inlineText: fields.text({
+//         label: "Inline Text",
+//         validation: {
+//           isRequired: true,
+//         },
+//       }),
+//       footNoteText: fields.text({
+//         label: "Footnote Text",
+//         multiline: true,
+//         validation: {
+//           isRequired: true,
+//         },
+//       }),
+//     },
+
+//     NodeView: () => {
+//       return <div>footnote</div>;
+//     },
+//   }),
+//   glossary: inline({
+//     label: "Glossary",
+//     schema: {
+//       inlineText: fields.text({
+//         label: "Inline Text",
+//         validation: {
+//           isRequired: true,
+//         },
+//       }),
+//       footNoteText: fields.text({
+//         label: "Footnote Text",
+//         multiline: true,
+//         validation: {
+//           isRequired: true,
+//         },
+//       }),
+//     },
+
+//     NodeView: () => {
+//       return <div>glosssary</div>;
+//     },
+//   }),
+// };
+
+// const tags = fields.markdoc.createMarkdocConfig({
+//   components,
+//   render: {
+//     tags: {
+//       footnote: "Footnote",
+//       glossary: "Glossary",
+//     },
+//   },
+// }).tags;
+
+// export const markdocConfig: Config = {
+//   tags,
+// };
