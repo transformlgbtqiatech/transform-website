@@ -3,13 +3,21 @@ import react from "@astrojs/react";
 import markdoc from "@astrojs/markdoc";
 import keystatic from "@keystatic/astro";
 import node from "@astrojs/node";
-
 import tailwind from "@astrojs/tailwind";
+import { keystaticFootnotes } from "./src/markdown-plugins/keystatic-footnotes.mjs";
+
+import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
   output: "hybrid",
-  integrations: [tailwind(), react(), markdoc(), keystatic()],
+  devToolbar: {
+    enabled: false,
+  },
+  integrations: [tailwind(), react(), markdoc(), mdx(), keystatic()],
+  markdown: {
+    remarkPlugins: [keystaticFootnotes],
+  },
   adapter: node({
     mode: "standalone",
   }),

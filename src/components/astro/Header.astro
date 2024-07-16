@@ -1,11 +1,22 @@
 ---
 import ThemeToggle from "@components/astro/ThemeToggle.astro";
 import Logo from "./Logo.astro";
-import Knowledge from "./Knowledge.astro";
+import KnowledgeSidebar, {
+  type PreSelectedSlugsProp,
+} from "./KnowledgeSidebar.astro";
+
+type Props = {
+  openKnowledgeSidebarByDefault?: boolean;
+} & PreSelectedSlugsProp;
+
+const { openKnowledgeSidebarByDefault, preSelectedSlugs } = Astro.props;
 ---
 
 <header class="p-2 flex items-center">
-  <Knowledge />
+  <KnowledgeSidebar
+    openKnowledgeSidebarByDefault={openKnowledgeSidebarByDefault}
+    preSelectedSlugs={preSelectedSlugs}
+  />
   <Logo />
 
   <div class="ml-auto text-gray-700">

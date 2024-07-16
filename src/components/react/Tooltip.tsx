@@ -39,7 +39,7 @@ export function useTooltip({
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(10),
+      offset(0),
       flip({
         crossAxis: placement.includes("-"),
         fallbackAxisSideDirection: "start",

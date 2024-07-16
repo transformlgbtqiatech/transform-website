@@ -1,6 +1,6 @@
 import { createReader } from '@keystatic/core/reader';
 import { createGitHubReader } from '@keystatic/core/reader/github';
-import keystaticConfig, { githubStorage } from '../../keystatic.config';
+import keystaticConfig, { githubStorage } from '@root/keystatic.config';
 
 export const cms = import.meta.env.PROD
   ? createGitHubReader(keystaticConfig, {
