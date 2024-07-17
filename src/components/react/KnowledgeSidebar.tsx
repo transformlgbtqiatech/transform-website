@@ -1,5 +1,4 @@
 import { Dialog, DialogContent, DialogTrigger } from "@components/react/Dialog";
-import { Menu as MenuIcon } from "lucide-react";
 import TransformKnowledgeSidebarContent from "./TransformKnowledgeSidebarContent";
 import type {
   IdentityGroup,
@@ -7,6 +6,7 @@ import type {
   ViolenceSubCategory,
 } from "@cms/collections/collection-types";
 import type { PreSelectedSlugsProp } from "@components/astro/KnowledgeSidebar.astro";
+import { FilterIcon } from "lucide-react";
 
 export type SideBarToolProps = {
   identityGroupsList: Array<{
@@ -29,8 +29,8 @@ export function KnowledgeSidebar(
 ) {
   return (
     <Dialog defaultOpen={props.openKnowledgeSidebarByDefault} modal>
-      <DialogTrigger className="px-3 text-zinc-300 hover:text-zinc-50">
-        <MenuIcon />
+      <DialogTrigger className="focus:outline-2 focus:outline-blue-600 dark:focus:outline-outline-blue-400 focus:outline-offset-4 rounded-md">
+        <FilterIcon />
       </DialogTrigger>
       <DialogContent
         className="fixed bg-zinc-50 dark:bg-zinc-800 dark:text-gray-200 motion-safe:data-[state=closed]:animate-sidebar-unmount motion-safe:data-[state=open]:animate-sidebar will-change-transform"

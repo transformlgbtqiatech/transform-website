@@ -98,7 +98,7 @@ export default function TransformKnowledgeSidebarContent(
                       // default selected styles
                       "peer-checked:text-gray-transform peer-checked:outline peer-checked:outline-green-500 peer-checked:bg-green-200",
                       // dark styles
-                      "dark:text-zinc-100 dark:bg-gray-transformLight dark:hover:bg-gray-transform",
+                      "dark:text-zinc-50 dark:bg-gray-transformLight dark:hover:bg-gray-transform",
                       // dark selected styles
                       "dark:peer-checked:text-white dark:peer-checked:bg-green-800 dark:peer-checked:outline dark:peer-checked:outline-1 dark:peer-checked:outline-green-500",
                     )}
@@ -171,7 +171,7 @@ export default function TransformKnowledgeSidebarContent(
                               "p-1 px-4 rounded-2xl cursor-pointer inline-block relative font-medium",
 
                               // DARK COMMON STYLES
-                              "dark:text-zinc-100 dark:hover:text-white",
+                              "dark:text-zinc-50 dark:hover:text-white",
 
                               // FOR ALL: SELECTED STYLES(DEFAULT)
                               "peer-checked:text-gray-transform peer-checked:outline peer-checked:outline-green-500 peer-checked:bg-green-200",

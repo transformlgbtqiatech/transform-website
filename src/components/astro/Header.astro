@@ -1,25 +1,23 @@
 ---
 import ThemeToggle from "@components/astro/ThemeToggle.astro";
-import Logo from "./Logo.astro";
-import KnowledgeSidebar, {
-  type PreSelectedSlugsProp,
-} from "./KnowledgeSidebar.astro";
+import Logo from "./Logo/Logo.astro";
+import { type PreSelectedSlugsProp } from "./KnowledgeSidebar.astro";
+import { DesktopHeaderNav } from "@components/react/HeaderNav/DesktopHeaderNav";
+import { MobileHeaderNav } from "@components/react/HeaderNav/MobileHeaderNav";
 
 type Props = {
   openKnowledgeSidebarByDefault?: boolean;
 } & PreSelectedSlugsProp;
-
-const { openKnowledgeSidebarByDefault, preSelectedSlugs } = Astro.props;
 ---
 
-<header class="p-2 flex items-center">
-  <KnowledgeSidebar
-    openKnowledgeSidebarByDefault={openKnowledgeSidebarByDefault}
-    preSelectedSlugs={preSelectedSlugs}
-  />
-  <Logo />
+<header class="flex items-center bg-black p-5 px-3 lg:px-20 font-oswald">
+  <div class="flex items-center gap-2">
+    <MobileHeaderNav client:idle />
+    <Logo behaviour="white-bg-logo" />
+  </div>
 
-  <div class="ml-auto text-gray-700">
+  <div class="ml-auto flex gap-10 items-center">
+    <DesktopHeaderNav client:idle />
     <ThemeToggle />
   </div>
 </header>

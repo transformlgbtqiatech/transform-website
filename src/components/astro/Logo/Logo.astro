@@ -10,8 +10,7 @@ const { behaviour = "toggle-opposite" } = Astro.props;
 ---
 
 <div data-behaviour={behaviour}>
-  <div class="w-44">
-    <!-- <p class="text-yellow-400">{logoSchema}</p> -->
+  <a href="/" class="w-44 block">
     <Image
       class="logo-black hidden"
       src={logoBlack}
@@ -24,7 +23,7 @@ const { behaviour = "toggle-opposite" } = Astro.props;
       alt="Transform Logo"
       quality={100}
     />
-  </div>
+  </a>
 </div>
 
 <script>
