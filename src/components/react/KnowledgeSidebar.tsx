@@ -29,7 +29,7 @@ export function KnowledgeSidebar(
 ) {
   return (
     <Dialog defaultOpen={props.openKnowledgeSidebarByDefault} modal>
-      <DialogTrigger className="px-3 text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+      <DialogTrigger className="px-3 text-zinc-300 hover:text-zinc-50">
         <MenuIcon />
       </DialogTrigger>
       <DialogContent

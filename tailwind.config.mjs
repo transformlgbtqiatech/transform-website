@@ -13,7 +13,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        oswaldHeading: ["Oswald", ...defaultTheme.fontFamily.sans],
+        oswald: ["Oswald", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         yellow: {
