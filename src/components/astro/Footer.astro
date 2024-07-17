@@ -1,0 +1,76 @@
+---
+import Logo from "@components/astro/Logo/Logo.astro";
+import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
+---
+
+<footer
+  class="bg-black dark:bg-white text-white dark:text-black px-10 lg:px-20 py-10 flex flex-col lg:flex-row"
+>
+  <aside class="w-2/5">
+    <Logo behaviour="toggle-same" />
+  </aside>
+
+  <section
+    class="3/5 mt-6 lg:mt-0 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-14"
+  >
+    <div>
+      <h3 class="font-oswald uppercase text-lg mb-3">Explore</h3>
+      <ul class="text-zinc-200 lg:leading-7 dark:text-black">
+        <li>
+          <a href="#" class="text-sm text-inherit">About transform</a>
+        </li>
+        <li>
+          <a href="#" class="text-sm text-inherit">Meet the team</a>
+        </li>
+        <li>
+          <a href="#" class="text-sm text-inherit">Teach with transform</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <div>
+        <h3 class="font-oswald uppercase text-lg mb-3">Contact/Submit</h3>
+        <p class="text-sm text-inherit text-zinc-200">We love collaborating!</p>
+        <p class="text-sm text-inherit text-zinc-200">
+          Write to us from <a href="#">here</a>
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <h3 class="font-oswald uppercase text-lg inline">Support:</h3>
+        <a href="#" class="text-sm text-inherit text-zinc-200"
+          >Buy us a coffee</a
+        >
+      </div>
+    </div>
+
+    <div class="mt-4 lg:mt-0">
+      <ul class="flex gap-2 text-black">
+        <li>
+          <a href="#" class="bg-white inline-block p-1 rounded-lg">
+            <Facebook size={22} />
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="bg-white inline-block p-1 rounded-lg">
+            <Instagram size={22} />
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="bg-white inline-block p-1 rounded-lg">
+            <Linkedin size={22} />
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="bg-white inline-block p-1 rounded-lg">
+            <Youtube size={22} />
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</footer>

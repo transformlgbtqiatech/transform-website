@@ -194,23 +194,23 @@ export default function TransformKnowledgeSidebarContent(
                                   isAssault,
                               },
 
-                              // degradation normal styles
+                              // DEGRADATION: NORMAL STYLES
                               {
                                 "bg-orange-transform hover:bg-orange-transform/80 text-white":
                                   isDegradation,
                               },
-                              // degradation dark styles
+                              // DEGRADATION: DARK STYLES
                               {
                                 "dark:bg-orange-transform dark:hover:bg-orange-transformLight":
                                   isDegradation,
                               },
 
-                              // normalisation normal styles
+                              // NORMALISATION: NORMAL STYLES
                               {
                                 "bg-yellow-transform hover:bg-yellow-transform/80 text-gray-800 hover:text-gray-600":
                                   isNormalisation,
                               },
-                              // degradation dark styles
+                              // NORMALISATION: DARK STYLES
                               {
                                 "dark:bg-yellow-transform dark:hover:bg-yellow-transformLight dark:text-gray-800 dark:hover:text-gray-600":
                                   isNormalisation,

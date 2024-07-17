@@ -1,5 +1,6 @@
 ---
 import { SEO } from "astro-seo";
+import Footer from "@components/astro/Footer.astro";
 // import type { ImageMetadata } from "astro";
 // import { getImage } from "astro:assets";
 
@@ -19,7 +20,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="en" class="dark:bg-zinc-900">
+<html lang="en" class="dark:bg-zinc-800">
   <head>
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -73,14 +74,7 @@ const {
   <body class="relative">
     <slot />
 
-    <!-- mobile nav menu -->
-    <!-- <div
-      id="bottomsheet-container"
-      class="bottom-0 fixed w-full z-50 py-6 shadow-2xl rounded-t-2xl bg-zinc-600 hidden"
-    >
-      <MenuList alignment="vertical" showOn="mobile" />
-    </div> -->
-
+    <!-- global styles -->
     <style is:global>
       html {
         overflow-y: scroll;
@@ -127,6 +121,8 @@ const {
         -ms-overflow-style: none;
       }
     </style>
+
+    <!-- theme things -->
     <script>
       import { theme as themeAtom } from "@store/global";
 
@@ -164,5 +160,7 @@ const {
 
       astroInit();
     </script>
+
+    <Footer />
   </body>
 </html>

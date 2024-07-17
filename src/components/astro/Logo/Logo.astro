@@ -1,0 +1,85 @@
+---
+import { Image } from "astro:assets";
+import logoBlack from "@assets/images/transform-logo-black.png";
+import logoWhite from "@assets/images/transform-logo-white.png";
+import type { LogoProps } from "./types";
+
+type Props = LogoProps;
+
+const { behaviour = "toggle-opposite" } = Astro.props;
+---
+
+<div data-behaviour={behaviour}>
+  <div class="w-44">
+    <!-- <p class="text-yellow-400">{logoSchema}</p> -->
+    <Image
+      class="logo-black hidden"
+      src={logoBlack}
+      alt="Transform Logo"
+      quality={100}
+    />
+    <Image
+      class="logo-white hidden"
+      src={logoWhite}
+      alt="Transform Logo"
+      quality={100}
+    />
+  </div>
+</div>
+
+<script>
+  import { theme as themeAtom } from "@store/global";
+  import type { LogoProps } from "./types";
+
+  const logoContainerElements = [
+    ...document.querySelectorAll("[data-behaviour]"),
+  ] as HTMLDivElement[];
+
+  logoContainerElements.forEach((el) => {
+    const behaviour = el?.dataset.behaviour as LogoProps["behaviour"];
+
+    console.info(behaviour);
+
+    const logoBlack = el.querySelector(".logo-black") as HTMLImageElement;
+    const logoWhite = el.querySelector(".logo-white") as HTMLImageElement;
+
+    if (!(logoBlack && logoWhite)) {
+      throw new Error("Logo image elements not found");
+    }
+
+    let elToShowInLightTheme: HTMLElement | null = null;
+    let elToShowInDarkTheme: HTMLElement | null = null;
+
+    if (behaviour === "toggle-opposite") {
+      elToShowInLightTheme = logoBlack;
+      elToShowInDarkTheme = logoWhite;
+    }
+
+    if (behaviour === "toggle-same") {
+      elToShowInLightTheme = logoWhite;
+      elToShowInDarkTheme = logoBlack;
+    }
+
+    if (behaviour?.includes("toggle")) {
+      themeAtom.subscribe((theme) => {
+        if (theme === "dark") {
+          elToShowInDarkTheme?.classList.remove("hidden");
+          elToShowInLightTheme?.classList.add("hidden");
+        } else {
+          elToShowInLightTheme?.classList.remove("hidden");
+          elToShowInDarkTheme?.classList.add("hidden");
+        }
+      });
+    }
+
+    if (behaviour === "white-bg-logo") {
+      logoWhite?.classList.remove("hidden");
+      logoBlack?.classList.add("hidden");
+    }
+
+    if (behaviour === "black-bg-logo") {
+      logoBlack?.classList.remove("hidden");
+      logoWhite?.classList.add("hidden");
+    }
+  });
+</script>
