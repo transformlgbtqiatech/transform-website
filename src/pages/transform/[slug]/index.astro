@@ -1,5 +1,4 @@
 ---
-import { getEntry } from "astro:content";
 import Header from "@components/astro/Header.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Prose from "@components/astro/Prose.astro";
@@ -7,66 +6,16 @@ import Footnote from "@components/astro/Footnote.astro";
 import Glossary from "@components/astro/Glossary.astro";
 import { cms } from "@cms/reader";
 import type { CollectionEntry } from "astro:content";
+import { getStaticPathsToolPages } from "./_get-static-paths";
+import { getToolPageContentComponents } from "./_get-content-components";
+import KnowledgeSidebar from "@components/astro/KnowledgeSidebar.astro";
 
-export async function getStaticPaths() {
-  const identityGroupSlugsList = await cms.collections.identityGroup.list();
-  const violenceSubCategorySlugsList =
-    await cms.collections.violenceSubCategory.list();
-  const knowledgePosts = await cms.collections.knowledge.all({
-    resolveLinkedFiles: true,
-  });
+export type KnowledgePost = CollectionEntry<"knowledge-posts">;
+export const getStaticPaths = getStaticPathsToolPages;
 
-  const paths = identityGroupSlugsList.flatMap((identityGroupSlug) => {
-    return violenceSubCategorySlugsList.map((violenceSubCategorySlug) => {
-      const knowledgePost = knowledgePosts.find((knowledgePost) => {
-        return (
-          knowledgePost.entry.transIdentityGroup === identityGroupSlug &&
-          knowledgePost.entry.violenceSubCategory === violenceSubCategorySlug
-        );
-      });
-
-      return {
-        params: {
-          slug: `${identityGroupSlug}-${violenceSubCategorySlug}`,
-        },
-        props: {
-          identityGroupSlug,
-          violenceSubCategorySlug,
-          knowledgePost,
-        },
-      };
-    });
-  });
-
-  return paths;
-}
-
-type KnowledgePost = CollectionEntry<"knowledge-posts">;
-
-async function getContentComponent() {
-  const knowledgePostSlug = Astro.props.knowledgePost
-    ?.slug as KnowledgePost["slug"];
-
-  if (!knowledgePostSlug) {
-    return null;
-  }
-
-  const mainContentEntry = await getEntry("knowledge-posts", knowledgePostSlug);
-  const recommentedReadingEntry = await getEntry(
-    "knowledge-posts",
-    `${knowledgePostSlug}/recommendedreading`,
-  );
-
-  const { Content: MainContent } = await mainContentEntry.render();
-  const renderDataRecommendedReading = await recommentedReadingEntry?.render();
-
-  return {
-    MainContent,
-    RecommendedReadingContent: renderDataRecommendedReading?.Content,
-  };
-}
-
-const contentRenderers = await getContentComponent();
+const contentRenderers = await getToolPageContentComponents(
+  Astro.props.knowledgePost?.slug as KnowledgePost["slug"],
+);
 
 if (!contentRenderers) {
   return null;
@@ -101,17 +50,27 @@ switch (violenceSubCategoryData?.category) {
   default:
     break;
 }
+
+//         openKnowledgeSidebarByDefault={true}
 ---
 
 <BaseLayout title="Transform" description="Transform tool">
-  <Header
-    preSelectedSlugs={{
-      identityGroupSlug: identityGroupSlug,
-      violenceSubCategorySlug: violenceSubCategorySlug,
-    }}
-  />
+  <main class="p-6 lg:p-10 max-w-3xl mx-auto relative">
+    <p
+      class="flex gap-2 items-center dark:text-zinc-200 text-zinc-500 lg:absolute lg:-left-6 lg:top-16"
+    >
+      <KnowledgeSidebar
+        preSelectedSlugs={{
+          identityGroupSlug: identityGroupSlug,
+          violenceSubCategorySlug: violenceSubCategorySlug,
+        }}
+      />
 
-  <main class="p-6 lg:p-10 max-w-3xl mx-auto">
+      <!-- <span class="text-sm lg:hidden">Select Filters</span> -->
+    </p>
+
+    <hr class="my-4 lg:hidden" />
+
     <p
       class:list={[
         "m-0 font-oswald font-medium text-2xl uppercase",
@@ -121,7 +80,7 @@ switch (violenceSubCategoryData?.category) {
       {violenceSubCategoryHeading} Faced by
     </p>
 
-    <h1 class="italic m-0 dark:text-zinc-100 font-bold text-4xl">
+    <h1 class="italic m-0 dark:text-zinc-100 font-bold text-4xl relative">
       <span>{identityGroupHeading}</span>
     </h1>
 

@@ -1,6 +1,7 @@
 ---
 import { SEO } from "astro-seo";
 import Footer from "@components/astro/Footer.astro";
+import Header from "@components/astro/Header.astro";
 // import type { ImageMetadata } from "astro";
 // import { getImage } from "astro:assets";
 
@@ -72,6 +73,7 @@ const {
     />
   </head>
   <body class="relative">
+    <Header />
     <slot />
 
     <!-- global styles -->
