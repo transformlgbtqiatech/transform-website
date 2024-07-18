@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { Ghost } from "lucide-react";
+---
+
+<BaseLayout
+  title="This page doesn't exist"
+  description="This page doesn't exist"
+>
+  <div class="h-[calc(100svh-288px)] flex items-center justify-center">
+    <main class="flex flex-col items-center justify-center gap-4 px-6">
+      <Ghost size={100} className="dark:text-zinc-300" />
+      <h1
+        class="text-xl lg:text-2xl dark:text-zinc-100 text-center lg:text-left"
+      >
+        Oops. You've landed on a page that doesn't exist.
+      </h1>
+    </main>
+  </div>
+</BaseLayout>

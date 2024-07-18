@@ -36,9 +36,6 @@ const { behaviour = "toggle-opposite" } = Astro.props;
 
   logoContainerElements.forEach((el) => {
     const behaviour = el?.dataset.behaviour as LogoProps["behaviour"];
-
-    console.info(behaviour);
-
     const logoBlack = el.querySelector(".logo-black") as HTMLImageElement;
     const logoWhite = el.querySelector(".logo-white") as HTMLImageElement;
 

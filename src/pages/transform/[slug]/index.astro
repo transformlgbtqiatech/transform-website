@@ -1,5 +1,4 @@
 ---
-import Header from "@components/astro/Header.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Prose from "@components/astro/Prose.astro";
 import Footnote from "@components/astro/Footnote.astro";
@@ -10,6 +9,7 @@ import { getStaticPathsToolPages } from "./_get-static-paths";
 import { getToolPageContentComponents } from "./_get-content-components";
 import KnowledgeSidebar from "@components/astro/KnowledgeSidebar.astro";
 import { TriggerWarningDialog } from "@components/react/TriggerWarningDialog";
+import WorkInProgress from "./_WorkInProgress.astro";
 
 export type KnowledgePost = CollectionEntry<"knowledge-posts">;
 export const getStaticPaths = getStaticPathsToolPages;
@@ -18,11 +18,7 @@ const contentRenderers = await getToolPageContentComponents(
   Astro.props.knowledgePost?.slug as KnowledgePost["slug"],
 );
 
-if (!contentRenderers) {
-  return null;
-}
-
-const { MainContent, RecommendedReadingContent } = contentRenderers;
+const { MainContent, RecommendedReadingContent } = contentRenderers ?? {};
 
 const { identityGroupSlug, violenceSubCategorySlug, knowledgePost } =
   Astro.props;
@@ -103,7 +99,9 @@ const triggerWarningType = knowledgePost?.entry.triggerWarning;
               Glossary: Glossary,
             }}
           />
-        ) : null
+        ) : (
+          <WorkInProgress />
+        )
       }
 
       {
