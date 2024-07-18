@@ -9,6 +9,7 @@ import type { CollectionEntry } from "astro:content";
 import { getStaticPathsToolPages } from "./_get-static-paths";
 import { getToolPageContentComponents } from "./_get-content-components";
 import KnowledgeSidebar from "@components/astro/KnowledgeSidebar.astro";
+import { TriggerWarningDialog } from "@components/react/TriggerWarningDialog";
 
 export type KnowledgePost = CollectionEntry<"knowledge-posts">;
 export const getStaticPaths = getStaticPathsToolPages;
@@ -23,7 +24,8 @@ if (!contentRenderers) {
 
 const { MainContent, RecommendedReadingContent } = contentRenderers;
 
-const { identityGroupSlug, violenceSubCategorySlug } = Astro.props;
+const { identityGroupSlug, violenceSubCategorySlug, knowledgePost } =
+  Astro.props;
 
 const identityGroupData =
   await cms.collections.identityGroup.read(identityGroupSlug);
@@ -51,10 +53,11 @@ switch (violenceSubCategoryData?.category) {
     break;
 }
 
-//         openKnowledgeSidebarByDefault={true}
+const triggerWarningType = knowledgePost?.entry.triggerWarning;
 ---
 
 <BaseLayout title="Transform" description="Transform tool">
+  <TriggerWarningDialog type={triggerWarningType} client:load />
   <main class="p-6 lg:p-10 max-w-3xl mx-auto relative">
     <p
       class="flex gap-2 items-center dark:text-zinc-200 text-zinc-500 lg:absolute lg:-left-6 lg:top-16"
@@ -65,8 +68,6 @@ switch (violenceSubCategoryData?.category) {
           violenceSubCategorySlug: violenceSubCategorySlug,
         }}
       />
-
-      <!-- <span class="text-sm lg:hidden">Select Filters</span> -->
     </p>
 
     <hr class="my-4 lg:hidden" />
