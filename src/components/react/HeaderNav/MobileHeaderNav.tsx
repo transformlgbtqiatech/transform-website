@@ -23,8 +23,7 @@ export function MobileHeaderNav() {
             <ul className="flex flex-col gap-2">
               {headerNavLinks.map((el) => {
                 return (
-                  // border-b-2
-                  <li className="p-2">
+                  <li className="p-2" key={el.label}>
                     {el.children ? (
                       <>
                         <p>
@@ -33,7 +32,7 @@ export function MobileHeaderNav() {
                         <ul className="flex flex-col gap-1 ml-3 mt-2">
                           {el.children.map((childEl) => {
                             return (
-                              <li className="p-2">
+                              <li className="p-2" key={childEl.label}>
                                 <a
                                   href={childEl.href}
                                   className="flex items-center gap-2"

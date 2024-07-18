@@ -17,9 +17,11 @@ export async function getStaticPathsToolPages() {
         );
       });
 
+      const slug = `${identityGroupSlug}-${violenceSubCategorySlug}`
+
       return {
         params: {
-          slug: `${identityGroupSlug}-${violenceSubCategorySlug}`,
+          slug,
         },
         props: {
           identityGroupSlug,

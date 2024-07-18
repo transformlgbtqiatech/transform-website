@@ -9,7 +9,7 @@ export function DesktopHeaderNav() {
         {headerNavLinks.map((el) => {
           if (!el.children) {
             return (
-              <NavigationMenu.Item>
+              <NavigationMenu.Item key={el.href}>
                 <NavigationMenu.Link
                   className="hover:bg-zinc-700 focus:shadow-zinc-200 group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 uppercase font-medium leading-none outline-none focus:shadow-[0_0_0_2px]"
                   href={el.href}
@@ -21,7 +21,7 @@ export function DesktopHeaderNav() {
           }
 
           return (
-            <NavigationMenu.Item>
+            <NavigationMenu.Item key={el.label}>
               <NavigationMenu.Trigger className="hover:bg-zinc-700 focus:shadow-zinc-200 group flex select-none items-center justify-between gap-[2px] rounded-md px-3 py-2 uppercase font-medium leading-none outline-none focus:shadow-[0_0_0_2px] -translate-y-[2px]">
                 {el.label}{" "}
                 <ChevronDown
@@ -35,7 +35,7 @@ export function DesktopHeaderNav() {
                 <ul className="m-0 flex flex-col list-none p-6 w-80">
                   {el.children.map((childEl) => {
                     return (
-                      <li>
+                      <li key={childEl.href}>
                         <NavigationMenu.Link
                           className="hover:bg-zinc-700 focus:shadow-zinc-200 group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 uppercase font-medium leading-none outline-none focus:shadow-[0_0_0_2px]"
                           href={childEl.label}
