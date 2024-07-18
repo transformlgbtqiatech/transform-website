@@ -25,17 +25,8 @@ function TriggerWarningDialogContent() {
   return (
     <Dialog.Root defaultOpen>
       <Dialog.Overlay className="fixed inset-0 bg-zinc-800 z-40" />
-      <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-zinc-100 will-change-transform w-[800px] lg:max-w-[75%] max-w-full p-6 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] z-50 dark:bg-black dark:text-zinc-200">
-        {/* <Dialog.Close
-          aria-label="Close"
-          className="absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:outline-none focus:shadow-2xl"
-        >
-          <X />
-        </Dialog.Close> */}
-
-        <div className="mt-4">
-          <SlatTransform3ColorsCols />
-        </div>
+      <Dialog.Content className="fixed bottom-0 lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 bg-zinc-100 will-change-transform w-[800px] lg:max-w-[75%] max-w-full p-6 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] z-50 dark:bg-black dark:text-zinc-200">
+        <SlatTransform3ColorsCols />
 
         <Dialog.Title className="font-oswald uppercase italic text-2xl font-semibold mt-5">
           <span className="text-red-transform">Warning: </span>
@@ -67,7 +58,7 @@ function TriggerWarningDialogContent() {
         <div className="mt-6 flex flex-col lg:flex-row gap-2">
           <a
             href="/trigger-toolkit"
-            className="inline-block bg-gray-transform text-white p-2 px-4 rounded-sm hover:bg-gray-transformLight dark:border-2"
+            className="inline-block bg-gray-transform text-white p-2 px-4 rounded-sm hover:bg-gray-transformLight dark:border-2 text-center lg:text-left"
           >
             Take Me To Trigger Toolkit
           </a>

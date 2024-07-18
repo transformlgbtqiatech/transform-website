@@ -1,5 +1,6 @@
 import defaultTheme from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
+import typographyPlugin from "@tailwindcss/typography";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -148,6 +149,6 @@ export default {
         }),
       });
     }),
-    require("@tailwindcss/typography"),
+    typographyPlugin,
   ],
 };

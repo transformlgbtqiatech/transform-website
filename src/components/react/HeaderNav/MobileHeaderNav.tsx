@@ -12,7 +12,7 @@ export function MobileHeaderNav() {
 
         <DialogContent
           className="fixed bg-zinc-50 dark:bg-zinc-800 dark:text-gray-200 motion-safe:data-[state=closed]:animate-sidebar-unmount motion-safe:data-[state=open]:animate-sidebar will-change-transform"
-          widthClass="w-[800px] lg:max-w-[75%] max-w-full"
+          widthClass="w-[80%] lg:w-[800px] lg:max-w-[75%] max-w-full"
           title="Open Website's Navigation Menu"
           titleVisuallyHidden={true}
           description="Open Website's Navigation Menu"
