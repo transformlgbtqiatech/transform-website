@@ -1,10 +1,33 @@
 ---
 import { KnowledgeSidebar as KnowledgeSidebarReact } from "@components/react/KnowledgeSidebar";
-import { cms } from "@cms/reader";
+import { getCollection } from "astro:content";
 
-const identityGroupsList = await cms.collections.identityGroup.all();
-const subCategoriesList = await cms.collections.violenceSubCategory.all();
-const categoriesList = await cms.collections.violenceCategory.all();
+const _identityGroupsList = await getCollection("identity-groups");
+const _violenceSubCategoriesList = await getCollection(
+  "violence-sub-categories",
+);
+const _violenceCategoriesList = await getCollection("violence-categories");
+
+const identityGroupsList = _identityGroupsList.map((item) => {
+  return {
+    slug: item.data.slug,
+    entry: item.data,
+  };
+});
+
+const subCategoriesList = _violenceSubCategoriesList.map((item) => {
+  return {
+    slug: item.data.slug,
+    entry: item.data,
+  };
+});
+
+const categoriesList = _violenceCategoriesList.map((item) => {
+  return {
+    slug: item.data.slug,
+    entry: item.data,
+  };
+});
 
 type PreSelectedSlugs = {
   identityGroupSlug?: string;
