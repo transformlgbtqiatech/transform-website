@@ -10,21 +10,21 @@ const _violenceCategoriesList = await getCollection("violence-categories");
 
 const identityGroupsList = _identityGroupsList.map((item) => {
   return {
-    slug: item.data.slug,
+    slug: item.id,
     entry: item.data,
   };
 });
 
 const subCategoriesList = _violenceSubCategoriesList.map((item) => {
   return {
-    slug: item.data.slug,
+    slug: item.id,
     entry: item.data,
   };
 });
 
 const categoriesList = _violenceCategoriesList.map((item) => {
   return {
-    slug: item.data.slug,
+    slug: item.id,
     entry: item.data,
   };
 });

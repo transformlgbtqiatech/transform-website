@@ -24,8 +24,8 @@ export default config({
             alt="transform logo"
             src={
               colorScheme === "dark"
-                ? "/src/assets/images/transform-logo-white.png"
-                : "/src/assets/images/transform-logo-black.png"
+                ? "/images/transform-logo-white.png"
+                : "/images/transform-logo-black.png"
             }
             width={96}
             height={96}

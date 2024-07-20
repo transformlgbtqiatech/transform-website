@@ -155,4 +155,9 @@ const triggerWarningType = knowledgePost?.triggerWarning;
     outline: thin dotted;
     outline-offset: 2px;
   }
+
+  /* seems like an astro bug: https://github.com/withastro/astro/issues/4298#issuecomment-2241278503 */
+  astro-island {
+    display: initial !important;
+  }
 </style>

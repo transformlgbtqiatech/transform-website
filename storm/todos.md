@@ -1,0 +1,4 @@
+- [ ] bug: chrome mobile: tool/page https://transform-website.vercel.app/transform/afab-transgender-people-murder second paragraph onwards font something different than first.
+- [x] sidebar auto selection not happening.
+- [x] logo in cms not coming
+- [ ] show a helping one time information for trigger filter icon: check with Mrin
