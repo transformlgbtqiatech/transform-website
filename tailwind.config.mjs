@@ -40,7 +40,7 @@ export default {
       },
       keyframes: {
         flash: {
-          "0% 100%": {
+          "0%, 100%": {
             backgroundColor: "inherit",
           },
           "50%": {

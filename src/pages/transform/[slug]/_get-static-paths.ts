@@ -1,22 +1,23 @@
-import { cms } from "@cms/reader";
+import type { KnowledgePost } from "@cms/collections/collection-types";
+import { getCollection } from "astro:content";
+
+export type KnowledgePostFinal = Pick<KnowledgePost, "title" | "transIdentityGroup" | "violenceSubCategory" | "triggerWarning"> | undefined
 
 export async function getStaticPathsToolPages() {
-  const identityGroupSlugsList = await cms.collections.identityGroup.list();
-  const violenceSubCategorySlugsList =
-    await cms.collections.violenceSubCategory.list();
-  const knowledgePosts = await cms.collections.knowledge.all({
-    resolveLinkedFiles: true,
-  });
+  const identityGroupSlugsList = (await getCollection("identity-groups")).map(item => item.id)
+  const violenceSubCategorySlugsList = (await getCollection("violence-sub-categories")).map(item => item.id)
+  const knowledgePosts = await getCollection("knowledge-posts")
 
   const paths = identityGroupSlugsList.flatMap((identityGroupSlug) => {
     return violenceSubCategorySlugsList.map((violenceSubCategorySlug) => {
-      const knowledgePost = knowledgePosts.find((knowledgePost) => {
+      const knowledgePostData = knowledgePosts.find((knowledgePost) => {
         return (
-          knowledgePost.entry.transIdentityGroup === identityGroupSlug &&
-          knowledgePost.entry.violenceSubCategory === violenceSubCategorySlug
+          knowledgePost.data.transIdentityGroup === identityGroupSlug &&
+          knowledgePost.data.violenceSubCategory === violenceSubCategorySlug
         );
       });
 
+      const knowledgePost = knowledgePostData?.data as KnowledgePostFinal
       const slug = `${identityGroupSlug}-${violenceSubCategorySlug}`
 
       return {
@@ -27,6 +28,7 @@ export async function getStaticPathsToolPages() {
           identityGroupSlug,
           violenceSubCategorySlug,
           knowledgePost,
+          knowledgePostSlug: knowledgePostData?.slug
         },
       };
     });

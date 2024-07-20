@@ -1,5 +1,6 @@
-import { getEntry } from "astro:content";
-import type { KnowledgePost } from "./index.astro";
+import { getEntry, type CollectionEntry } from "astro:content";
+
+type KnowledgePost = CollectionEntry<"knowledge-posts">
 
 export async function getToolPageContentComponents(knowledgePostSlug?: KnowledgePost["slug"]) {
   if (!knowledgePostSlug) {

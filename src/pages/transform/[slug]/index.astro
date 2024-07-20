@@ -4,18 +4,16 @@ import Prose from "@components/astro/Prose.astro";
 import Footnote from "@components/astro/Footnote.astro";
 import Glossary from "@components/astro/Glossary.astro";
 import { cms } from "@cms/reader";
-import type { CollectionEntry } from "astro:content";
 import { getStaticPathsToolPages } from "./_get-static-paths";
 import { getToolPageContentComponents } from "./_get-content-components";
 import KnowledgeSidebar from "@components/astro/KnowledgeSidebar.astro";
 import { TriggerWarningDialog } from "@components/react/TriggerWarningDialog";
 import WorkInProgress from "./_WorkInProgress.astro";
 
-export type KnowledgePost = CollectionEntry<"knowledge-posts">;
 export const getStaticPaths = getStaticPathsToolPages;
 
 const contentRenderers = await getToolPageContentComponents(
-  Astro.props.knowledgePost?.slug as KnowledgePost["slug"],
+  Astro.props.knowledgePostSlug,
 );
 
 const { MainContent, RecommendedReadingContent } = contentRenderers ?? {};
@@ -49,12 +47,19 @@ switch (violenceSubCategoryData?.category) {
     break;
 }
 
-const triggerWarningType = knowledgePost?.entry.triggerWarning;
+const triggerWarningType = knowledgePost?.triggerWarning;
 ---
 
 <BaseLayout title="Transform" description="Transform tool">
   <TriggerWarningDialog type={triggerWarningType} client:load />
-  <main class="p-6 lg:p-10 max-w-3xl mx-auto relative">
+  <main
+    class:list={[
+      "p-6 lg:p-10 max-w-3xl mx-auto relative",
+      {
+        "h-[calc(100svh-288px)]": !MainContent,
+      },
+    ]}
+  >
     <p
       class="flex gap-2 items-center dark:text-zinc-200 text-zinc-500 lg:absolute lg:-left-6 lg:top-16"
     >

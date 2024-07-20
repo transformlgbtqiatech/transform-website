@@ -5,8 +5,19 @@ import keystatic from "@keystatic/astro";
 import node from "@astrojs/node";
 import tailwind from "@astrojs/tailwind";
 import { keystaticFootnotes } from "./src/markdown-plugins/keystatic-footnotes.mjs";
+import vercelServerLess from "@astrojs/vercel/serverless";
 
 import mdx from "@astrojs/mdx";
+
+const adapter = import.meta.env.PROD
+  ? vercelServerLess({
+      maxDuration: 10,
+      imageService: true,
+      // imagesConfig,
+    })
+  : node({
+      mode: "standalone",
+    });
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,7 +29,5 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [keystaticFootnotes],
   },
-  adapter: node({
-    mode: "standalone",
-  }),
+  adapter,
 });
