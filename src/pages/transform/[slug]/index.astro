@@ -3,12 +3,16 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import Prose from "@components/astro/Prose.astro";
 import Footnote from "@components/astro/Footnote.astro";
 import Glossary from "@components/astro/Glossary.astro";
-import { cms } from "@cms/reader";
 import { getStaticPathsToolPages } from "./_get-static-paths";
 import { getToolPageContentComponents } from "./_get-content-components";
 import KnowledgeSidebar from "@components/astro/KnowledgeSidebar.astro";
 import { TriggerWarningDialog } from "@components/react/TriggerWarningDialog";
 import WorkInProgress from "./_WorkInProgress.astro";
+import { getEntry } from "astro:content";
+import type {
+  IdentityGroup,
+  ViolenceSubCategory,
+} from "@cms/collections/collection-types";
 
 export const getStaticPaths = getStaticPathsToolPages;
 
@@ -21,19 +25,22 @@ const { MainContent, RecommendedReadingContent } = contentRenderers ?? {};
 const { identityGroupSlug, violenceSubCategorySlug, knowledgePost } =
   Astro.props;
 
-const identityGroupData =
-  await cms.collections.identityGroup.read(identityGroupSlug);
+const identityGroupData = await getEntry("identity-groups", identityGroupSlug);
+const identityData = identityGroupData?.data as IdentityGroup;
 
-const violenceSubCategoryData = await cms.collections.violenceSubCategory.read(
+const violenceSubCategoryData = await getEntry(
+  "violence-sub-categories",
   violenceSubCategorySlug,
 );
+const violenceSubCategory =
+  violenceSubCategoryData?.data as ViolenceSubCategory;
 
-const identityGroupHeading = identityGroupData?.name;
+const identityGroupHeading = identityData.name;
 const violenceSubCategoryHeading =
-  violenceSubCategoryData?.descriptiveText ?? violenceSubCategoryData?.name;
+  violenceSubCategory?.descriptiveText ?? violenceSubCategory?.name;
 
 let subCategoryTextColor = "";
-switch (violenceSubCategoryData?.category) {
+switch (violenceSubCategory?.category) {
   case "assault":
     subCategoryTextColor = "text-red-transform"; // Tailwind CSS class for red text
     break;
