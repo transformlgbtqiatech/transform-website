@@ -1,0 +1,40 @@
+{
+  "identityGroups": [
+    "afab-transgender-people",
+    "amab-transgender-people",
+    "transgender-men",
+    "transgender-women",
+    "intersex-transgender-people",
+    "transgender-cultural-communities",
+    "transgender-people-in-sex-work",
+    "dalit-and-oppressed-caste-transgender-people",
+    "transgender-people-who-are-religious-minorities",
+    "transgender-people-living-in-militarised-and-conflict-zones",
+    "transgender-people-belonging-to-adivasi-and-tribal-communities",
+    "incarcerated-transgender-people",
+    "transgender-people-who-are-sexual-and-romantic-minorities",
+    "transgender-people-living-with-disability",
+    "transgender-people-living-with-hiv-aids"
+  ],
+  "violenceSubCatories": [
+    "murder",
+    "physical-abuse-and-assault",
+    "sexual-abuse-and-assault",
+    "sexual-harassment",
+    "police-violence",
+    "abuse-and-assault-by-domestic-circles",
+    "medical-injustices",
+    "targeted-damage-to-livelihood",
+    "scapegoating-and-jailing",
+    "legal-frameworks-and-documentation",
+    "exclusion-of-trans-people-from-progressive-and-conservative-movements",
+    "bigotry-from-within-the-transgender-community",
+    "cyberbullying-and-cyberattacks",
+    "verbal-abuse-and-assault",
+    "cis-het-misogyny",
+    "objectification",
+    "stereotyping",
+    "marginalisation-and-othering",
+    "misrepresentation-and-portrayal"
+  ]
+}

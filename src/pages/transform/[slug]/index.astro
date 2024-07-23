@@ -42,13 +42,15 @@ const violenceSubCategoryHeading =
 let subCategoryTextColor = "";
 switch (violenceSubCategory?.category) {
   case "assault":
-    subCategoryTextColor = "text-red-transform"; // Tailwind CSS class for red text
+    subCategoryTextColor = "text-red-transform dark:text-red-transformLight"; // Tailwind CSS class for red text
     break;
   case "degradation":
-    subCategoryTextColor = "text-orange-transform"; // Tailwind CSS class for yellow text
+    subCategoryTextColor =
+      "text-orange-transform dark:text-orange-transformLight"; // Tailwind CSS class for yellow text
     break;
   case "normalisation":
-    subCategoryTextColor = "text-yellow-transform"; // Tailwind CSS class for green text
+    subCategoryTextColor =
+      "text-yellow-transform dark:text-yellow-transformLight"; // Tailwind CSS class for green text
     break;
   default:
     break;

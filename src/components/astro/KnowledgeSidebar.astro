@@ -1,6 +1,35 @@
 ---
 import { KnowledgeSidebar as KnowledgeSidebarReact } from "@components/react/KnowledgeSidebar";
 import { getCollection } from "astro:content";
+import fs from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
+import { existsSync } from "node:fs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+function findRootDir(startPath: string) {
+  let currentDir = startPath;
+
+  while (!existsSync(resolve(currentDir, "package.json"))) {
+    const parentDir = dirname(currentDir);
+    if (parentDir === currentDir) {
+      throw new Error("package.json not found in any parent directories");
+    }
+    currentDir = parentDir;
+  }
+
+  return currentDir;
+}
+
+const rootDir = findRootDir(__dirname);
+const sidebarJSONFile = resolve(rootDir, "./src/singletons-data/sidebar.json");
+const fileContents = await fs.readFile(sidebarJSONFile, "utf8");
+const sidebarJSON = JSON.parse(fileContents);
+const sortedIdentityGroupsSlugs = sidebarJSON.identityGroups as string[];
+const sortedViolenceSubCategoriesSlugs =
+  sidebarJSON.violenceSubCatories as string[];
 
 const _identityGroupsList = await getCollection("identity-groups");
 const _violenceSubCategoriesList = await getCollection(
@@ -8,19 +37,46 @@ const _violenceSubCategoriesList = await getCollection(
 );
 const _violenceCategoriesList = await getCollection("violence-categories");
 
-const identityGroupsList = _identityGroupsList.map((item) => {
+function sortArrayBySlugOrder<
+  A extends Array<{ slug: string }>,
+  B extends Array<string>,
+>(originalArray: A, sortedSlugs: B) {
+  return originalArray.sort((a, b) => {
+    const indexA = sortedSlugs.indexOf(a.slug);
+    const indexB = sortedSlugs.indexOf(b.slug);
+    return indexA - indexB;
+  });
+}
+
+const __identityGroupsList = _identityGroupsList.map((item) => {
   return {
     slug: item.id,
     entry: item.data,
   };
 });
 
-const subCategoriesList = _violenceSubCategoriesList.map((item) => {
+const slugIndexMap = new Map<string, number>();
+
+sortedIdentityGroupsSlugs.forEach((slug, index) => {
+  slugIndexMap.set(slug, index);
+});
+
+const identityGroupsList = sortArrayBySlugOrder(
+  __identityGroupsList,
+  sortedIdentityGroupsSlugs,
+);
+
+const _subCategoriesList = _violenceSubCategoriesList.map((item) => {
   return {
     slug: item.id,
     entry: item.data,
   };
 });
+
+const subCategoriesList = sortArrayBySlugOrder(
+  _subCategoriesList,
+  sortedViolenceSubCategoriesSlugs,
+);
 
 const categoriesList = _violenceCategoriesList.map((item) => {
   return {
