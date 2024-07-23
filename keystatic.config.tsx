@@ -2,6 +2,7 @@
 // import type { Config } from "@markdoc/markdoc";
 import { config } from "@keystatic/core";
 import * as categories from "@cms/collections";
+import * as singletons from "@cms/singletons";
 
 export const githubStorage = {
   kind: "github",
@@ -39,6 +40,9 @@ export default config({
   },
   collections: {
     ...categories,
+  },
+  singletons: {
+    ...singletons,
   },
 });
 

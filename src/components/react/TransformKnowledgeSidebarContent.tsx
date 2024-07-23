@@ -135,18 +135,20 @@ export default function TransformKnowledgeSidebarContent(
                   <li key={identityGroup.slug} role="button">
                     <input
                       type="checkbox"
-                      className="hidden peer"
+                      className="opacity-0 w-0 h-0 p-0 m-0 peer"
                       id={identityGroup.slug}
                       onChange={() => {
                         setVisibleColumn("assult-sub-categories-col");
                         setSelectedIdentitySlug(identityGroup.slug);
                       }}
                       checked={isSelected}
+                      // autoFocus={index === 0}
+                      // {...(index === 0 ? { tabIndex: 1 } : {})}
                     />
                     <label
                       className={clsx(
                         // common styles
-                        "p-1 px-4 rounded-2xl cursor-pointer inline-block text-gray-800 relative font-medium",
+                        "p-1 px-4 rounded-xl cursor-pointer inline-block text-gray-800 relative font-medium peer-focus:outline dark:peer-focus:!outline-2 peer-focus:!outline-4 peer-focus:!outline-blue-400  dark:peer-focus:!outline-green-200 peer-focus:outline-offset-1",
                         // default styles
                         "bg-gray-transform hover:bg-gray-transform/80 text-white",
                         // dark hover common styles
@@ -196,11 +198,11 @@ export default function TransformKnowledgeSidebarContent(
                   <li key={el.violenceCategorySlug}>
                     <h2
                       className={clsx("text-lg mb-2 uppercase font-semibold", {
-                        "text-red-600 dark:text-red-500":
+                        "text-red-transform dark:text-red-transformLight":
                           el.violenceCategorySlug === "assault",
-                        "text-orange-600 dark:text-orange-500":
+                        "text-orange-transform dark:text-orange-transformLight":
                           el.violenceCategorySlug === "degradation",
-                        "text-yellow-transform dark:text-yellow-500":
+                        "text-yellow-transform dark:text-yellow-transformLight":
                           el.violenceCategorySlug === "normalisation",
                       })}
                     >
@@ -223,7 +225,7 @@ export default function TransformKnowledgeSidebarContent(
                           <li key={subCategory.slug} role="button">
                             <input
                               type="checkbox"
-                              className="hidden peer"
+                              className="opacity-0 w-0 h-0 peer"
                               id={subCategory.slug}
                               onChange={() => {
                                 const isSamePageSelection =
@@ -260,7 +262,7 @@ export default function TransformKnowledgeSidebarContent(
                               className={clsx(
                                 // DEFAULT STYLES
                                 // text-gray-800
-                                "p-1 px-4 rounded-2xl cursor-pointer inline-block relative font-medium",
+                                "p-1 px-4 rounded-xl cursor-pointer inline-block relative font-medium peer-focus:outline dark:peer-focus:!outline-2 peer-focus:!outline-4 peer-focus:!outline-blue-400  dark:peer-focus:!outline-green-200 peer-focus:outline-offset-1",
 
                                 // DARK COMMON STYLES
                                 "dark:text-zinc-50 dark:hover:text-white",
@@ -299,12 +301,12 @@ export default function TransformKnowledgeSidebarContent(
 
                                 // NORMALISATION: NORMAL STYLES
                                 {
-                                  "bg-yellow-transform hover:bg-yellow-transform/80 text-gray-800 hover:text-gray-600":
+                                  "bg-yellow-transform hover:bg-yellow-transform/80 text-white":
                                     isNormalisation,
                                 },
                                 // NORMALISATION: DARK STYLES
                                 {
-                                  "dark:bg-yellow-transform dark:hover:bg-yellow-transformLight dark:text-gray-800 dark:hover:text-gray-600":
+                                  "dark:bg-yellow-transform dark:hover:bg-yellow-transformLight":
                                     isNormalisation,
                                 },
 

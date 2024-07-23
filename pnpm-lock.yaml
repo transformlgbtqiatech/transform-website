@@ -37,10 +37,10 @@ importers:
         version: 0.7.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@keystatic/astro':
         specifier: ^5.0.0
-        version: 5.0.0(@keystatic/core@0.5.27(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(astro@4.12.2(@types/node@20.14.10)(typescript@5.4.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 5.0.0(@keystatic/core@0.5.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(astro@4.12.2(@types/node@20.14.10)(typescript@5.4.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@keystatic/core':
-        specifier: ^0.5.27
-        version: 0.5.27(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.5.28
+        version: 0.5.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@markdoc/markdoc':
         specifier: ^0.4.0
         version: 0.4.0(@types/react@18.3.3)(react@18.3.1)
@@ -844,6 +844,16 @@ packages:
       next:
         optional: true
 
+  '@keystar/ui@0.7.9':
+    resolution: {integrity: sha512-tma+IMc8vZAOkuRrNf9qv3y0fReVUhEw2aKRpR0/8O/6Y8MUWhWUPu4Rbf9pJMOgZ15w4hHW8JYyACl1FxI0yg==}
+    peerDependencies:
+      next: '>=14'
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    peerDependenciesMeta:
+      next:
+        optional: true
+
   '@keystatic/astro@5.0.0':
     resolution: {integrity: sha512-ahPtok9c1IEwjXwL7Ud6ooRPA7CpVGTQV/uHk560zznNX913E2QX9MlmO10qQtgvUwl2mPK7U68ucpwLp3fWfw==}
     peerDependencies:
@@ -852,8 +862,8 @@ packages:
       react: ^18.2.0
       react-dom: ^18.2.0
 
-  '@keystatic/core@0.5.27':
-    resolution: {integrity: sha512-58Y/U44OtLztw8kVuYFeCYX4tDZcq/5B1I3b9/F5CbdtffukNrRLr5GSkijSbr1brwviJ4d25du0MJSD3dQOvQ==}
+  '@keystatic/core@0.5.28':
+    resolution: {integrity: sha512-91Ir3EbtP6XmFhDfr193KTV8RsQLtCQskxaQYq3yD8OSrlCComeOoUQoSl9O5pPijbypGNwefjhLsX4uHZRY1A==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -1875,8 +1885,10 @@ packages:
     peerDependencies:
       '@urql/core': ^5.0.0
 
-  '@urql/exchange-graphcache@6.5.1':
-    resolution: {integrity: sha512-Ky77kuaTuo1H+VKZatXyNDqTMw+z03KV3Ep/6TQjktlc+0RDhEZq3rI4F/ViwqLaDUtGqPCYjmnHdoupXqdK0g==}
+  '@urql/exchange-graphcache@7.1.2':
+    resolution: {integrity: sha512-W2+lYYB/aW1xjPtrMO/Cuxnq3Wl+DuiySqbdw/II91G/NH8Axx2oxRLjWMeC5r/71RivJUrmf2FVzb4Yy1+qwQ==}
+    peerDependencies:
+      '@urql/core': ^5.0.0
 
   '@urql/exchange-persisted@4.3.0':
     resolution: {integrity: sha512-gI3i5uA9K/f0z5VLqKL5SGJpTrPjsN+BOMvAGJj13Bg4JUmJCaqYYHKetay27q4K2GDZIMGDoeytR7XkpP5ftg==}
@@ -5291,10 +5303,101 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@keystatic/astro@5.0.0(@keystatic/core@0.5.27(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(astro@4.12.2(@types/node@20.14.10)(typescript@5.4.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@keystar/ui@0.7.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.24.7
-      '@keystatic/core': 0.5.27(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@emotion/css': 11.11.2
+      '@floating-ui/react': 0.24.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@internationalized/date': 3.5.4
+      '@react-aria/actiongroup': 3.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/breadcrumbs': 3.5.13(react@18.3.1)
+      '@react-aria/button': 3.9.5(react@18.3.1)
+      '@react-aria/calendar': 3.5.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/checkbox': 3.14.3(react@18.3.1)
+      '@react-aria/combobox': 3.9.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/datepicker': 3.10.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/dialog': 3.5.14(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/dnd': 3.6.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/focus': 3.17.1(react@18.3.1)
+      '@react-aria/gridlist': 3.8.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/i18n': 3.11.1(react@18.3.1)
+      '@react-aria/interactions': 3.21.3(react@18.3.1)
+      '@react-aria/label': 3.7.8(react@18.3.1)
+      '@react-aria/link': 3.7.1(react@18.3.1)
+      '@react-aria/listbox': 3.12.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/live-announcer': 3.3.4
+      '@react-aria/menu': 3.14.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/meter': 3.4.13(react@18.3.1)
+      '@react-aria/numberfield': 3.11.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/overlays': 3.22.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/progress': 3.4.13(react@18.3.1)
+      '@react-aria/radio': 3.10.4(react@18.3.1)
+      '@react-aria/searchfield': 3.7.5(react@18.3.1)
+      '@react-aria/select': 3.14.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/selection': 3.18.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/separator': 3.3.13(react@18.3.1)
+      '@react-aria/ssr': 3.9.4(react@18.3.1)
+      '@react-aria/switch': 3.6.4(react@18.3.1)
+      '@react-aria/table': 3.14.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/tabs': 3.9.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/textfield': 3.14.5(react@18.3.1)
+      '@react-aria/toast': 3.0.0-beta.2(react@18.3.1)
+      '@react-aria/tooltip': 3.7.4(react@18.3.1)
+      '@react-aria/utils': 3.24.1(react@18.3.1)
+      '@react-aria/virtualizer': 3.10.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@react-aria/visually-hidden': 3.8.12(react@18.3.1)
+      '@react-stately/calendar': 3.5.1(react@18.3.1)
+      '@react-stately/checkbox': 3.6.5(react@18.3.1)
+      '@react-stately/collections': 3.10.7(react@18.3.1)
+      '@react-stately/combobox': 3.8.4(react@18.3.1)
+      '@react-stately/data': 3.11.4(react@18.3.1)
+      '@react-stately/datepicker': 3.9.4(react@18.3.1)
+      '@react-stately/dnd': 3.3.1(react@18.3.1)
+      '@react-stately/layout': 3.13.9(react@18.3.1)
+      '@react-stately/list': 3.10.5(react@18.3.1)
+      '@react-stately/menu': 3.7.1(react@18.3.1)
+      '@react-stately/numberfield': 3.9.3(react@18.3.1)
+      '@react-stately/overlays': 3.6.7(react@18.3.1)
+      '@react-stately/radio': 3.10.4(react@18.3.1)
+      '@react-stately/searchfield': 3.5.3(react@18.3.1)
+      '@react-stately/select': 3.6.4(react@18.3.1)
+      '@react-stately/table': 3.11.8(react@18.3.1)
+      '@react-stately/tabs': 3.6.6(react@18.3.1)
+      '@react-stately/toast': 3.0.0-beta.1(react@18.3.1)
+      '@react-stately/toggle': 3.7.4(react@18.3.1)
+      '@react-stately/tooltip': 3.4.9(react@18.3.1)
+      '@react-stately/tree': 3.8.1(react@18.3.1)
+      '@react-stately/utils': 3.10.1(react@18.3.1)
+      '@react-stately/virtualizer': 3.7.1(react@18.3.1)
+      '@react-types/actionbar': 3.1.7(react@18.3.1)
+      '@react-types/actiongroup': 3.4.9(react@18.3.1)
+      '@react-types/breadcrumbs': 3.7.5(react@18.3.1)
+      '@react-types/button': 3.9.4(react@18.3.1)
+      '@react-types/calendar': 3.4.6(react@18.3.1)
+      '@react-types/combobox': 3.11.1(react@18.3.1)
+      '@react-types/datepicker': 3.7.4(react@18.3.1)
+      '@react-types/grid': 3.2.6(react@18.3.1)
+      '@react-types/menu': 3.9.9(react@18.3.1)
+      '@react-types/numberfield': 3.8.3(react@18.3.1)
+      '@react-types/overlays': 3.8.7(react@18.3.1)
+      '@react-types/radio': 3.8.1(react@18.3.1)
+      '@react-types/select': 3.9.4(react@18.3.1)
+      '@react-types/shared': 3.23.1(react@18.3.1)
+      '@react-types/switch': 3.5.3(react@18.3.1)
+      '@react-types/table': 3.9.5(react@18.3.1)
+      '@react-types/tabs': 3.3.7(react@18.3.1)
+      '@types/react': 18.3.3
+      emery: 1.4.3
+      facepaint: 1.2.1
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+    transitivePeerDependencies:
+      - supports-color
+
+  '@keystatic/astro@5.0.0(@keystatic/core@0.5.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(astro@4.12.2(@types/node@20.14.10)(typescript@5.4.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@babel/runtime': 7.24.7
+      '@keystatic/core': 0.5.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@types/react': 18.3.3
       astro: 4.12.2(@types/node@20.14.10)(typescript@5.4.5)
       cookie: 0.5.0
@@ -5302,7 +5405,7 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       set-cookie-parser: 2.6.0
 
-  '@keystatic/core@0.5.27(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@keystatic/core@0.5.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.24.7
       '@braintree/sanitize-url': 6.0.4
@@ -5310,7 +5413,7 @@ snapshots:
       '@emotion/weak-memoize': 0.3.1
       '@floating-ui/react': 0.24.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@internationalized/string': 3.2.3
-      '@keystar/ui': 0.7.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@keystar/ui': 0.7.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@markdoc/markdoc': 0.4.0(@types/react@18.3.3)(react@18.3.1)
       '@react-aria/focus': 3.17.1(react@18.3.1)
       '@react-aria/i18n': 3.11.1(react@18.3.1)
@@ -5331,7 +5434,7 @@ snapshots:
       '@types/react': 18.3.3
       '@urql/core': 4.3.0(graphql@16.8.2)
       '@urql/exchange-auth': 2.2.0(@urql/core@4.3.0(graphql@16.8.2))
-      '@urql/exchange-graphcache': 6.5.1(graphql@16.8.2)
+      '@urql/exchange-graphcache': 7.1.2(@urql/core@4.3.0(graphql@16.8.2))(graphql@16.8.2)
       '@urql/exchange-persisted': 4.3.0(@urql/core@4.3.0(graphql@16.8.2))
       cookie: 0.5.0
       decimal.js-light: 2.5.1
@@ -6801,7 +6904,7 @@ snapshots:
       '@urql/core': 4.3.0(graphql@16.8.2)
       wonka: 6.3.4
 
-  '@urql/exchange-graphcache@6.5.1(graphql@16.8.2)':
+  '@urql/exchange-graphcache@7.1.2(@urql/core@4.3.0(graphql@16.8.2))(graphql@16.8.2)':
     dependencies:
       '@0no-co/graphql.web': 1.0.7(graphql@16.8.2)
       '@urql/core': 4.3.0(graphql@16.8.2)

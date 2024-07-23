@@ -24,12 +24,11 @@ export function TriggerWarningDialog(props: TriggerWarningDialogProps) {
 function TriggerWarningDialogContent() {
   return (
     <Dialog.Root defaultOpen>
-      <Dialog.Overlay className="fixed inset-0 bg-zinc-800 z-40" />
-      <Dialog.Content className="fixed bottom-0 lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 bg-zinc-100 will-change-transform w-[800px] lg:max-w-[75%] max-w-full p-6 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] z-50 dark:bg-black dark:text-zinc-200">
-        <SlatTransform3ColorsCols />
+      <Dialog.Overlay className="fixed inset-0 bg-zinc-800/50 z-40 backdrop-blur-md" />
+      <Dialog.Content className="fixed bottom-0 lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 bg-zinc-100 will-change-transform w-[800px] lg:max-w-[75%] max-w-full py-10 px-12 pb-12 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] z-50 dark:bg-black dark:text-zinc-200 rounded-t-3xl lg:rounded-3xl">
+        {/* <SlatTransform3ColorsCols /> */}
 
-        <Dialog.Title className="font-oswald uppercase italic text-2xl font-semibold mt-5">
-          <span className="text-red-transform">Warning: </span>
+        <Dialog.Title className="uppercase italic text-2xl font-bold">
           <span>Sensitive And Triggering Information Ahead</span>
         </Dialog.Title>
 
@@ -55,16 +54,16 @@ function TriggerWarningDialogContent() {
           </div>
         </Dialog.Description>
 
-        <div className="mt-6 flex flex-col lg:flex-row gap-2">
+        <div className="mt-10 flex flex-col lg:flex-row gap-5">
           <a
             href="/trigger-toolkit"
-            className="inline-block bg-gray-transform text-white p-2 px-4 rounded-sm hover:bg-gray-transformLight dark:border-2 text-center lg:text-left"
+            className="inline-block bg-gray-transform text-white p-2 px-4 rounded-lg hover:bg-gray-transformLight dark:border-2 text-center lg:text-left"
           >
-            Take Me To Trigger Toolkit
+            Take me to the Trigger/Toolkit
           </a>
 
-          <Dialog.Cancel className="bg-gray-transform text-white p-2 px-4 rounded-sm hover:bg-gray-transformLight dark:border-2">
-            Continue to Transform
+          <Dialog.Cancel className="bg-gray-transform text-white p-2 px-4 rounded-lg hover:bg-gray-transformLight dark:border-2">
+            Continue to Transform: The/Tool
           </Dialog.Cancel>
         </div>
       </Dialog.Content>
@@ -72,14 +71,14 @@ function TriggerWarningDialogContent() {
   );
 }
 
-function SlatTransform3ColorsCols() {
-  return (
-    <div className="grid grid-cols-3">
-      <div className="h-7 relative overflow-hidden after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-red-transform after:skew-x-[-45deg] after:origin-top-left" />
+// function SlatTransform3ColorsCols() {
+//   return (
+//     <div className="grid grid-cols-3">
+//       <div className="h-7 relative overflow-hidden after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-red-transform after:skew-x-[-45deg] after:origin-top-left" />
 
-      <div className="h-7 skew-x-[-45deg] bg-orange-transform"></div>
+//       <div className="h-7 skew-x-[-45deg] bg-orange-transform"></div>
 
-      <div className="h-7 relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-yellow-transform before:skew-x-[-45deg] before:origin-bottom-left" />
-    </div>
-  );
-}
+//       <div className="h-7 relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-yellow-transform before:skew-x-[-45deg] before:origin-bottom-left" />
+//     </div>
+//   );
+// }

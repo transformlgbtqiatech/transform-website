@@ -50,24 +50,20 @@ export default {
         sidebar: {
           "0%": {
             opacity: 0,
-            visibility: "hidden",
             transform: "translateX(-100%)",
           },
           "100%": {
             opacity: 1,
-            visibility: "visible",
             transform: "translateX(0)",
           },
         },
         "sidebar-unmount": {
           "0%": {
             opacity: 1,
-            visibility: "visible",
             transform: "translateX(0)",
           },
           "100%": {
             opacity: 0,
-            visibility: "hidden",
             transform: "translateX(-100%)",
           },
         },
