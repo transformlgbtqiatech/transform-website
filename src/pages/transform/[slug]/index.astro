@@ -159,7 +159,9 @@ const triggerWarningType = knowledgePost?.triggerWarning;
   }
 
   /* seems like an astro bug: https://github.com/withastro/astro/issues/4298#issuecomment-2241278503 */
-  astro-island {
+  /** Update: https://github.com/withastro/astro/issues/11536#issuecomment-2247054971 */
+
+  .prose astro-island:has(button) {
     display: initial !important;
   }
 </style>

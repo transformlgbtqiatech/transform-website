@@ -25,14 +25,17 @@ function TriggerWarningDialogContent() {
   return (
     <Dialog.Root defaultOpen>
       <Dialog.Overlay className="fixed inset-0 bg-zinc-800/50 z-40 backdrop-blur-md" />
-      <Dialog.Content className="fixed bottom-0 lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 bg-zinc-100 will-change-transform w-[800px] lg:max-w-[75%] max-w-full py-10 px-12 pb-12 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] z-50 dark:bg-black dark:text-zinc-200 rounded-t-3xl lg:rounded-3xl">
+      <Dialog.Content className="fixed bottom-0 lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 bg-zinc-100 will-change-transform w-[800px] lg:max-w-[75%] max-w-full py-10 px-12 pb-12 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] z-50 dark:bg-black dark:text-zinc-200 rounded-t-3xl lg:rounded-3xl max-h-[90svh] overflow-y-auto">
         {/* <SlatTransform3ColorsCols /> */}
 
         <Dialog.Title className="uppercase italic text-2xl font-bold">
           <span>Sensitive And Triggering Information Ahead</span>
         </Dialog.Title>
 
-        <Dialog.Description asChild className="dark:text-zinc-200">
+        <Dialog.Description
+          asChild
+          className="dark:text-zinc-200 text-xs lg:text-base"
+        >
           <div className="mt-5 text-zinc-800 font-medium">
             <p>
               The following section talks about various forms of violence and
