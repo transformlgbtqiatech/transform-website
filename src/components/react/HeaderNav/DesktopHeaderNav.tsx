@@ -22,7 +22,7 @@ export function DesktopHeaderNav() {
 
           return (
             <NavigationMenu.Item key={el.label}>
-              <NavigationMenu.Trigger className="hover:bg-zinc-700 focus:shadow-zinc-200 group flex select-none items-center justify-between gap-[2px] rounded-md px-3 py-2 uppercase font-medium leading-none outline-none focus:shadow-[0_0_0_2px] -translate-y-[2px]">
+              <NavigationMenu.Trigger className="hover:bg-zinc-700 focus:shadow-zinc-200 group flex select-none items-center justify-between gap-[2px] rounded-md px-3 pr-1 py-2 uppercase font-medium leading-none outline-none focus:shadow-[0_0_0_2px] -translate-y-[2px]">
                 {el.label}{" "}
                 <ChevronDown
                   size={20}
