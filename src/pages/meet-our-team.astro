@@ -73,12 +73,14 @@ const people = [...membersWithMetaData, ...alumniWithMetaData];
     order: 3;
   } */
 
-  .team-card:nth-child(odd) {
-    order: 1;
-  }
+  @media (min-width: 1024px) {
+    .team-card:nth-child(odd) {
+      order: 1;
+    }
 
-  .team-card:nth-child(even) {
-    order: 2;
+    .team-card:nth-child(even) {
+      order: 2;
+    }
   }
 
   /*
