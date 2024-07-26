@@ -1,32 +1,10 @@
 ---
 import { KnowledgeSidebar as KnowledgeSidebarReact } from "@components/react/KnowledgeSidebar";
 import { getCollection } from "astro:content";
-import fs from "node:fs/promises";
-import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
-import { existsSync } from "node:fs";
+import { readJsonFile } from "@root/src/utils/server/read-json-file-from-root";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const sidebarJSON = await readJsonFile("./src/singletons-data/sidebar.json");
 
-function findRootDir(startPath: string) {
-  let currentDir = startPath;
-
-  while (!existsSync(resolve(currentDir, "package.json"))) {
-    const parentDir = dirname(currentDir);
-    if (parentDir === currentDir) {
-      throw new Error("package.json not found in any parent directories");
-    }
-    currentDir = parentDir;
-  }
-
-  return currentDir;
-}
-
-const rootDir = findRootDir(__dirname);
-const sidebarJSONFile = resolve(rootDir, "./src/singletons-data/sidebar.json");
-const fileContents = await fs.readFile(sidebarJSONFile, "utf8");
-const sidebarJSON = JSON.parse(fileContents);
 const sortedIdentityGroupsSlugs = sidebarJSON.identityGroups as string[];
 const sortedViolenceSubCategoriesSlugs =
   sidebarJSON.violenceSubCatories as string[];

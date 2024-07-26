@@ -1,0 +1,79 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+export type Member = {
+  type: "Crew" | "Alumnus";
+  imagesResolverMap: Record<
+    string,
+    () => Promise<{
+      default: ImageMetadata;
+    }>
+  >;
+  name: string;
+  occupation: string;
+  bio: string;
+  image: string;
+  socials?: {
+    website?: string;
+    instagram?: string;
+    linkedin?: string;
+    twitter?: string;
+    youtube?: string;
+  };
+};
+
+type Props = Member;
+
+const { imagesResolverMap, name, occupation, bio, image, type } = Astro.props;
+
+const imagePath = `/src/assets${image}`;
+const imageResolver = imagesResolverMap[imagePath];
+---
+
+<div
+  class="lg:flex gap-4 items-center p-6 rounded-2xl shadow-tooltip border-2 border-zinc-100 dark:border-zinc-700 dark:bg-zinc-900"
+>
+  <div class="flex justify-center flex-shrink-0">
+    <div class="relative w-fit h-fit">
+      <span
+        class:list={[
+          "bg-gradient-to-b from-[hsl(202deg,71%,90%)] to-[hsl(204deg,67%,85%)] dark:from-[hsla(200deg,100%,85%,0.1)] dark:to-[hsla(200deg,100%,85%,0)] text-zinc-900 dark:text-zinc-200 font-medium text-[11px] rounded-full py-1 px-3 ml-auto absolute shadow-[hsla(210,8%,62%,0.2)_0px_8px_24px] backdrop-blur-xl border-b-2 border-[hsla(210,8%,62%,0.8)] dark:border-[1px] dark:border-[hsla(210,8%,62%,0.3)]",
+          {
+            "bottom-4 right-3": type === "Crew",
+            "bottom-4 -right-1 ": type === "Alumnus",
+          },
+        ]}
+      >
+        {type}
+      </span>
+
+      {
+        imageResolver ? (
+          <Image
+            src={imageResolver()}
+            alt={`${name}'s image`}
+            width={120}
+            height={120}
+            quality="max"
+            class="rounded-full m-4"
+          />
+        ) : (
+          <div class="w-[120px] h-[120px] bg-zinc-100 rounded-full m-4" />
+        )
+      }
+    </div>
+  </div>
+
+  <div class="dark:text-zinc-100">
+    <h2 class="mb-2">
+      <span class="font-oswald uppercase font-semibold">{name}</span>
+      {" / "}
+      <span class="font-oswald uppercase">{occupation}</span>
+    </h2>
+
+    <p class="text-zinc-800 text-sm dark:text-inherit whitespace-pre-line">
+      {bio}
+    </p>
+  </div>
+</div>

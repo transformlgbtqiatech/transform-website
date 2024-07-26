@@ -1,0 +1,166 @@
+{
+  "members": [
+    {
+      "name": "Jo KrishnaKumar",
+      "occupation": "Producer",
+      "bio": "Dr Jo Krishnakumar (they/them) is a facilitator, anthropologist and writer based at LSE. They research care, activism and collective-making in sex workers’, trans and queer communities in India. Along with Trans/form, Jo works on Almaarii, a visual ethnography of queer space in south Asia and Mithra Trust where they facilitate mental health spaces for queer-trans people using psychology, narrative therapy and anthropology. \n\nAll their work is informed by their constant learning/unlearning of the privileges they have due to their social location as a dominant caste person while also occupying space as a psychosocially disabled trans person of colour.",
+      "image": "/images/team/members/0/image.jpg",
+      "socials": [
+        {
+          "discriminant": "website",
+          "value": "https://www.waytojo.com/"
+        },
+        {
+          "discriminant": "linkedin",
+          "value": "https://www.linkedin.com/in/jo-krishnakumar/"
+        }
+      ]
+    },
+    {
+      "name": "Mrinalini Godara",
+      "occupation": "Producer",
+      "bio": "Mrinalini (she/they) is a queer designer, illustrator, and researcher who routinely takes up awareness and access-oriented developmental sector projects centring women's and LGBTQIA+ voices. She benefits from caste, gender and able-bodied privilege, which she is learning to dismantle and employ in creating a safer and increasingly equitable world through her work and interactions.\n",
+      "image": "/images/team/members/1/image.png",
+      "socials": [
+        {
+          "discriminant": "instagram",
+          "value": "https://www.instagram.com/mrinartmo"
+        },
+        {
+          "discriminant": "linkedin",
+          "value": "https://www.linkedin.com/in/mrinalini-g-345117126/"
+        }
+      ]
+    },
+    {
+      "name": "Arihant Verma",
+      "occupation": "Debugging Samurai",
+      "bio": "Arihant (he/him) is a software engineer and fiction writer. He keeps marvelling at parallels between software engineering and writing. He likes to make accessible websites. He obsesses over rich text editors and read other people's code as often other people's books. His favourite voice to write in is first, specially in writing slipstream fiction.",
+      "image": "/images/team/members/2/image.png",
+      "socials": [
+        {
+          "discriminant": "website",
+          "value": "https://arihantverma.com"
+        },
+        {
+          "discriminant": "twitter",
+          "value": "https://x.com/gdadsriver"
+        },
+        {
+          "discriminant": "linkedin",
+          "value": "https://www.linkedin.com/in/arihantverma/"
+        }
+      ]
+    },
+    {
+      "name": "Vibhavari Desai",
+      "occupation": "Research Coordinator",
+      "bio": "Vibhavari (she/her) is a writer, and a proponent of open-access and citizen-science movements. Her interests are wide but are united by questions of memory, identity, and belonging, by who/what is left out and behind. She loves her cat, dad jokes, the Internet Archive, @VitaVirginiaBot, and literary memes.\n",
+      "image": "/images/team/members/3/image.png",
+      "socials": [
+        {
+          "discriminant": "twitter",
+          "value": "https://x.com/VibhavariDesai"
+        }
+      ]
+    },
+    {
+      "name": "Rhea Kotrashetti",
+      "occupation": "Researcher",
+      "bio": "Rhea (she/her) is a budding researcher, sociologist and writer, her research work has primarily been based on trauma narrative, marginalised identities and communities, and housing sustainability. She is passionate about decolonizing sociology, conflict resolution and everyday acts of resistance. Her research interests are a combination of intersectional dalit eco-feminism, sustainability practices, and queer and wilding theory among others.",
+      "image": "/images/team/members/4/image.png",
+      "socials": [
+        {
+          "discriminant": "linkedin",
+          "value": "https://www.linkedin.com/in/rhea-kotrashetti/"
+        }
+      ]
+    },
+    {
+      "name": "Radha \"Sambhavi\" Varadarajan",
+      "occupation": "Researcher",
+      "bio": "Sambhavi (they/them) is a philomath and transdisciplinary researcher interested in everything that is or can be made queer in South India. Heliophile, wildean protégé and a true chaotic good, they spend their free time reading many books, drinking many cups of chai, and intentionally misspelling french words as an act of feminist praxis.",
+      "image": "/images/team/members/5/image.png",
+      "socials": [
+        {
+          "discriminant": "twitter",
+          "value": "https://x.com/nooonrienderien"
+        }
+      ]
+    },
+    {
+      "name": "Divya Mahatme",
+      "occupation": "Researcher",
+      "bio": "Divya (they/them) is a trans queer jack of all trades. They are a sociologist-anthropologist by training, a pastry chef by profession, and a full-time cat parent. As a mentally sick person from an oppressive caste location, they are interested in engaging with critiques of capitalism intersecting with caste, class and queerness. They love having spirited conversations on all things socio-political over a home-cooked meal.",
+      "image": "/images/team/members/6/image.png",
+      "socials": []
+    },
+    {
+      "name": "Sumitra Sunder",
+      "occupation": "Researcher",
+      "bio": "Sumitra (they/them) is a researcher and curator based in Bangalore. Their professional experience has included a decade of consulting with Museums and Education Institutions across the country. Outside of this, they are also a writer with publications that comment on contemporary art in India. They spend the remainder of their time learning to relax - as recommended by their therapist.",
+      "image": "/images/team/members/7/image.png",
+      "socials": []
+    }
+  ],
+  "alumni": [
+    {
+      "name": "Aiman Shaikh",
+      "occupation": "Researcher",
+      "bio": "Aiman (they/he/she) is a psychologist by day and sociologist by night, constantly trying to tie the loose ends of the two disciplines with each other. Their area of interest is feminist theory and research, mental health, social justice, discrimination, mental justice and how various (oppressive and oppressing) societal structures influence people's mental health.",
+      "image": "/images/team/alumni/0/image.jpg",
+      "socials": [
+        {
+          "discriminant": "youtube",
+          "value": "https://www.youtube.com/channel/UCr6qQhu769lexS9Y6pmmusA/search"
+        }
+      ]
+    },
+    {
+      "name": "Sara Bardhan",
+      "occupation": "Researcher",
+      "bio": "Sara (they/them) is a multidisciplinary feminist researcher working at the intersection of gender, labour, tech and urban studies. In their free time, you can catch them learning a new language, devouring a Manto short story or taking pictures of their cat.",
+      "image": "/images/team/alumni/1/image.png",
+      "socials": []
+    },
+    {
+      "name": "Chayanika Iyer",
+      "occupation": "Researcher",
+      "bio": "Chayanika (they/them) has been working at the intersections of trauma, culture, disability, gender, art, and resistance with various organisations since 2018. They find themselves wanting to figure out what it means to occupy, negotiate with, and build access to spaces for everyone. They like to spend their time off being scratched by their cat.",
+      "image": "/images/team/alumni/2/image.jpg",
+      "socials": [
+        {
+          "discriminant": "instagram",
+          "value": "https://www.instagram.com/chayanikaiyer"
+        },
+        {
+          "discriminant": "linkedin",
+          "value": "https://www.linkedin.com/in/chayanika-iyer-395561225/"
+        }
+      ]
+    },
+    {
+      "name": "Shrush",
+      "occupation": "Researcher",
+      "bio": "Shrushti (they/them) is a graduate in literary and cultural studies interested in understanding social exclusion as a result of gender and caste. They do freelance editing and have previously worked as a researcher on projects in the fields of art and culture in India and environmental conservation. You will find them in search of sunny spots to laze in alongside their furry pal, Sam.",
+      "image": "/images/team/alumni/3/image.png",
+      "socials": []
+    },
+    {
+      "name": "Shway",
+      "occupation": "Researcher",
+      "bio": "Shway (she/he/they) is a Dalit trans writer who’s been part of the diasporic South Asian community growing up, but now working and traveling within India. They write about gender and sexuality and currently working on spirituality and gender. They are also a bodywork practitioner in TCM, although they haven’t been able to use these skills much since the pandemic. Shway loves music, most things sweet, and the sun. ",
+      "image": "/images/team/alumni/4/image.png",
+      "socials": [
+        {
+          "discriminant": "instagram",
+          "value": "https://www.instagram.com/shway3000/"
+        },
+        {
+          "discriminant": "website",
+          "value": "https://linktr.ee/shwayness"
+        }
+      ]
+    }
+  ]
+}

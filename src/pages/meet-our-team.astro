@@ -1,0 +1,346 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import type { ImageMetadata } from "astro";
+import type { Member } from "@components/astro/MemberCard.astro";
+import { readJsonFile } from "../utils/server/read-json-file-from-root";
+import MemberCard from "@components/astro/MemberCard.astro";
+
+const crewImagesResolverMap = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/team/members/**/*.{jpeg,jpg,png,gif,avif,webp}",
+);
+
+const alumniImagesResolverMap = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/team/alumni/**/*.{jpeg,jpg,png,gif,avif,webp}",
+);
+
+const sidebarJSON = (await readJsonFile("./src/singletons-data/team.json")) as {
+  members: Array<Member>;
+  alumni: Array<Member>;
+};
+
+const members = sidebarJSON.members;
+const alumni = sidebarJSON.alumni;
+
+const membersWithMetaData = members.map((member) => {
+  return {
+    ...member,
+    type: "Crew" as const,
+    imagesResolverMap: crewImagesResolverMap,
+  };
+});
+
+const alumniWithMetaData = alumni.map((alumnus) => {
+  return {
+    ...alumnus,
+    type: "Alumnus" as const,
+    imagesResolverMap: alumniImagesResolverMap,
+  };
+});
+
+const people = [...membersWithMetaData, ...alumniWithMetaData];
+---
+
+<BaseLayout
+  title="Meet Our Team at Transform"
+  description="Meet Our Team at Transform"
+>
+  <main class="p-6 lg:p-10">
+    <ul
+      class="flex flex-col flex-wrap content-center h-[4000px] gap-y-6 gap-x-4 team-container md:max-w-2xl lg:max-w-7xl mx-auto"
+    >
+      {
+        people.map((person) => {
+          return (
+            <li class="lg:w-[46%] xl:w-[42%] relative team-card">
+              <MemberCard {...person} />
+            </li>
+          );
+        })
+      }
+    </ul>
+  </main>
+</BaseLayout>
+
+<style>
+  /* for three columns */
+  /* .team-card:nth-child(3n + 1) {
+    order: 1;
+  }
+  .team-card:nth-child(3n + 2) {
+    order: 2;
+  }
+  .team-card:nth-child(3n) {
+    order: 3;
+  } */
+
+  .team-card:nth-child(odd) {
+    order: 1;
+  }
+
+  .team-card:nth-child(even) {
+    order: 2;
+  }
+
+  /*
+    https://tobiasahlin.com/blog/flexbox-break-to-new-row/
+    https://tobiasahlin.com/blog/masonry-with-css/
+  */
+  .team-container::before,
+  .team-container::after {
+    content: "";
+    flex-basis: 100%;
+    width: 0;
+    order: 2;
+  }
+</style>
+
+<script>
+  import resolveConfig from "tailwindcss/resolveConfig";
+  import tailwindConfig from "@root/tailwind.config.mjs";
+
+  const config = resolveConfig(tailwindConfig);
+  const breakpoints = config.theme.screens;
+
+  const teamContainerEl = document.querySelector(
+    ".team-container",
+  ) as HTMLUListElement;
+
+  async function setMaxWidthOfMasontryContainer() {
+    const noOfMasonryCols = 2;
+    const flexGap = 24;
+
+    function readElementsDOMData() {
+      const teamCards = [
+        ...document.querySelectorAll(".team-card"),
+      ] as HTMLLIElement[];
+
+      // calculating  init state
+      const colWiseData = new Map<
+        number,
+        {
+          height: number;
+          elements: Array<{
+            el: HTMLLIElement;
+            contriToColHeight: number;
+          }>;
+        }
+      >();
+
+      for (let i = 1; i <= noOfMasonryCols; i++) {
+        colWiseData.set(i, { height: 0, elements: [] });
+      }
+
+      return new Promise<typeof colWiseData>((resolve) => {
+        let index = 0;
+
+        function process() {
+          const startTime = performance.now();
+          const maxTimePerFrame = 16.67; // aim for 60 fps
+
+          while (index < teamCards.length) {
+            const card = teamCards[index];
+
+            // --------------COMPUTATION--------------
+            const elData = card.getBoundingClientRect();
+            // const elStyle = getComputedStyle(card);
+            const height = elData.height;
+            // const marginBottom = elStyle.getPropertyValue("margin-bottom");
+            const columnNoForThisCard = (index % noOfMasonryCols) + 1;
+            // const isNonFirstRow = index + 1 > noOfMasonryCols;
+            const columnData = colWiseData.get(columnNoForThisCard);
+
+            if (!columnData) {
+              index++;
+              continue;
+            }
+
+            const contriToColHeight = height + flexGap;
+            columnData.height = columnData.height + contriToColHeight;
+
+            columnData.elements.push({
+              el: card,
+              contriToColHeight,
+            });
+            // --------------COMPUTATION--------------
+
+            index++;
+
+            // Check if we've exceeded the max time per frame
+            if (performance.now() - startTime > maxTimePerFrame) {
+              requestAnimationFrame(process);
+              return;
+            }
+          }
+
+          resolve(colWiseData);
+        }
+
+        requestAnimationFrame(process);
+      });
+    }
+
+    const colWiseData = await readElementsDOMData();
+    const colWiseDataArr = Array.from(colWiseData.entries());
+
+    const shortestAndLongestColumnData =
+      getShortestAndLongestColumnData(colWiseDataArr);
+
+    const differenceBetweenShortestAndLongestColHeights =
+      shortestAndLongestColumnData.largest.height -
+      shortestAndLongestColumnData.smallest.height;
+
+    const lastCardOfLargestCol =
+      shortestAndLongestColumnData.largest.elements.at(-1)?.el!;
+
+    const heightOfLastCardInLargestCol =
+      lastCardOfLargestCol.getBoundingClientRect().height;
+
+    if (
+      differenceBetweenShortestAndLongestColHeights >
+      heightOfLastCardInLargestCol
+    ) {
+      const orderOfSmallestCol = getComputedStyle(
+        shortestAndLongestColumnData.smallest.elements[0].el,
+      ).order;
+
+      lastCardOfLargestCol.style.order = orderOfSmallestCol;
+
+      const copyColWiseData = new Map(colWiseData);
+      const copyLargestColData = copyColWiseData.get(
+        shortestAndLongestColumnData.largest.index + 1,
+      );
+
+      const lastCardOfLargestColPopped = copyLargestColData?.elements.pop()!;
+
+      const copySmallestColData = copyColWiseData.get(
+        shortestAndLongestColumnData.smallest.index + 1,
+      );
+
+      copySmallestColData?.elements.push(lastCardOfLargestColPopped);
+
+      // // @note at this point of time, the colWiseData `height` per column is not correct, since we manually
+      // // sent one element to another. So we need to group and create fresh heights by adding all `contriToColHeight` of each element
+
+      for (let [_, colData] of copyColWiseData) {
+        const newColHeight = colData.elements.reduce(
+          (acc, el) => acc + el.contriToColHeight,
+          0,
+        );
+        colData.height = newColHeight;
+      }
+
+      // find the col with max height
+      const colHeightOfHigestCol = Math.max(
+        ...Array.from(copyColWiseData.values()).map((el) => el.height),
+      );
+
+      if (
+        colHeightOfHigestCol &&
+        teamContainerEl &&
+        !isNaN(colHeightOfHigestCol)
+      ) {
+        teamContainerEl.style.height = `${colHeightOfHigestCol}px`;
+      }
+    }
+  }
+
+  function getIsLarge() {
+    const mediaQueryString = `(min-width: ${breakpoints.lg})`;
+    return window.matchMedia(mediaQueryString).matches;
+  }
+
+  function largeScreenHandler() {
+    let isLarge = getIsLarge();
+
+    if (isLarge) {
+      setMaxWidthOfMasontryContainer();
+    } else {
+      teamContainerEl.style.height = "auto";
+    }
+  }
+
+  largeScreenHandler();
+
+  function resizeHandler() {
+    largeScreenHandler();
+  }
+
+  window.addEventListener("resize", resizeHandler);
+
+  function getShortestAndLongestColumnData(
+    colWiseDataArr: [
+      number,
+      {
+        height: number;
+        elements: Array<{
+          el: HTMLLIElement;
+          contriToColHeight: number;
+        }>;
+      },
+    ][],
+  ) {
+    const retVal = colWiseDataArr.reduce(
+      (acc, current, index) => {
+        const [_, currentData] = current;
+        const { height, elements } = currentData;
+
+        let originalAccLargestWasNull = acc.largest === null;
+        let originalAccSmallestWasNull = acc.smallest === null;
+
+        if (acc.largest === null) {
+          acc.largest = {
+            index,
+            ...currentData,
+          };
+        }
+
+        if (acc.smallest === null) {
+          acc.smallest = {
+            index,
+            ...currentData,
+          };
+        }
+
+        if (originalAccLargestWasNull || originalAccSmallestWasNull) {
+          return acc;
+        }
+
+        if (height < acc.smallest.height) {
+          acc.smallest = {
+            index,
+            ...currentData,
+          };
+        }
+
+        if (height > acc.largest.height) {
+          acc.largest = {
+            index,
+            ...currentData,
+          };
+        }
+
+        return acc;
+      },
+      {
+        largest: null,
+        smallest: null,
+      } as unknown as {
+        largest: {
+          index: number;
+        } & (typeof colWiseDataArr)[0][1];
+        smallest: {
+          index: number;
+        } & (typeof colWiseDataArr)[0][1];
+      },
+    );
+
+    return retVal as {
+      largest: {
+        index: number;
+      } & (typeof colWiseDataArr)[0][1];
+      smallest: {
+        index: number;
+      } & (typeof colWiseDataArr)[0][1];
+    };
+  }
+</script>

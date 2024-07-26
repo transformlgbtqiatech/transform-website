@@ -6,6 +6,7 @@ import {
   FolderArchive,
   Gem,
   Mail,
+  UsersRound,
   Wrench,
   type LucideProps,
 } from "lucide-react";
@@ -52,6 +53,11 @@ export const headerNavLinks = [
     label: "Side/Quests",
     href: "/side-quests",
     Icon: <IconContainer Icon={Gem} />,
+  },
+  {
+    label: "Our Team",
+    href: "/meet-our-team",
+    Icon: <IconContainer Icon={UsersRound} />,
   },
   {
     label: "Contact/Submit",
