@@ -119,7 +119,7 @@ export default {
     },
   },
   plugins: [
-    function ({ addBase }) {
+    function ({ addBase, theme }) {
       addBase({
         ":root": {
           "--color-yellow-transform":
@@ -135,6 +135,11 @@ export default {
           "--color-orange-transform": "15 88% 55%",
           "--color-orange-transformLight":
             "16.056338028169016, 88.75000000000001%, 68.62745098039215%",
+        },
+        ":root.dark": {
+          "--pagefind-ui-primary": theme("colors.zinc.800"),
+          "--pagefind-ui-background": theme("colors.zinc.800"),
+          "--pagefind-ui-text": theme("colors.zinc.200"),
         },
       });
     },

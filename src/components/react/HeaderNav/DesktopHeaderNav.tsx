@@ -1,11 +1,12 @@
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { ChevronDown } from "lucide-react";
 import { headerNavLinks } from "./links";
+// import { Search } from "@components/react/Search";
 
 export function DesktopHeaderNav() {
   return (
-    <NavigationMenu.Root className="relative z-[1] w-fit justify-center hidden lg:flex">
-      <NavigationMenu.List className="center m-0 flex list-none text-white p-1">
+    <NavigationMenu.Root className="relative z-[1] w-fit justify-center hidden lg:block">
+      <NavigationMenu.List className="center m-0 flex flex-wrap list-none text-white p-1">
         {headerNavLinks.map((el) => {
           if (!el.children) {
             return (

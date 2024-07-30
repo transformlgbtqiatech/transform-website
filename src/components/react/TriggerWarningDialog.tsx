@@ -25,7 +25,12 @@ function TriggerWarningDialogContent() {
   return (
     <Dialog.Root defaultOpen>
       <Dialog.Overlay className="fixed inset-0 bg-zinc-800/50 z-40 backdrop-blur-md" />
-      <Dialog.Content className="fixed bottom-0 lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 bg-zinc-100 will-change-transform w-[800px] lg:max-w-[75%] max-w-full py-10 px-12 pb-12 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] z-50 dark:bg-black dark:text-zinc-200 rounded-t-3xl lg:rounded-3xl max-h-[90svh] overflow-y-auto">
+      <Dialog.Content
+        className="fixed top-0 bottom-0 lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 bg-zinc-100 will-change-transform w-[800px] lg:max-w-[75%] max-w-full py-10 px-6 lg:px-12 pb-12 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] z-50 dark:bg-black dark:text-zinc-200 lg:rounded-3xl lg:max-h-[90svh] overflow-y-auto flex flex-col"
+        onEscapeKeyDown={(e) => {
+          e.preventDefault();
+        }}
+      >
         {/* <SlatTransform3ColorsCols /> */}
 
         <Dialog.Title className="uppercase italic text-2xl font-bold">
@@ -57,7 +62,7 @@ function TriggerWarningDialogContent() {
           </div>
         </Dialog.Description>
 
-        <div className="mt-10 flex flex-col lg:flex-row gap-5">
+        <div className="flex flex-col lg:flex-row gap-2 lg:gap-5 mt-auto lg:mt-10">
           <a
             href="/trigger-toolkit"
             className="inline-block bg-gray-transform text-white p-2 px-4 rounded-lg hover:bg-gray-transformLight dark:border-2 text-center lg:text-left"

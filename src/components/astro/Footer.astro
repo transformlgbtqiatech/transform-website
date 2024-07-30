@@ -1,13 +1,16 @@
 ---
 import Logo from "@components/astro/Logo/Logo.astro";
-import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
+import Facebook from "@components/astro/icons/facebook.astro";
+import Instagram from "@components/astro/icons/instagram.astro";
+import Linkedin from "@components/astro/icons/linkedin.astro";
+import Youtube from "@components/astro/icons/youtube.astro";
 ---
 
 <footer
   class="bg-black text-white px-10 lg:px-20 py-10 flex flex-col lg:flex-row"
 >
   <aside class="w-2/5">
-    <Logo behaviour="toggle-same" />
+    <Logo behaviour="white-bg-logo" />
   </aside>
 
   <section
@@ -46,26 +49,26 @@ import { Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
     <div class="mt-4 lg:mt-0">
       <ul class="flex gap-2 text-black">
         <li>
-          <a href="#" class="bg-white inline-block p-1 rounded-lg">
-            <Facebook size={22} />
+          <a href="#" class="bg-black text-white inline-block w-8 lg:w-10 p-1">
+            <Facebook />
           </a>
         </li>
 
         <li>
-          <a href="#" class="bg-white inline-block p-1 rounded-lg">
-            <Instagram size={22} />
+          <a href="#" class="bg-black text-white inline-block w-8 lg:w-10 p-1">
+            <Instagram />
           </a>
         </li>
 
         <li>
-          <a href="#" class="bg-white inline-block p-1 rounded-lg">
-            <Linkedin size={22} />
+          <a href="#" class="bg-black text-white inline-block w-8 lg:w-10 p-1">
+            <Linkedin />
           </a>
         </li>
 
         <li>
-          <a href="#" class="bg-white inline-block p-1 rounded-lg">
-            <Youtube size={22} />
+          <a href="#" class="bg-black text-white inline-block w-8 lg:w-10 p-1">
+            <Youtube />
           </a>
         </li>
       </ul>
