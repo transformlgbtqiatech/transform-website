@@ -1,6 +1,14 @@
 ---
 import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
+import type { TeamSingleton } from "@cms/singletons/singleton-types";
+import Instagram from "./icons/instagram.astro";
+import Linkedin from "./icons/linkedin.astro";
+import Website from "./icons/website.astro";
+import Twitter from "./icons/twitter.astro";
+import Youtube from "./icons/youtube.astro";
+
+type Socials = TeamSingleton["members"][number]["socials"];
 
 export type Member = {
   type: "Crew" | "Alumnus";
@@ -14,18 +22,13 @@ export type Member = {
   occupation: string;
   bio: string;
   image: string;
-  socials?: {
-    website?: string;
-    instagram?: string;
-    linkedin?: string;
-    twitter?: string;
-    youtube?: string;
-  };
+  socials?: Socials;
 };
 
 type Props = Member;
 
-const { imagesResolverMap, name, occupation, bio, image, type } = Astro.props;
+const { imagesResolverMap, name, occupation, bio, image, type, socials } =
+  Astro.props;
 
 const imagePath = `/src/assets${image}`;
 const imageResolver = imagesResolverMap[imagePath];
@@ -71,6 +74,49 @@ const imageResolver = imagesResolverMap[imagePath];
       {" / "}
       <span class="font-oswald uppercase">{occupation}</span>
     </h2>
+
+    {
+      socials?.length ? (
+        <ul class="flex gap-2 mt-2 mb-4">
+          {socials?.map((el) => {
+            const discriminant = el.discriminant;
+            let Icon = null;
+
+            if (discriminant === "instagram") {
+              Icon = Instagram;
+            }
+
+            if (discriminant === "linkedin") {
+              Icon = Linkedin;
+            }
+
+            if (discriminant === "website") {
+              Icon = Website;
+            }
+
+            if (discriminant === "twitter") {
+              Icon = Twitter;
+            }
+
+            if (discriminant === "youtube") {
+              Icon = Youtube;
+            }
+
+            if (!Icon) {
+              throw new Error(`Unknown social icon: ${discriminant}`);
+            }
+
+            return (
+              <li class="w-6">
+                <a href={el.value} target="_blank" rel="noreferrer">
+                  <Icon />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      ) : null
+    }
 
     <p class="text-zinc-800 text-sm dark:text-inherit whitespace-pre-line">
       {bio}

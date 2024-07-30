@@ -10,6 +10,8 @@
 - [x] sun theme icon smaller
 - [x] transluscent trigger warning dialog + background blur
 - [x] little round corners for dialogs
+- [x] bug: header for medium width devices looks odd
+- [x] bug: meet the team page: on mobile, it first shows two rows then converts to one.
 - [ ] remove blue outline for selected for focus
 - [ ] Icon for footer back change ( MDX Plugin Research GFM)
 - [ ] Links collection

@@ -4,6 +4,7 @@ import Logo from "./Logo/Logo.astro";
 import { type PreSelectedSlugsProp } from "./KnowledgeSidebar.astro";
 import { DesktopHeaderNav } from "@components/react/HeaderNav/DesktopHeaderNav";
 import { MobileHeaderNav } from "@components/react/HeaderNav/MobileHeaderNav";
+import { Search } from "@components/react/Search";
 
 type Props = {
   openKnowledgeSidebarByDefault?: boolean;
@@ -13,11 +14,24 @@ type Props = {
 <header class="flex items-center bg-black p-5 px-3 lg:px-20 font-oswald">
   <div class="flex items-center gap-2">
     <MobileHeaderNav client:idle />
-    <Logo behaviour="white-bg-logo" />
+    <div class="mr-3">
+      <Logo behaviour="white-bg-logo" />
+    </div>
   </div>
 
-  <div class="ml-auto flex gap-10 items-center">
-    <DesktopHeaderNav client:idle />
-    <ThemeToggle />
+  <div class="ml-auto flex gap-14 items-center">
+    <div class="flex gap-0">
+      <DesktopHeaderNav client:idle />
+      <div class="hidden lg:flex items-center">
+        <Search client:idle />
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <div class="block lg:hidden translate-y-1">
+        <Search client:idle />
+      </div>
+      <ThemeToggle />
+    </div>
   </div>
 </header>

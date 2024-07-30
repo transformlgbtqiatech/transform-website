@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { X } from "lucide-react";
 
 type SidebarProps = {
-  uiType: "sidebar";
+  uiType?: "sidebar";
 };
 
 interface DialogContentProps {
@@ -45,10 +45,10 @@ export const DialogContent = React.forwardRef<
         {...rest}
         ref={forwardedRef}
         className={clsx(
-          "rounded-r-[6px] bg-white p-6 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-50 overflow-y-auto",
+          "bg-white p-6 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none z-50 overflow-y-auto",
           className,
           {
-            "top-0 h-[100svh] w-80": uiType === "sidebar",
+            "top-0 h-[100svh] w-80 rounded-r-[6px]": uiType === "sidebar",
             [widthClass ?? ""]: !!widthClass,
             "max-w-[450px]": !widthClass && uiType === "sidebar",
           },

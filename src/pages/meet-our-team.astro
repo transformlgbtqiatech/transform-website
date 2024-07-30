@@ -46,7 +46,7 @@ const people = [...membersWithMetaData, ...alumniWithMetaData];
 >
   <main class="p-6 lg:p-10">
     <ul
-      class="flex flex-col flex-wrap content-center h-[4000px] gap-y-6 gap-x-4 team-container md:max-w-2xl lg:max-w-7xl mx-auto"
+      class="flex flex-col lg:flex-wrap content-center md:h-[4000px] gap-y-6 gap-x-4 team-container md:max-w-2xl lg:max-w-7xl mx-auto"
     >
       {
         people.map((person) => {
@@ -284,7 +284,7 @@ const people = [...membersWithMetaData, ...alumniWithMetaData];
     const retVal = colWiseDataArr.reduce(
       (acc, current, index) => {
         const [_, currentData] = current;
-        const { height, elements } = currentData;
+        const { height } = currentData;
 
         let originalAccLargestWasNull = acc.largest === null;
         let originalAccSmallestWasNull = acc.smallest === null;

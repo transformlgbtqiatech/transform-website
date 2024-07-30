@@ -68,6 +68,7 @@ const triggerWarningType = knowledgePost?.triggerWarning;
         "h-[calc(100svh-288px)]": !MainContent,
       },
     ]}
+    {...!MainContent ? { "data-pagefind-ignore": "true" } : {}}
   >
     <p
       class="flex gap-2 items-center dark:text-zinc-200 text-zinc-500 lg:absolute lg:-left-6 lg:top-16"
