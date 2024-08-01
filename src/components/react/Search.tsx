@@ -10,7 +10,7 @@ export function Search() {
   return (
     <Dialog>
       <DialogContent
-        className="fixed inset-0 lg:top-20 lg:left-1/2 lg:-translate-x-1/2 lg:bottom-auto bg-zinc-50 dark:bg-zinc-700 dark:text-gray-200 lg:rounded-2xl shadow-tooltip border-2 border-zinc-500 h-svh lg:h-auto lg:min-h-96 lg:max-h-[80svh]"
+        className="fixed inset-0 lg:top-20 lg:left-1/2 lg:-translate-x-1/2 lg:bottom-auto bg-zinc-50 dark:bg-zinc-700 dark:text-gray-200 lg:rounded-2xl shadow-transform border-2 border-zinc-500 h-svh lg:h-auto lg:min-h-96 lg:max-h-[80svh]"
         widthClass="w-full lg:w-[800px] lg:max-w-[75%] max-w-full"
         title="Open Website's Navigation Menu"
         titleVisuallyHidden={true}

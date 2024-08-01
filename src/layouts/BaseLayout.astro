@@ -81,7 +81,13 @@ const {
     <style is:global>
       html {
         overflow-y: scroll;
-        scroll-behavior: smooth;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        /* Your motion-safe styles go here */
+        html {
+          scroll-behavior: smooth;
+        }
       }
 
       html,
@@ -117,6 +123,15 @@ const {
 
       ::-webkit-scrollbar-thumb {
         background-color: #a1a1aa;
+      }
+
+      .no-scrollbar {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .pagefind-ui__result-excerpt mark {
+        background-color: hsl(var(--color-yellow-transformLight));
       }
 
       .no-scrollbar {

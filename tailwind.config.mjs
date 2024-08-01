@@ -36,7 +36,7 @@ export default {
         },
       },
       boxShadow: {
-        tooltip: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+        transform: "var(--shadow-transform)",
       },
       keyframes: {
         flash: {
@@ -135,11 +135,14 @@ export default {
           "--color-orange-transform": "15 88% 55%",
           "--color-orange-transformLight":
             "16.056338028169016, 88.75000000000001%, 68.62745098039215%",
+          "--shadow-transform":
+            "hsla(210, 8.16326530612245%, 61.568627450980394%, 0.2) 0px 8px 24px",
         },
         ":root.dark": {
           "--pagefind-ui-primary": theme("colors.zinc.800"),
           "--pagefind-ui-background": theme("colors.zinc.800"),
           "--pagefind-ui-text": theme("colors.zinc.200"),
+          "--shadow-transform": "hsl(240 5.9% 10%) 0px 8px 24px",
         },
       });
     },
