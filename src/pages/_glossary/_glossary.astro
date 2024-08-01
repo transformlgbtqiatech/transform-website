@@ -1,0 +1,197 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { glossaryPlaceholderData } from "./_data";
+
+// function getAllAlphabets() {
+//   const alphabets = [];
+//   for (let i = 97; i <= 122; i++) {
+//     alphabets.push(String.fromCharCode(i));
+//   }
+//   return alphabets;
+// }
+
+// const alphabets = getAllAlphabets();
+const alphabets = Object.keys(glossaryPlaceholderData).sort();
+---
+
+<BaseLayout title="Glossary" description="Glossary">
+  <div
+    class="h-[calc(100svh-74px)] lg:h-80 flex flex-col gap-10 items-center justify-center bg-zinc-100 dark:bg-zinc-900 relative py-48 pb-40"
+  >
+    <h1 class="text-6xl text-zinc-800 dark:text-zinc-200 font-bold">
+      Glossary
+    </h1>
+
+    <p class="max-w-5xl text-center dark:text-zinc-200 text-sm px-5">
+      Hello from the alphabet army (wink)! Lots of words on Transform’s pages
+      might be new to you- go over the glossary to learn a new word today or
+      just click on a letter to find the word you have been looking for! If you
+      find a word missing from our glossary, tell us here.
+    </p>
+
+    <ul
+      class="flex flex-wrap justify-center lg:justify-start lg:w-auto gap-2 px-4"
+    >
+      {
+        alphabets.map((alphabet) => {
+          return (
+            <li>
+              <a
+                class="flex items-center justify-center text-lg text-zinc-500 dark:text-zinc-400 hover:bg-zinc-300 dark:hover:bg-zinc-800 font-medium w-10 h-10 uppercase rounded-md border-2 lg:border-none"
+                href={`#${alphabet}`}
+              >
+                {alphabet}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+
+  <main
+    class="max-w-3xl mx-auto py-6 px-6 lg:py-10 lg:px-10 dark:text-zinc-200 mt-10"
+  >
+    <ul class="flex flex-col gap-6">
+      {
+        Object.entries(glossaryPlaceholderData).map(
+          ([alphabet, glossaryTerms], index) => {
+            const firstGroup = index % 3 === 0;
+            const secondGroup = index % 3 === 1;
+            const thirdGroup = index % 3 === 2;
+
+            const isLast =
+              index === Object.keys(glossaryPlaceholderData).length - 1;
+
+            return (
+              <li
+                class:list={[
+                  "after:content-[''] after:w-full after:block after:mt-16 mb-8",
+                  {
+                    "after:border-b-2 dark:after:border-zinc-600": !isLast,
+                  },
+                ]}
+              >
+                <div class="flex flex-col-reverse lg:flex-row gap-10 relative">
+                  <aside
+                    class:list={[
+                      "font-bold sticky bottom-4 right-4 w-full flex justify-end lg:w-auto lg:block lg:top-10 lg:self-start",
+                      {
+                        "text-yellow-transform dark:text-yellow-transformLight":
+                          firstGroup,
+                        "text-orange-transform dark:text-orange-transformLight":
+                          secondGroup,
+                        "text-red-transform dark:text-red-transformLight":
+                          thirdGroup,
+                      },
+                    ]}
+                  >
+                    <p class="w-20 h-20 lg:w-24 lg:h-24 text-5xl lg:text-7xl border-2 lg:border-none border-zinc-400 flex items-center justify-center bg-white lg:bg-transparent rounded-xl shadow-2xl lg:shadow-none">
+                      {alphabet.toUpperCase()}
+                    </p>
+                  </aside>
+                  <section>
+                    <ul class="flex flex-col gap-6">
+                      {glossaryTerms.map((glossaryTerm) => {
+                        return (
+                          <li
+                            id={alphabet}
+                            class:list={[
+                              "shadow-transform dark:bg-zinc-900 dark:border-zinc-900 p-6 rounded-xl flex flex-col gap-3",
+                            ]}
+                          >
+                            <h2 class="uppercase text-2xl font-semibold">
+                              {glossaryTerm.name}
+                            </h2>
+                            <p class="line-clamp-5 glossary-definition">
+                              {glossaryTerm.definition}
+                            </p>
+
+                            <button class="text-left border-b-2 border-sky-600 w-fit text-sm hidden read-more-btn">
+                              Read More
+                            </button>
+
+                            <button class="text-left border-b-2 border-sky-600 w-fit text-sm hidden read-less-btn">
+                              Read Less
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </section>
+                </div>
+              </li>
+            );
+          },
+        )
+      }
+    </ul>
+  </main>
+</BaseLayout>
+
+<script>
+  const defs = Array.from(
+    document.querySelectorAll(".glossary-definition"),
+  ) as HTMLParagraphElement[];
+
+  function checkTruncation(el: HTMLElement) {
+    const originalHeight = el.scrollHeight;
+    const visibleHeight = el.clientHeight;
+    const isTextTruncated = originalHeight > visibleHeight;
+    return isTextTruncated;
+  }
+
+  function findSiblingByParent(element: HTMLElement, className: string) {
+    const parent = element.parentElement;
+    if (!parent) return null;
+
+    const siblings = parent.children;
+    for (const sibling of siblings) {
+      if (sibling !== element && sibling.classList.contains(className)) {
+        return sibling;
+      }
+    }
+
+    return null;
+  }
+
+  defs.forEach((def) => {
+    requestAnimationFrame(() => {
+      const isTextTruncated = checkTruncation(def);
+
+      if (isTextTruncated) {
+        findSiblingByParent(def, "read-more-btn")?.classList.remove("hidden");
+      }
+    });
+  });
+
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+
+    if (target.classList.contains("read-more-btn")) {
+      // make read less visible
+      const readLess = findSiblingByParent(target, "read-less-btn");
+      readLess?.classList.remove("hidden");
+
+      // expand the text
+      const def = findSiblingByParent(target, "glossary-definition");
+      def?.classList.remove("line-clamp-5");
+
+      // make read more hidden
+      target.classList.add("hidden");
+    }
+
+    if (target.classList.contains("read-less-btn")) {
+      // make read more visible
+      const readMore = findSiblingByParent(target, "read-more-btn");
+      readMore?.classList.remove("hidden");
+
+      // collapse the text
+      const def = findSiblingByParent(target, "glossary-definition");
+      def?.classList.add("line-clamp-5");
+
+      // make read less hidden
+      target.classList.add("hidden");
+    }
+  });
+</script>

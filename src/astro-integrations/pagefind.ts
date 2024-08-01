@@ -1,7 +1,10 @@
 import type { AstroIntegration } from "astro";
 import { fileURLToPath } from "node:url";
-import { createIndex } from 'pagefind'
+import { createIndex } from "pagefind";
 import path from "node:path";
+import { mkdir, readdir, copyFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
+import { findRootDir } from "../utils/server/find-root-dir";
 
 // /vercel/path0/.vercel/output/
 // /vercel/path0/.vercel/output/static/_astro
@@ -9,12 +12,14 @@ import path from "node:path";
 const VERCEL_OUTPUT_DIR = '.vercel/output/static';
 export function astroPagefindIntegration(): AstroIntegration {
   let outDir: string;
+  let adapterName: string | undefined
 
   return {
     name: 'astro-pagefind',
     hooks: {
       // https://github.com/shishkin/astro-pagefind/blob/main/packages/astro-pagefind/src/pagefind.ts
       'astro:config:setup': ({ config }) => {
+        adapterName = config.adapter?.name
         if (config.adapter?.name.startsWith('@astrojs/vercel')) {
           const url = new URL(VERCEL_OUTPUT_DIR, config.root)
           outDir = fileURLToPath(url)
@@ -36,7 +41,7 @@ export function astroPagefindIntegration(): AstroIntegration {
 
         if (!index) {
           logger.error("Pagefind failed to create index");
-          createErrors.forEach((e) => logger.error(e));
+          createErrors.forEach((e: string) => logger.error(e));
           return;
         }
 
@@ -44,11 +49,11 @@ export function astroPagefindIntegration(): AstroIntegration {
 
         if (addErrors.length) {
           logger.error("Pagefind failed to index files");
-          addErrors.forEach((e) => logger.error(e));
+          addErrors.forEach((e: string) => logger.error(e));
           return;
         } else {
           logger.info(`Pagefind indexed ${page_count} pages`);
-        }
+        } adapterName
 
         const { outputPath, errors: writeErrors } = await index.writeFiles({
           outputPath: path.join(outDir, "pagefind"),
@@ -56,12 +61,43 @@ export function astroPagefindIntegration(): AstroIntegration {
 
         if (writeErrors.length) {
           logger.error("Pagefind failed to write index");
-          writeErrors.forEach((e) => logger.error(e));
+          writeErrors.forEach((e: string) => logger.error(e));
           return;
         } else {
           logger.info(`Pagefind wrote index to ${outputPath}`);
+          const pagefindDirPath = path.join(outDir, "pagefind")
+          const rootPath = findRootDir()
+
+          // this should ideally only be done, I think, for running prod build locally
+          // but since I haven't tried running this project in a prod remote environment, I don't know.
+          if (
+            existsSync(pagefindDirPath)
+            && adapterName?.startsWith("@astrojs/node")
+          ) {
+            await copyDirectory(pagefindDirPath, path.join(rootPath, 'public', 'pagefind'))
+          }
         }
       }
     }
+  }
+}
+
+async function copyDirectory(src: string, dest: string) {
+  try {
+    await mkdir(dest, { recursive: true });
+    const entries = await readdir(src, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const srcPath = path.join(src, entry.name);
+      const destPath = path.join(dest, entry.name);
+
+      if (entry.isDirectory()) {
+        await copyDirectory(srcPath, destPath);
+      } else {
+        await copyFile(srcPath, destPath);
+      }
+    }
+  } catch (error) {
+    console.error('Error copying directory:', error);
   }
 }

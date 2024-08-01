@@ -13,7 +13,7 @@ export function Glossary(props: Props) {
         {name}
       </TooltipTrigger>
       <TooltipContent className="bg-white rounded-xl">
-        <p className="bg-zinc-600 rounded-xl p-2 border-[1px] text-xs text-zinc-100 shadow-tooltip max-w-md">
+        <p className="bg-zinc-600 rounded-xl p-2 border-[1px] text-xs text-zinc-100 shadow-transform max-w-md">
           {definition}
         </p>
       </TooltipContent>

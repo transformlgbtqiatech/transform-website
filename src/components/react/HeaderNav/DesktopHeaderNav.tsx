@@ -32,14 +32,14 @@ export function DesktopHeaderNav() {
                 />
               </NavigationMenu.Trigger>
 
-              <NavigationMenu.Content className="data-[motion=from-start]:animate-enterFromLeft data-[motion=from-end]:animate-enterFromRight data-[motion=to-start]:animate-exitToLeft data-[motion=to-end]:animate-exitToRight absolute top-0 left-0 shadow-tooltip shadow-zinc-300 bg-zinc-800 text-white rounded-md">
+              <NavigationMenu.Content className="data-[motion=from-start]:animate-enterFromLeft data-[motion=from-end]:animate-enterFromRight data-[motion=to-start]:animate-exitToLeft data-[motion=to-end]:animate-exitToRight absolute top-0 left-0 shadow-transform shadow-zinc-300 bg-zinc-800 text-white rounded-md">
                 <ul className="m-0 flex flex-col list-none p-6 w-80">
                   {el.children.map((childEl) => {
                     return (
                       <li key={childEl.href}>
                         <NavigationMenu.Link
                           className="hover:bg-zinc-700 focus:shadow-zinc-200 group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 uppercase font-medium leading-none outline-none focus:shadow-[0_0_0_2px]"
-                          href={childEl.label}
+                          href={childEl.href}
                         >
                           {childEl.label}
                         </NavigationMenu.Link>
@@ -58,7 +58,7 @@ export function DesktopHeaderNav() {
       </NavigationMenu.List>
 
       <div className="perspective-[2000px] absolute top-full left-0 flex w-full justify-center">
-        <NavigationMenu.Viewport className="data-[state=open]:animate-scaleIn data-[state=closed]:animate-scaleOut relative mt-[10px] h-[var(--radix-navigation-menu-viewport-height)] w-full origin-[top_center] overflow-hidden rounded-md transition-[width,_height] duration-300 sm:w-[var(--radix-navigation-menu-viewport-width)] dark:border-2 dark:border-zinc-200 shadow-tooltip border-t-2 border-zinc-500" />
+        <NavigationMenu.Viewport className="data-[state=open]:animate-scaleIn data-[state=closed]:animate-scaleOut relative mt-[10px] h-[var(--radix-navigation-menu-viewport-height)] w-full origin-[top_center] overflow-hidden rounded-md transition-[width,_height] duration-300 sm:w-[var(--radix-navigation-menu-viewport-width)] dark:border-2 dark:border-zinc-600 shadow-transform border-t-2 border-zinc-500" />
       </div>
     </NavigationMenu.Root>
   );

@@ -35,13 +35,13 @@ const imageResolver = imagesResolverMap[imagePath];
 ---
 
 <div
-  class="lg:flex gap-4 items-center p-6 rounded-2xl shadow-tooltip border-2 border-zinc-100 dark:border-zinc-700 dark:bg-zinc-900"
+  class="lg:flex gap-4 items-center p-6 rounded-2xl shadow-transform border-2 border-zinc-100 dark:border-zinc-900 dark:bg-zinc-900"
 >
   <div class="flex justify-center flex-shrink-0">
     <div class="relative w-fit h-fit">
       <span
         class:list={[
-          "bg-gradient-to-b from-[hsl(202deg,71%,90%)] to-[hsl(204deg,67%,85%)] dark:from-[hsla(200deg,100%,85%,0.1)] dark:to-[hsla(200deg,100%,85%,0)] text-zinc-900 dark:text-zinc-200 font-medium text-[11px] rounded-full py-1 px-3 ml-auto absolute shadow-[hsla(210,8%,62%,0.2)_0px_8px_24px] backdrop-blur-xl border-b-2 border-[hsla(210,8%,62%,0.8)] dark:border-[1px] dark:border-[hsla(210,8%,62%,0.3)]",
+          "bg-gradient-to-b from-[hsl(202deg,71%,90%)] to-[hsl(204deg,67%,85%)] dark:from-[hsla(200deg,100%,85%,0.1)] dark:to-[hsla(200deg,100%,85%,0)] text-zinc-900 dark:text-zinc-200 font-medium text-[11px] rounded-full py-1 px-3 ml-auto absolute backdrop-blur-xl border-b-2 border-[hsla(210,8%,62%,0.8)] dark:border-[1px] dark:border-[hsla(210,8%,62%,0.3)]",
           {
             "bottom-4 right-3": type === "Crew",
             "bottom-4 -right-1 ": type === "Alumnus",
@@ -107,8 +107,13 @@ const imageResolver = imagesResolverMap[imagePath];
             }
 
             return (
-              <li class="w-6">
-                <a href={el.value} target="_blank" rel="noreferrer">
+              <li class="w-4">
+                <a
+                  href={el.value}
+                  target="_blank"
+                  rel="noreferrer"
+                  class="text-zinc-600 dark:text-zinc-400"
+                >
                   <Icon />
                 </a>
               </li>
