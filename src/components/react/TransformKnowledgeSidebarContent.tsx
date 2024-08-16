@@ -4,21 +4,49 @@ import { useState } from "react";
 import type { PreSelectedSlugsProp } from "@components/astro/KnowledgeSidebar.astro";
 import { useBreakPoint } from "./hooks/use-breakpoint";
 import { ArrowLeft } from "lucide-react";
+import { useStore } from "@nanostores/react";
+import { tourState as tourStateAtom } from "@store/global";
+import { useLocalStorage } from "@uidotdev/usehooks";
+import type { WalkthroughLSState } from "@utils/client/walkthrough";
+import { knowledgeSidebarModalState } from "@store/global";
+
+function getSelectedStyles() {
+  return {
+    // light
+    "peer-checked:text-gray-transform peer-checked:outline peer-checked:outline-green-500 peer-checked:bg-green-200":
+      true,
+    //  dark
+    "dark:peer-checked:text-white dark:peer-checked:bg-green-800 dark:peer-checked:outline dark:peer-checked:outline-1 dark:peer-checked:outline-green-500":
+      true,
+  };
+}
 
 export default function TransformKnowledgeSidebarContent(
   props: SideBarToolProps & PreSelectedSlugsProp,
 ) {
   const lessThanLgBreakpoint = !useBreakPoint("lg");
+  const $tourState = useStore(tourStateAtom);
+
+  const localStorageStateAndStateSetter =
+    useLocalStorage<WalkthroughLSState>("walkthrough");
+
+  const walkthroughLSState = localStorageStateAndStateSetter[0]?.state;
+
+  const isTourOver =
+    walkthroughLSState === "completed" || $tourState === "over";
 
   // THIS IS A MOBILE ONLY STATE
   const [visibleColumn, setVisibleColumn] = useState<
     "identities-col" | "assult-sub-categories-col"
   >("identities-col");
 
-  const initialSelectedIdentitySlug =
-    props.preSelectedSlugs?.identityGroupSlug ?? null;
-  const initialSelectedViolenceSubCategorySlug =
-    props.preSelectedSlugs?.violenceSubCategorySlug ?? null;
+  const initialSelectedIdentitySlug = !isTourOver
+    ? null
+    : props.preSelectedSlugs?.identityGroupSlug ?? null;
+
+  const initialSelectedViolenceSubCategorySlug = !isTourOver
+    ? null
+    : props.preSelectedSlugs?.violenceSubCategorySlug ?? null;
 
   const [selectedIdentitySlug, setSelectedIdentitySlug] = useState<
     string | null
@@ -66,6 +94,8 @@ export default function TransformKnowledgeSidebarContent(
 
   const showApplyButton = lessThanLgBreakpoint
     ? false
+    : !isTourOver
+    ? selectedViolenceSubCategorySlug && selectedIdentitySlug
     : selectedViolenceSubCategorySlug && selectedIdentitySlug
     ? getSelectionIsNotOfCurrentPage(
         selectedIdentitySlug,
@@ -107,6 +137,13 @@ export default function TransformKnowledgeSidebarContent(
               selectedViolenceSubCategorySlug,
             )}
             className="rounded-full bg-green-600 hover:bg-green-500 px-4 py-2 text-sm text-zinc-50"
+            id="walkthrough-apply-button"
+            onClick={(e) => {
+              if (!isTourOver) {
+                e.preventDefault();
+                knowledgeSidebarModalState.set(false);
+              }
+            }}
           >
             Apply
           </a>
@@ -123,7 +160,10 @@ export default function TransformKnowledgeSidebarContent(
                 !selectedIdentitySlug && selectedViolenceSubCategorySlug,
             })}
           >
-            <h2 className="text-lg text-gray-700 dark:text-gray-200 mb-4 uppercase font-semibold">
+            <h2
+              id="identity-groups-col-heading"
+              className="text-lg text-gray-700 dark:text-gray-200 mb-4 uppercase font-semibold"
+            >
               Identity Groups
             </h2>
 
@@ -147,18 +187,16 @@ export default function TransformKnowledgeSidebarContent(
                     />
                     <label
                       className={clsx(
+                        getSelectedStyles(),
+                        "identity-group-item-label",
                         // common styles
                         "p-1 px-4 rounded-xl cursor-pointer inline-block text-gray-800 relative font-medium peer-focus:outline dark:peer-focus:!outline-2 peer-focus:!outline-4 peer-focus:!outline-blue-400  dark:peer-focus:!outline-green-200 peer-focus:outline-offset-1",
                         // default styles
                         "bg-gray-transform hover:bg-gray-transform/80 text-white",
                         // dark hover common styles
                         "dark:hover:text-white dark:hover:outline dark:hover:outline-1 dark:hover:outline-gray-200",
-                        // default selected styles
-                        "peer-checked:text-gray-transform peer-checked:outline peer-checked:outline-green-500 peer-checked:bg-green-200",
                         // dark styles
                         "dark:text-zinc-50 dark:bg-gray-transformLight dark:hover:bg-gray-transform",
-                        // dark selected styles
-                        "dark:peer-checked:text-white dark:peer-checked:bg-green-800 dark:peer-checked:outline dark:peer-checked:outline-1 dark:peer-checked:outline-green-500",
                       )}
                       htmlFor={identityGroup.slug}
                     >
@@ -193,7 +231,7 @@ export default function TransformKnowledgeSidebarContent(
             ) : null}
 
             <ul className="flex flex-col gap-4">
-              {groupedList.map((el) => {
+              {groupedList.map((el, groupIndex) => {
                 return (
                   <li key={el.violenceCategorySlug}>
                     <h2
@@ -209,125 +247,139 @@ export default function TransformKnowledgeSidebarContent(
                       {el.violenceCategoryName}
                     </h2>
                     <ul className="flex flex-col gap-2">
-                      {el.subCategories?.map((subCategory) => {
-                        const isAssault = el.violenceCategorySlug === "assault";
+                      {el.subCategories?.map(
+                        (subCategory, subCategoryIndex) => {
+                          const isAssault =
+                            el.violenceCategorySlug === "assault";
 
-                        const isDegradation =
-                          el.violenceCategorySlug === "degradation";
+                          const isDegradation =
+                            el.violenceCategorySlug === "degradation";
 
-                        const isNormalisation =
-                          el.violenceCategorySlug === "normalisation";
+                          const isNormalisation =
+                            el.violenceCategorySlug === "normalisation";
 
-                        const isSelected =
-                          selectedViolenceSubCategorySlug === subCategory.slug;
+                          const isSelected =
+                            selectedViolenceSubCategorySlug ===
+                            subCategory.slug;
 
-                        return (
-                          <li key={subCategory.slug} role="button">
-                            <input
-                              type="checkbox"
-                              className="opacity-0 w-0 h-0 peer"
-                              id={subCategory.slug}
-                              onChange={() => {
-                                const isSamePageSelection =
-                                  getSelectionIsNotOfCurrentPage(
-                                    selectedIdentitySlug,
-                                    subCategory.slug,
-                                  );
-                                if (lessThanLgBreakpoint) {
-                                  if (isSamePageSelection) {
-                                    // TODO note: to prevent this refresh, I'll have to make knowledge sidebar dialog a controlled component, leaving this be for time being
-                                    window.location.href =
-                                      getUrlToGoToAfterFilterSelection(
-                                        selectedIdentitySlug,
-                                        subCategory.slug,
-                                      );
-                                  } else {
-                                    window.location.href =
-                                      getUrlToGoToAfterFilterSelection(
-                                        selectedIdentitySlug,
-                                        subCategory.slug,
-                                      );
-                                  }
-                                } else {
-                                  setSelectedViolenceSubCategorySlug(
-                                    subCategory.slug,
-                                  );
-                                }
-                              }}
-                              checked={isSelected}
-                            />
-                            {/* <label className="bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-600 dark:hover:bg-zinc-500 dark:text-zinc-200 hover:text-zinc-100 dark:hover:text-zinc-200 p-1 px-4 rounded-2xl cursor-pointer inline-block peer-checked:bg-green-500"> */}
-                            <label
-                              htmlFor={subCategory.slug}
-                              className={clsx(
-                                // DEFAULT STYLES
-                                // text-gray-800
-                                "p-1 px-4 rounded-xl cursor-pointer inline-block relative font-medium peer-focus:outline dark:peer-focus:!outline-2 peer-focus:!outline-4 peer-focus:!outline-blue-400  dark:peer-focus:!outline-green-200 peer-focus:outline-offset-1",
-
-                                // DARK COMMON STYLES
-                                "dark:text-zinc-50 dark:hover:text-white",
-
-                                // FOR ALL: SELECTED STYLES(DEFAULT)
-                                "peer-checked:text-gray-transform peer-checked:outline peer-checked:outline-green-500 peer-checked:bg-green-200",
-
-                                // FOR ALL: SELECTED STYLES(DARK)
-                                "dark:peer-checked:text-white dark:peer-checked:bg-green-800 dark:peer-checked:outline dark:peer-checked:outline-1 dark:peer-checked:outline-green-500",
-
-                                // FOR ALL: DARK: HOVER: COMMON STYLES
-                                "dark:hover:text-white dark:hover:outline dark:hover:outline-1 dark:hover:outline-gray-200",
-
-                                // ASSAULT: NORMAL STYLES
-                                {
-                                  "bg-red-transform hover:bg-red-transform/80 text-white":
-                                    isAssault,
-                                },
-
-                                // ASSAULT: DARK STYLES
-                                {
-                                  "dark:bg-red-transform dark:hover:bg-red-transformLight":
-                                    isAssault,
-                                },
-
-                                // DEGRADATION: NORMAL STYLES
-                                {
-                                  "bg-orange-transform hover:bg-orange-transform/80 text-white":
-                                    isDegradation,
-                                },
-                                // DEGRADATION: DARK STYLES
-                                {
-                                  "dark:bg-orange-transform dark:hover:bg-orange-transformLight":
-                                    isDegradation,
-                                },
-
-                                // NORMALISATION: NORMAL STYLES
-                                {
-                                  "bg-yellow-transform hover:bg-yellow-transform/80 text-white":
-                                    isNormalisation,
-                                },
-                                // NORMALISATION: DARK STYLES
-                                {
-                                  "dark:bg-yellow-transform dark:hover:bg-yellow-transformLight":
-                                    isNormalisation,
-                                },
-
-                                /** @note styles that leverage tailwind default colors, is also light default palette. Mrin wanted bold colors as original, hence these are commented for posterity, in case they ever need to be experimented with. */
-                                {
-                                  // "bg-red-200 dark:bg-red-900 hover:bg-red-600 peer-checked:bg-red-600 dark:hover:bg-red-400 dark:text-zinc-200 hover:text-zinc-100 peer-checked:text-zinc-100 dark:hover:text-zinc-200":
-                                  //   isAssault && false,
-                                  // "bg-orange-200 dark:bg-orange-800 hover:bg-orange-600 peer-checked:bg-orange-600 dark:hover:bg-orange-600 dark:text-zinc-200 hover:text-zinc-100 peer-checked:text-zinc-100 dark:hover:text-zinc-200":
-                                  //   isDegradation && false,
-                                  // "bg-yellow-transform hover:bg-white peer-checked:bg-white peer-checked:text-yellow-transform hover:text-yellow-transform text-white peer-checked:outline peer-checked:outline-[1px] peer-checked:outline-yellow-transform hover:outline hover:outline-[1px] hover:outline-yellow-transform":
-                                  //   el.violenceCategorySlug === "normalisation",
-                                  // "bg-yellow-transform/30 dark:bg-yellow-transform/70 hover:bg-yellow-transform peer-checked:bg-yellow-transform hover:text-zinc-100 dark:text-zinc-200 peer-checked:text-zinc-100":
-                                  //   isNormalisation && false,
-                                },
-                              )}
+                          return (
+                            <li
+                              key={subCategory.slug}
+                              role="button"
+                              className={clsx("inline-block w-fit", {
+                                "walkthrough-violence-group-item-label":
+                                  groupIndex === 0 && subCategoryIndex === 0,
+                              })}
                             >
-                              <span>{subCategory.entry.name}</span>
-                            </label>
-                          </li>
-                        );
-                      })}
+                              <input
+                                type="checkbox"
+                                className="opacity-0 w-0 h-0 peer"
+                                id={subCategory.slug}
+                                onChange={() => {
+                                  const isSamePageSelection =
+                                    getSelectionIsNotOfCurrentPage(
+                                      selectedIdentitySlug,
+                                      subCategory.slug,
+                                    );
+
+                                  // is mobile
+                                  if (lessThanLgBreakpoint) {
+                                    if (isSamePageSelection) {
+                                      // TODO note: to prevent this refresh, I'll have to make knowledge sidebar dialog a controlled component, leaving this be for time being
+
+                                      if (!isTourOver) {
+                                        knowledgeSidebarModalState.set(false);
+                                        return;
+                                      }
+
+                                      window.location.href =
+                                        getUrlToGoToAfterFilterSelection(
+                                          selectedIdentitySlug,
+                                          subCategory.slug,
+                                        );
+                                    } else {
+                                      window.location.href =
+                                        getUrlToGoToAfterFilterSelection(
+                                          selectedIdentitySlug,
+                                          subCategory.slug,
+                                        );
+                                    }
+                                  } else {
+                                    setSelectedViolenceSubCategorySlug(
+                                      subCategory.slug,
+                                    );
+                                  }
+                                }}
+                                checked={isSelected}
+                              />
+                              {/* <label className="bg-zinc-200 dark:bg-zinc-700 hover:bg-zinc-600 dark:hover:bg-zinc-500 dark:text-zinc-200 hover:text-zinc-100 dark:hover:text-zinc-200 p-1 px-4 rounded-2xl cursor-pointer inline-block peer-checked:bg-green-500"> */}
+                              <label
+                                htmlFor={subCategory.slug}
+                                className={clsx(
+                                  getSelectedStyles(),
+                                  // DEFAULT STYLES
+                                  // text-gray-800
+                                  "p-1 px-4 rounded-xl cursor-pointer inline-block relative font-medium peer-focus:outline dark:peer-focus:!outline-2 peer-focus:!outline-4 peer-focus:!outline-blue-400  dark:peer-focus:!outline-green-200 peer-focus:outline-offset-1",
+
+                                  // DARK COMMON STYLES
+                                  "dark:text-zinc-50 dark:hover:text-white",
+
+                                  // FOR ALL: DARK: HOVER: COMMON STYLES
+                                  "dark:hover:text-white dark:hover:outline dark:hover:outline-1 dark:hover:outline-gray-200",
+
+                                  // ASSAULT: NORMAL STYLES
+                                  {
+                                    "bg-red-transform hover:bg-red-transform/80 text-white":
+                                      isAssault,
+                                  },
+
+                                  // ASSAULT: DARK STYLES
+                                  {
+                                    "dark:bg-red-transform dark:hover:bg-red-transformLight":
+                                      isAssault,
+                                  },
+
+                                  // DEGRADATION: NORMAL STYLES
+                                  {
+                                    "bg-orange-transform hover:bg-orange-transform/80 text-white":
+                                      isDegradation,
+                                  },
+                                  // DEGRADATION: DARK STYLES
+                                  {
+                                    "dark:bg-orange-transform dark:hover:bg-orange-transformLight":
+                                      isDegradation,
+                                  },
+
+                                  // NORMALISATION: NORMAL STYLES
+                                  {
+                                    "bg-yellow-transform hover:bg-yellow-transform/80 text-white":
+                                      isNormalisation,
+                                  },
+                                  // NORMALISATION: DARK STYLES
+                                  {
+                                    "dark:bg-yellow-transform dark:hover:bg-yellow-transformLight":
+                                      isNormalisation,
+                                  },
+
+                                  /** @note styles that leverage tailwind default colors, is also light default palette. Mrin wanted bold colors as original, hence these are commented for posterity, in case they ever need to be experimented with. */
+                                  {
+                                    // "bg-red-200 dark:bg-red-900 hover:bg-red-600 peer-checked:bg-red-600 dark:hover:bg-red-400 dark:text-zinc-200 hover:text-zinc-100 peer-checked:text-zinc-100 dark:hover:text-zinc-200":
+                                    //   isAssault && false,
+                                    // "bg-orange-200 dark:bg-orange-800 hover:bg-orange-600 peer-checked:bg-orange-600 dark:hover:bg-orange-600 dark:text-zinc-200 hover:text-zinc-100 peer-checked:text-zinc-100 dark:hover:text-zinc-200":
+                                    //   isDegradation && false,
+                                    // "bg-yellow-transform hover:bg-white peer-checked:bg-white peer-checked:text-yellow-transform hover:text-yellow-transform text-white peer-checked:outline peer-checked:outline-[1px] peer-checked:outline-yellow-transform hover:outline hover:outline-[1px] hover:outline-yellow-transform":
+                                    //   el.violenceCategorySlug === "normalisation",
+                                    // "bg-yellow-transform/30 dark:bg-yellow-transform/70 hover:bg-yellow-transform peer-checked:bg-yellow-transform hover:text-zinc-100 dark:text-zinc-200 peer-checked:text-zinc-100":
+                                    //   isNormalisation && false,
+                                  },
+                                )}
+                              >
+                                <span>{subCategory.entry.name}</span>
+                              </label>
+                            </li>
+                          );
+                        },
+                      )}
                     </ul>
                   </li>
                 );

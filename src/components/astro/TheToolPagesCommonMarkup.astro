@@ -1,0 +1,218 @@
+---
+import "shepherd.js/dist/css/shepherd.css";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import KnowledgeSidebar from "@components/astro/KnowledgeSidebar.astro";
+import type { ToolPagesProps } from "../../pages/transform/[slug]/_get-static-paths";
+import Prose from "@components/astro/Prose.astro";
+import Footnote from "@components/astro/Footnote.astro";
+import Glossary from "@components/astro/Glossary.astro";
+import WorkInProgress from "../../pages/transform/[slug]/_WorkInProgress.astro";
+import TransformHomePageWalkthroughContent from "./TransformHomePageWalkthroughContent.astro";
+
+type Props = {
+  identityGroupHeading?: string;
+  violenceSubCategoryHeading?: string;
+  MainContent?: AstroComponentFactory;
+  RecommendedReadingContent?: AstroComponentFactory;
+  identityGroupSlug?: ToolPagesProps["identityGroupSlug"];
+  violenceSubCategorySlug?: ToolPagesProps["violenceSubCategorySlug"];
+  subCategoryTextColor?: string;
+  isTransformHomePage?: boolean;
+  isDetailPage?: boolean;
+};
+
+const {
+  MainContent,
+  identityGroupSlug,
+  violenceSubCategorySlug,
+  subCategoryTextColor,
+  violenceSubCategoryHeading,
+  identityGroupHeading,
+  RecommendedReadingContent,
+  isTransformHomePage,
+} = Astro.props;
+---
+
+<!-- TODO make title and description props -->
+<BaseLayout title="Transform" description="Transform tool">
+  <!-- <TriggerWarningDialog type={triggerWarningType} client:load /> -->
+  <main
+    class:list={[
+      "p-6 lg:p-10 max-w-3xl mx-auto relative",
+      {
+        "h-[calc(100svh-288px)]": !MainContent && !isTransformHomePage,
+      },
+    ]}
+    {...!MainContent ? { "data-pagefind-ignore": "true" } : {}}
+  >
+    <div
+      class="flex gap-2 items-center dark:text-zinc-200 text-zinc-500 lg:absolute lg:-left-10 lg:top-11"
+    >
+      <KnowledgeSidebar
+        preSelectedSlugs={{
+          identityGroupSlug: identityGroupSlug,
+          violenceSubCategorySlug: violenceSubCategorySlug,
+        }}
+        isDetailPage={!!Astro.props.isDetailPage}
+      />
+    </div>
+
+    <hr class="my-4 lg:hidden" />
+
+    {
+      violenceSubCategoryHeading ? (
+        <p
+          class:list={[
+            "m-0 font-oswald font-medium text-2xl uppercase",
+            subCategoryTextColor,
+          ]}
+        >
+          {violenceSubCategoryHeading} Faced by
+        </p>
+      ) : null
+    }
+
+    {
+      isTransformHomePage ? (
+        <h1 class="m-0 font-oswald font-medium text-3xl uppercase dark:text-zinc-100">
+          How to use trans/form
+        </h1>
+      ) : null
+    }
+
+    {
+      identityGroupHeading ? (
+        <h1 class="italic m-0 dark:text-zinc-100 font-bold text-4xl relative">
+          <span>{identityGroupHeading}</span>
+        </h1>
+      ) : null
+    }
+
+    <h2
+      class:list={[
+        "font-bold text-2xl my-2 mt-5",
+        "w-fit",
+        {
+          "dark:text-zinc-100": isTransformHomePage,
+          [subCategoryTextColor ?? ""]: !isTransformHomePage,
+        },
+      ]}
+      id="tool-page-overview-heading"
+    >
+      Overview
+    </h2>
+    <Prose
+      class="mx-auto prose-p:mt-3 prose-p:mb-3 prose-a:dark:text-sky-400 prose-a:text-sky-500 dark:text-zinc-300 max-w-none prose-h2:my-6 prose-h2:dark:text-zinc-100"
+    >
+      {
+        MainContent ? (
+          <MainContent
+            components={{
+              /** @note
+               * make sure that these are astro components if you want client side functionality with react components. You can use `client:` directives in the react component to make it interactive
+               */
+              Footnote: Footnote,
+              Glossary: Glossary,
+            }}
+          />
+        ) : isTransformHomePage ? (
+          <TransformHomePageWalkthroughContent />
+        ) : (
+          <WorkInProgress />
+        )
+      }
+
+      {
+        RecommendedReadingContent ? (
+          <>
+            <h2>
+              <span id="recommended-reading-heading">Recommended Reading</span>
+            </h2>
+            <RecommendedReadingContent
+              components={{
+                /** @note
+                 * make sure that these are astro components if you want client side functionality with react components. You can use `client:` directives in the react component to make it interactive
+                 */
+                Footnote: Footnote,
+                Glossary: Glossary,
+              }}
+            />
+          </>
+        ) : null
+      }
+    </Prose>
+  </main>
+</BaseLayout>
+
+<div
+  id="tool-page-data"
+  data-message={JSON.stringify({
+    isDetailPage: !!Astro.props.isDetailPage,
+  })}
+>
+</div>
+
+<style is:global>
+  /* FOOTNOTES STYLES */
+  .footnotes :target {
+    background: hsl(240 5.9% 90%);
+    border-radius: 8px;
+  }
+
+  html.dark .footnotes :target {
+    background: hsl(240 5.3% 26.1%);
+  }
+
+  html.dark .footnotes h2 {
+    color: white;
+  }
+
+  [data-footnote-ref]:focus {
+    outline: thin dotted;
+    outline-offset: 2px;
+  }
+
+  /* seems like an astro bug: https://github.com/withastro/astro/issues/4298#issuecomment-2241278503 */
+  /** Update: https://github.com/withastro/astro/issues/11536#issuecomment-2247054971 */
+
+  .prose astro-island:has(button) {
+    display: initial !important;
+  }
+</style>
+
+<script>
+  import {
+    walkthrough,
+    walkthroughLSInitState,
+  } from "@utils/client/walkthrough";
+  import type { WalkthroughLSState } from "@utils/client/walkthrough";
+
+  const dataEl = document.querySelector("#tool-page-data") as HTMLDivElement;
+  const data = JSON.parse(dataEl.dataset.message!);
+  const isDetailPage = data.isDetailPage;
+
+  function automaticWalkthroughInit() {
+    const walkthroughLSValue =
+      localStorage.getItem("walkthrough") ??
+      JSON.stringify(walkthroughLSInitState);
+
+    const walkthroughLSState = JSON.parse(
+      walkthroughLSValue,
+    ) as WalkthroughLSState;
+
+    if (walkthroughLSState.state !== "completed") {
+      walkthrough({
+        isDetailPage: !!isDetailPage,
+      });
+    }
+  }
+
+  document.addEventListener("astro:page-load", automaticWalkthroughInit);
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", automaticWalkthroughInit);
+  } else {
+    automaticWalkthroughInit();
+  }
+</script>

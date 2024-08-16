@@ -1,4 +1,5 @@
 import type { KnowledgePost } from "@cms/collections/collection-types";
+import type { InferGetStaticPropsType } from "astro";
 import { getCollection } from "astro:content";
 
 export type KnowledgePostFinal = Pick<KnowledgePost, "title" | "transIdentityGroup" | "violenceSubCategory" | "triggerWarning"> | undefined
@@ -36,4 +37,6 @@ export async function getStaticPathsToolPages() {
 
   return paths;
 }
+
+export type ToolPagesProps = InferGetStaticPropsType<typeof getStaticPathsToolPages>
 
