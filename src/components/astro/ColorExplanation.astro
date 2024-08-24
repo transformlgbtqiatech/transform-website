@@ -1,0 +1,70 @@
+<div class="flex flex-col lg:flex-row gap-8 lg:gap-3 justify-stretch">
+  <section class="flex flex-col lg:flex-row gap-10 lg:gap-4 items-center">
+    <p class="text-2xl font-medium uppercase text-yellow-transform font-oswald">
+      Normalization
+    </p>
+    <div class="relative">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 100 10"
+        height={10}
+        class="w-full rotate-90 lg:rotate-0"
+      >
+        {/* Tail of the arrow */}
+        <line
+          class="stroke-black dark:stroke-zinc-100"
+          x1={0}
+          y1={5}
+          x2={90}
+          y2={5}></line>
+        {/* Arrowhead */}
+        <polygon class="fill-black dark:fill-zinc-100" points="90,2 90,8 100,5"
+        ></polygon>
+      </svg>
+      <p class="absolute text-xs -top-5 lg:top-0 -right-3 lg:right-0 lg:left-6">
+        Leads to
+      </p>
+    </div>
+  </section>
+
+  <section class="flex flex-col lg:flex-row gap-10 lg:gap-4 items-center">
+    <p class="text-2xl font-medium uppercase text-orange-transform font-oswald">
+      Degradation
+    </p>
+
+    <div class="relative">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 100 10"
+        height={10}
+        class="w-full rotate-90 lg:rotate-0"
+      >
+        {/* Tail of the arrow */}
+        <line
+          class="stroke-black dark:stroke-zinc-100"
+          x1={0}
+          y1={5}
+          x2={90}
+          y2={5}></line>
+        {/* Arrowhead */}
+        <polygon class="fill-black dark:fill-zinc-100" points="90,2 90,8 100,5"
+        ></polygon>
+      </svg>
+      <p class="absolute text-xs -top-5 lg:top-0 -right-3 lg:right-0 lg:left-6">
+        Leads to
+      </p>
+    </div>
+  </section>
+
+  <section class="flex flex-col lg:flex-row gap-10 lg:gap-4 items-center">
+    <p class="text-2xl font-medium uppercase text-red-transform font-oswald">
+      Assault
+    </p>
+  </section>
+</div>
+
+<style>
+  line {
+    stroke-width: 2px;
+  }
+</style>

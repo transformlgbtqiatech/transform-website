@@ -74,9 +74,11 @@ export type PreSelectedSlugsProp = {
 
 type Props = {
   openKnowledgeSidebarByDefault?: boolean;
+  isDetailPage: boolean;
 } & PreSelectedSlugsProp;
 
-const { openKnowledgeSidebarByDefault, preSelectedSlugs } = Astro.props;
+const { openKnowledgeSidebarByDefault, preSelectedSlugs, isDetailPage } =
+  Astro.props;
 ---
 
 <KnowledgeSidebarReact
@@ -86,4 +88,5 @@ const { openKnowledgeSidebarByDefault, preSelectedSlugs } = Astro.props;
   categoriesList={categoriesList}
   openKnowledgeSidebarByDefault={openKnowledgeSidebarByDefault}
   preSelectedSlugs={preSelectedSlugs}
+  isDetailPage={isDetailPage}
 />

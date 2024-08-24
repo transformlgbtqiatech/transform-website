@@ -1,8 +1,7 @@
 ---
-import BaseLayout from "@layouts/BaseLayout.astro";
+import TheToolPagesCommonMarkup from "@components/astro/TheToolPagesCommonMarkup.astro";
+import WalkthroughStyles from "@components/astro/WalkthroughStyles.astro";
 ---
 
-<!-- TODO description -->
-<BaseLayout title="The/Tool" description="TODO">
-  <div>check</div>
-</BaseLayout>
+<WalkthroughStyles />
+<TheToolPagesCommonMarkup isTransformHomePage={true} />

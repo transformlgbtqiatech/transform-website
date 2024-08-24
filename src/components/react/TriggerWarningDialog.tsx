@@ -1,10 +1,13 @@
 import * as Dialog from "@radix-ui/react-alert-dialog";
+import { useStore } from "@nanostores/react";
+import { tourState as tourStateAtom } from "@store/global";
 // import { X } from "lucide-react";
 
 export type TriggerWarningDialogProps = {
   type?: string | null;
 };
 
+// Mrinalini and Jo favoured the walkthrough dialog instead of this trigger warning dialog
 export function TriggerWarningDialog(props: TriggerWarningDialogProps) {
   if (!props.type) {
     return null;
@@ -22,8 +25,15 @@ export function TriggerWarningDialog(props: TriggerWarningDialogProps) {
 }
 
 function TriggerWarningDialogContent() {
+  const $tourState = useStore(tourStateAtom);
+  const isOpen = $tourState === "over";
+
+  const closeDialog = () => {
+    tourStateAtom.set("inert");
+  };
+
   return (
-    <Dialog.Root defaultOpen>
+    <Dialog.Root open={isOpen}>
       <Dialog.Overlay className="fixed inset-0 bg-zinc-800/50 z-40 backdrop-blur-md" />
       <Dialog.Content
         className="fixed top-0 bottom-0 lg:bottom-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 bg-zinc-100 will-change-transform w-[800px] lg:max-w-[75%] max-w-full py-10 px-6 lg:px-12 pb-12 shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] z-50 dark:bg-black dark:text-zinc-200 lg:rounded-3xl lg:max-h-[90svh] overflow-y-auto flex flex-col"
@@ -70,7 +80,10 @@ function TriggerWarningDialogContent() {
             Take me to the Trigger/Toolkit
           </a>
 
-          <Dialog.Cancel className="bg-gray-transform text-white p-2 px-4 rounded-lg hover:bg-gray-transformLight dark:border-2">
+          <Dialog.Cancel
+            className="bg-gray-transform text-white p-2 px-4 rounded-lg hover:bg-gray-transformLight dark:border-2"
+            onClick={closeDialog}
+          >
             Continue to Transform: The/Tool
           </Dialog.Cancel>
         </div>

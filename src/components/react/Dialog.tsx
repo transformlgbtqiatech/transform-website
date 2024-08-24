@@ -21,11 +21,14 @@ interface DialogContentProps {
   descriptionClassName?: string;
   /** @description If you pass widthClass, you can supply width and max-width classes */
   widthClass?: string;
+  onCloseInteraction?: () => void;
 }
 
 export const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  DialogContentProps & SidebarProps
+  DialogContentProps &
+    SidebarProps &
+    React.ComponentProps<typeof DialogPrimitive.Content>
 >(({ children, ...props }, forwardedRef) => {
   const {
     className,
@@ -36,6 +39,7 @@ export const DialogContent = React.forwardRef<
     descriptionClassName,
     uiType,
     widthClass,
+    onCloseInteraction,
     ...rest
   } = props;
   return (
@@ -84,6 +88,7 @@ export const DialogContent = React.forwardRef<
         <DialogPrimitive.Close
           aria-label="Close"
           className="absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:outline-none focus:shadow-2xl"
+          onClick={onCloseInteraction ?? (() => {})}
         >
           <X />
         </DialogPrimitive.Close>

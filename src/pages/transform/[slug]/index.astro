@@ -1,18 +1,14 @@
 ---
-import BaseLayout from "@layouts/BaseLayout.astro";
-import Prose from "@components/astro/Prose.astro";
-import Footnote from "@components/astro/Footnote.astro";
-import Glossary from "@components/astro/Glossary.astro";
-import { getStaticPathsToolPages } from "./_get-static-paths";
 import { getToolPageContentComponents } from "./_get-content-components";
-import KnowledgeSidebar from "@components/astro/KnowledgeSidebar.astro";
-import { TriggerWarningDialog } from "@components/react/TriggerWarningDialog";
-import WorkInProgress from "./_WorkInProgress.astro";
-import { getEntry } from "astro:content";
+import { getStaticPathsToolPages } from "./_get-static-paths";
+// import { TriggerWarningDialog } from "@components/react/TriggerWarningDialog";
 import type {
   IdentityGroup,
   ViolenceSubCategory,
 } from "@cms/collections/collection-types";
+import WalkthroughStyles from "@components/astro/WalkthroughStyles.astro";
+import { getEntry } from "astro:content";
+import TheToolPagesCommonMarkup from "../../../components/astro/TheToolPagesCommonMarkup.astro";
 
 export const getStaticPaths = getStaticPathsToolPages;
 
@@ -22,8 +18,7 @@ const contentRenderers = await getToolPageContentComponents(
 
 const { MainContent, RecommendedReadingContent } = contentRenderers ?? {};
 
-const { identityGroupSlug, violenceSubCategorySlug, knowledgePost } =
-  Astro.props;
+const { identityGroupSlug, violenceSubCategorySlug } = Astro.props;
 
 const identityGroupData = await getEntry("identity-groups", identityGroupSlug);
 const identityData = identityGroupData?.data as IdentityGroup;
@@ -56,113 +51,18 @@ switch (violenceSubCategory?.category) {
     break;
 }
 
-const triggerWarningType = knowledgePost?.triggerWarning;
+// const triggerWarningType = knowledgePost?.triggerWarning;
 ---
 
-<BaseLayout title="Transform" description="Transform tool">
-  <TriggerWarningDialog type={triggerWarningType} client:load />
-  <main
-    class:list={[
-      "p-6 lg:p-10 max-w-3xl mx-auto relative",
-      {
-        "h-[calc(100svh-288px)]": !MainContent,
-      },
-    ]}
-    {...!MainContent ? { "data-pagefind-ignore": "true" } : {}}
-  >
-    <p
-      class="flex gap-2 items-center dark:text-zinc-200 text-zinc-500 lg:absolute lg:-left-6 lg:top-16"
-    >
-      <KnowledgeSidebar
-        preSelectedSlugs={{
-          identityGroupSlug: identityGroupSlug,
-          violenceSubCategorySlug: violenceSubCategorySlug,
-        }}
-      />
-    </p>
+<WalkthroughStyles />
 
-    <hr class="my-4 lg:hidden" />
-
-    <p
-      class:list={[
-        "m-0 font-oswald font-medium text-2xl uppercase",
-        subCategoryTextColor,
-      ]}
-    >
-      {violenceSubCategoryHeading} Faced by
-    </p>
-
-    <h1 class="italic m-0 dark:text-zinc-100 font-bold text-4xl relative">
-      <span>{identityGroupHeading}</span>
-    </h1>
-
-    <h2 class:list={[subCategoryTextColor, "font-bold text-2xl my-2 mt-5"]}>
-      Overview
-    </h2>
-
-    <Prose
-      class="mx-auto prose-a:dark:text-sky-400 prose-a:text-sky-500 dark:text-zinc-300 max-w-none prose-h2:my-6 prose-h2:dark:text-white"
-    >
-      {
-        MainContent ? (
-          <MainContent
-            components={{
-              /** @note
-               * make sure that these are astro components if you want client side functionality with react components. You can use `client:` directives in the react component to make it interactive
-               */
-              Footnote: Footnote,
-              Glossary: Glossary,
-            }}
-          />
-        ) : (
-          <WorkInProgress />
-        )
-      }
-
-      {
-        RecommendedReadingContent ? (
-          <>
-            <h2>Recommended</h2>
-            <RecommendedReadingContent
-              components={{
-                /** @note
-                 * make sure that these are astro components if you want client side functionality with react components. You can use `client:` directives in the react component to make it interactive
-                 */
-                Footnote: Footnote,
-                Glossary: Glossary,
-              }}
-            />
-          </>
-        ) : null
-      }
-    </Prose>
-  </main>
-</BaseLayout>
-
-<style is:global>
-  /* FOOTNOTES STYLES */
-  .footnotes :target {
-    background: hsl(240 5.9% 90%);
-    border-radius: 8px;
-  }
-
-  html.dark .footnotes :target {
-    background: hsl(240 5.3% 26.1%);
-  }
-
-  html.dark .footnotes h2 {
-    color: white;
-  }
-
-  [data-footnote-ref]:focus {
-    outline: thin dotted;
-    outline-offset: 2px;
-  }
-
-  /* seems like an astro bug: https://github.com/withastro/astro/issues/4298#issuecomment-2241278503 */
-  /** Update: https://github.com/withastro/astro/issues/11536#issuecomment-2247054971 */
-
-  .prose astro-island:has(button) {
-    display: initial !important;
-  }
-</style>
+<TheToolPagesCommonMarkup
+  MainContent={MainContent}
+  identityGroupSlug={identityGroupSlug}
+  violenceSubCategorySlug={violenceSubCategorySlug}
+  subCategoryTextColor={subCategoryTextColor}
+  RecommendedReadingContent={RecommendedReadingContent}
+  violenceSubCategoryHeading={violenceSubCategoryHeading}
+  identityGroupHeading={identityGroupHeading}
+  isDetailPage={!!Astro.params.slug}
+/>

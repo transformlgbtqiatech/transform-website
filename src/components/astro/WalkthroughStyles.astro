@@ -1,0 +1,95 @@
+<style is:global>
+  /* Walkthrough styles */
+  .shepherd-modal-overlay-container.shepherd-modal-is-visible {
+    opacity: 0.5 !important;
+  }
+
+  /* #walkthrough-apply-button.shepherd-target {
+    padding: 0.5rem !important;
+    margin: -0.5rem !important;
+  } */
+
+  .js-glossary-tooltip-trigger.shepherd-target {
+    padding: 8px 4px !important;
+    margin: -8px -4px !important;
+  }
+
+  /* #recommended-reading-heading.sheperd-target {
+    padding: 8px 4px !important;
+    margin: -8px -4px !important;
+  } */
+
+  div.shepherd-arrow::before {
+    background-color: white !important;
+  }
+
+  .shepherd-header {
+    background: white !important;
+    padding-block: 0rem !important;
+  }
+
+  .shepherd-title {
+    font-size: 1.25rem !important;
+    font-weight: 500 !important;
+    font-family: Oswald;
+    text-transform: uppercase;
+  }
+
+  .shepherd-text {
+    padding-block: 0 !important;
+    padding-inline: 1rem !important;
+  }
+
+  .shepherd-header + .shepherd-text {
+    margin-block: 4px !important;
+  }
+
+  .shepherd-header + .shepherd-text + .shepherd-footer {
+    margin-top: 16px !important;
+  }
+
+  .shepherd-footer {
+    margin-top: 0.5rem !important;
+    padding-block-end: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .shepherd-element {
+    padding-block: 1rem !important;
+    /* width: fit-content !important; */
+  }
+
+  @media (min-width: 1024px) {
+    [data-shepherd-step-id="trigger-warning-step"].shepherd-element {
+      min-width: 460px !important;
+    }
+  }
+
+  .shepherd-element[data-popper-placement^="top"] > .shepherd-arrow::before {
+    border-inline-end: 2px solid rgb(212 212 216);
+    border-block-end: 2px solid rgb(212 212 216);
+  }
+
+  .shepherd-element[data-popper-placement^="bottom"] > .shepherd-arrow::before {
+    border-inline-start: 2px solid rgb(212 212 216);
+    border-block-start: 2px solid rgb(212 212 216);
+  }
+
+  .shepherd-element[data-popper-placement^="top"] > .shepherd-arrow {
+    bottom: -9px !important;
+  }
+
+  .shepherd-element[data-popper-placement^="bottom"] > .shepherd-arrow {
+    top: -9px !important;
+  }
+
+  .walkthrough-back::before {
+    content: "🔙";
+    font-size: 18px;
+  }
+
+  .shepherd-footer:has(:only-child.walkthrough-back) {
+    margin: 0 !important;
+    margin-top: 0 !important;
+  }
+</style>

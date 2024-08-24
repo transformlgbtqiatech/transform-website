@@ -5,6 +5,7 @@
     "ngClass",
     "class:list",
     "widthClass",
-    "descriptionClassName"
+    "descriptionClassName",
+    "classes"
   ]
 }

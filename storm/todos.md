@@ -15,6 +15,8 @@
 - [ ] remove blue outline for selected for focus
 - [ ] Icon for footer back change ( MDX Plugin Research GFM)
 - [ ] Links collection
+- [ ] `tour.back` doesn't scroll to element if needed. ( might need to use `https://github.com/scroll-into-view/` to take control of scroll)
+- [ ] make glossary keystatic a rich text component and render it likewise ( persist the tooltip)
 
 ---
 
