@@ -3,7 +3,7 @@ import type { Tour, StepOptions } from "shepherd.js";
 import { waitFor } from "./wait-for";
 import { offset } from "@floating-ui/dom";
 import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "@root/tailwind.config.mjs";
+import tailwindConfig from "@root/tailwind.config.ts";
 
 const config = resolveConfig(tailwindConfig);
 const breakpoints = config.theme.screens;

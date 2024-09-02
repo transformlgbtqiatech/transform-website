@@ -1,0 +1,1 @@
+September 2, 2024: Added prettier 3.3.3 in dev dependency [read](https://github.com/withastro/language-tools/issues/946#issuecomment-2316889070) for more info, as well as [the reason](https://github.com/withastro/language-tools/issues/946#issuecomment-2316890569) for why astro language server is breaking because of dependency of prettier 2 from `yaml-language-server`.

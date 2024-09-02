@@ -12,6 +12,7 @@ export const knowledge = collection({
   format: {
     contentField: "content",
   },
+  columns: ["transIdentityGroup", "violenceSubCategory"],
   schema: {
     title: fields.slug({
       name: {
