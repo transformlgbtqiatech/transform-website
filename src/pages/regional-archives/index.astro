@@ -1,0 +1,28 @@
+---
+import RegionalArchive from "@components/astro/RegionalArchive.astro";
+import {
+  getRegionalArchivesList,
+  getRegionalArchivesMediusList,
+  getRegionalLanguagesList,
+} from "./_utils";
+
+const regionalArchivesMediums = await getRegionalArchivesMediusList();
+const regionalLanguages = await getRegionalLanguagesList();
+
+const selectedLanguageId = "english";
+const selectedMediumId = "all";
+const regionalArchivesList = await getRegionalArchivesList(
+  selectedLanguageId,
+  selectedMediumId,
+);
+
+const props = {
+  regionalLanguages,
+  regionalArchivesMediums,
+  regionalArchivesList,
+  selectedLanguageId,
+  selectedMediumId,
+} as const;
+---
+
+<RegionalArchive {...props} />

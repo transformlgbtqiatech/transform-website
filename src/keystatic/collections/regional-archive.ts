@@ -19,7 +19,7 @@ const simpleEditorOptions = {
 export const regionalArchive = collection({
   label: "Regional Archives",
   slugField: "title",
-  columns: ['language', 'type'],
+  columns: ['language', 'medium'],
   path: "src/content/regional-archive/*/",
   entryLayout: "content",
   format: {
@@ -53,8 +53,12 @@ export const regionalArchive = collection({
     authorOrCreator: fields.text({
       label: 'Author or Creator',
     }),
-    type: fields.text({
-      label: 'Type',
+    medium: fields.relationship({
+      collection: 'regionalArchiveMedium',
+      label: 'Medium',
+      validation: {
+        isRequired: true,
+      }
     }),
     additionalDetails: fields.mdx({
       label: 'Additional Details',
