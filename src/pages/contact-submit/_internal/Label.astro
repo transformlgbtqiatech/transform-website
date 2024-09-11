@@ -1,0 +1,18 @@
+---
+type Props = {
+  labelText: string;
+  className?: string;
+  id?: string;
+};
+---
+
+<label
+  class:list={["flex flex-col gap-2", Astro.props.className ?? ""]}
+  {...Astro.props.id ? { id: Astro.props.id } : {}}
+>
+  <span class="text-sm text-zinc-800 dark:text-zinc-200 font-semibold">
+    {Astro.props.labelText}
+  </span>
+
+  <slot />
+</label>

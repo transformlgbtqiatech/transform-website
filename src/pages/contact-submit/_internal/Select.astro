@@ -1,0 +1,26 @@
+---
+import { ChevronDownIcon } from "lucide-react";
+
+type Props = {
+  nameAndId: string;
+  options: Array<{ value: string; text: string }>;
+};
+---
+
+<div class="inline-block relative">
+  <select
+    name={Astro.props.nameAndId}
+    id={Astro.props.nameAndId}
+    class="bg-white border-[1px] border-zinc-400 rounded-md p-1 px-3 text-zinc-700 font-medium placeholder:text-zinc-400 placeholder:font-normal w-full appearance-none"
+  >
+    {
+      Astro.props.options.map((option) => {
+        return <option value={option.value}>{option.text}</option>;
+      })
+    }
+  </select>
+
+  <div class="absolute right-2 top-[7px] pointer-events-none">
+    <ChevronDownIcon size={20} />
+  </div>
+</div>
