@@ -13,7 +13,7 @@ const { selectedAffirmativeActionType, types, list } = Astro.props;
 <BaseLayout title="Affirmative Action" description="Affirmative Action">
   <main class="max-w-5xl mx-auto py-6 px-6 lg:py-20">
     <div class="flex flex-col lg:flex-row gap-10 justify-center">
-      <div class="w-[344px] h-[264px]">
+      <div class="w-full lg:w-[344px] lg:h-[264px]">
         <HeroSvg />
       </div>
 
@@ -88,7 +88,7 @@ const { selectedAffirmativeActionType, types, list } = Astro.props;
             const { Content } = await el.render();
 
             return (
-              <li>
+              <li class="mb-3 md:mb-0">
                 <div class="shadow-transform border-[1px] border-zinc-200 dark:border-zinc-800 flex flex-col gap-2 p-4">
                   <span
                     class="text-zinc-800 dark:text-zinc-200 text-sm rounded-md block"
