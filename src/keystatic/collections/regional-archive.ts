@@ -1,20 +1,5 @@
 import { fields, collection } from "@keystatic/core";
-
-const simpleEditorOptions = {
-  link: true,
-  bold: true,
-  italic: true,
-  blockquote: false,
-  image: false,
-  table: false,
-  code: false,
-  strikethrough: false,
-  codeBlock: false,
-  divider: false,
-  heading: false,
-  orderedList: false,
-  unorderedList: false
-}
+import { simpleEditorOptions } from "@root/src/utils/common/simple-editor-options";
 
 export const regionalArchive = collection({
   label: "Regional Archives",

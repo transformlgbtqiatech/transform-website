@@ -1,0 +1,12 @@
+---
+import AffirmativeActionPage from "./_internal/AffirmativeActionPage.astro";
+import {
+  getAffirmativeActionPageStaticPaths,
+  type AffirmativeActionPageProps,
+} from "./_internal/utils";
+
+export const getStaticPaths = getAffirmativeActionPageStaticPaths;
+const pageProps = Astro.props as AffirmativeActionPageProps;
+---
+
+<AffirmativeActionPage {...pageProps} />

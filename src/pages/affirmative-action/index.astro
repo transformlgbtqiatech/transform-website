@@ -1,0 +1,13 @@
+---
+import { getCollection } from "astro:content";
+import AffirmativeActionPage from "./_internal/AffirmativeActionPage.astro";
+import { getAffirmativeActionPageProps } from "./_internal/utils";
+
+const pageProps = getAffirmativeActionPageProps(
+  "fundraising-initiatives",
+  await getCollection("affirmative-action"),
+  await getCollection("affirmative-action-type"),
+);
+---
+
+<AffirmativeActionPage {...pageProps.props} />

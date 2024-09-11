@@ -19,7 +19,7 @@ const {
 } = Astro.props;
 ---
 
-<BaseLayout title="Vernacular Archives" description="Vernacular Archives">
+<BaseLayout title="Regional Archives" description="Regional Archives">
   <main class="max-w-5xl mx-auto py-6 px-6 lg:py-20">
     <div class="flex flex-col lg:flex-row gap-10 justify-center">
       <svg
@@ -147,17 +147,13 @@ const {
     }
 
     {
-      regionalArchivesList?.length === 0 || !regionalArchivesList ? (
-        <p class="mt-6">No archive found for these filters.</p>
-      ) : (
+      regionalArchivesList.length > 0 ? (
         <ul
           class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
           id="archive-list-container"
         >
           {regionalArchivesList?.map(async (el) => {
-            const { title, url, year, authorOrCreator, medium, language } =
-              el.data ?? {};
-
+            const { title, url, year, authorOrCreator, medium } = el.data ?? {};
             const { Content } = await el.render();
 
             return (
@@ -187,6 +183,8 @@ const {
                     href={url}
                     class="flex gap-1 text-sky-500 dark:text-sky-400"
                     title={url}
+                    target="_blank"
+                    rel="noreferrer"
                   >
                     <div class="w-4">
                       <svg
@@ -231,6 +229,8 @@ const {
             );
           })}
         </ul>
+      ) : (
+        <p class="mt-6">No archive found for these filters.</p>
       )
     }
   </main>
@@ -256,7 +256,7 @@ const {
     language: string | null = null,
     medium: string | null = null,
   ) {
-    let baseUrl = "http://localhost:4321/regional-archives";
+    let baseUrl = "/regional-archives";
 
     if (language) {
       baseUrl += `/${language}`;
@@ -297,16 +297,16 @@ const {
     window.location.href = constructUrl(language, mediumId);
   });
 
-  function scrollToList() {
-    const archiveContainerEl = document.querySelector(
-      "#archive-container",
-    ) as HTMLElement;
+  // function scrollToList() {
+  //   const archiveContainerEl = document.querySelector(
+  //     "#archive-container",
+  //   ) as HTMLElement;
 
-    archiveContainerEl.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }
+  //   archiveContainerEl.scrollIntoView({
+  //     behavior: "smooth",
+  //     block: "start",
+  //   });
+  // }
 
   // document.addEventListener("astro:page-load", scrollToList);
 
