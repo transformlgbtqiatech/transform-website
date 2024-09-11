@@ -1,0 +1,43 @@
+---
+import Facebook from "@components/astro/icons/facebook.astro";
+import Instagram from "@components/astro/icons/instagram.astro";
+import Linkedin from "@components/astro/icons/linkedin.astro";
+import Youtube from "@components/astro/icons/youtube.astro";
+
+type Props = {
+  type?: "whiteOnBlack" | "blackOnWhite";
+};
+
+const { type = "whiteOnBlack" } = Astro.props;
+
+const conditionalClassName =
+  type === "whiteOnBlack" ? "bg-black text-white" : "bg-white text-black";
+const commonClassName = "inline-block w-8 p-1";
+const className = `${conditionalClassName} ${commonClassName}`;
+---
+
+<ul class="flex gap-2 text-black">
+  <li>
+    <a href="#" class={className}>
+      <Facebook />
+    </a>
+  </li>
+
+  <li>
+    <a href="#" class={className}>
+      <Instagram />
+    </a>
+  </li>
+
+  <li>
+    <a href="#" class={className}>
+      <Linkedin />
+    </a>
+  </li>
+
+  <li>
+    <a href="#" class={className}>
+      <Youtube />
+    </a>
+  </li>
+</ul>

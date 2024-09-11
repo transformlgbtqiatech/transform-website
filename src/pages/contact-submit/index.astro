@@ -1,0 +1,95 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import HeroSvg from "./_internal/HeroSvg.astro";
+import ContactForm from "./_internal/ContactForm.astro";
+import Socials from "@components/Socials.astro";
+---
+
+<BaseLayout
+  title="Contact Submit To Transform"
+  description="Contact Submit To Transform"
+>
+  <main class="max-w-5xl mx-auto py-6 px-6 lg:py-20">
+    <div class="flex flex-col lg:flex-row gap-10 justify-center">
+      <div class="w-full lg:w-[489px] lg:h-[138px] flex-shrink-0">
+        <HeroSvg />
+      </div>
+
+      <p class="text-zinc-800 dark:text-zinc-200 max-w-[500px] leading-7">
+        Transform relies on your feedback, appraisal and contribution! Our work
+        needs to be updated constantly and we are eager to work with members of
+        our community to improve and expand on this tool.
+      </p>
+    </div>
+
+    <div>
+      <div class="mt-6 lg:mt-14">
+        <h1
+          class="text-4xl lg:text-5xl font-oswald mb-6 flex flex-wrap dark:text-zinc-200 justify-center"
+        >
+          <span class="font-semibold">Write to us/</span>
+          <span class="italic">Contribute</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-4 lg:mt-10 justify-between">
+      <div class="lg:w-1/2 flex flex-col gap-3">
+        <p class="text-zinc-600 dark:text-zinc-300 leading-7">
+          Want to share a personal experience of violence with us (either
+          anonymously or non anonymously?)
+        </p>
+
+        <p class="text-zinc-600 dark:text-zinc-300 leading-7">
+          Think some of our content is in dire need of an update? Know of some
+          useful links and resources for us to feature, especially those in
+          South Asian Vernacular Languages?
+        </p>
+
+        <p class="text-zinc-600 dark:text-zinc-300 leading-7">
+          Want to add some grounding techniques that REALLY work for you to the
+          Trigger Toolkit? Have a cute floof at home whose videos might help
+          Transform’s viewers?
+        </p>
+
+        <p class="text-zinc-600 dark:text-zinc-300 leading-7">
+          Have some anxiety and stress alleviating song recommendations or just
+          some nice bops?
+        </p>
+
+        <p class="text-zinc-600 dark:text-zinc-300 leading-7">Let us know.</p>
+
+        <div class="mt-4 flex flex-col gap-2">
+          <h2 class="font-oswald text-medium text-xl text-yellow-transform">
+            BUY US A KO-FI
+          </h2>
+
+          <p class="text-zinc-600 dark:text-zinc-300 leading-7">
+            Like everything else, Trans/form needs your support (read: money) to
+            run and pay all its contributors. Support our work by buying us a
+            ko-fi.
+          </p>
+        </div>
+
+        <div class="mt-4 flex flex-col gap-3">
+          <h2
+            class="font-oswald text-medium text-xl text-yellow-transform uppercase"
+          >
+            Follow us (please?)
+          </h2>
+
+          <Socials type="blackOnWhite" />
+        </div>
+      </div>
+
+      <!-- <div
+        class="border-[1px] border-zinc-300 self-stretch mx-10 -my-2 hidden lg:block"
+      >
+      </div> -->
+
+      <div class="mt-6 lg:mt-0 w-full lg:w-1/2 flex justify-end">
+        <ContactForm />
+      </div>
+    </div>
+  </main>
+</BaseLayout>
