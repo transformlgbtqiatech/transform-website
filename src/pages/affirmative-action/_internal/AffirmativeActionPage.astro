@@ -1,0 +1,191 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import "@utils/client/flexmasonry/flex-masonry.css";
+import HeroSvg from "./hero-svg.astro";
+import Prose from "@components/astro/Prose.astro";
+import { ChevronDownIcon } from "lucide-react";
+import type { AffirmativeActionPageProps } from "./utils";
+
+type Props = AffirmativeActionPageProps;
+const { selectedAffirmativeActionType, types, list } = Astro.props;
+---
+
+<BaseLayout title="Affirmative Action" description="Affirmative Action">
+  <main class="max-w-5xl mx-auto py-6 px-6 lg:py-20">
+    <div class="flex flex-col lg:flex-row gap-10 justify-center">
+      <div class="w-[344px] h-[264px]">
+        <HeroSvg />
+      </div>
+
+      <div>
+        <h1
+          class="text-4xl lg:text-5xl font-oswald mb-6 flex flex-wrap dark:text-zinc-200"
+        >
+          <span class="font-semibold">Affirmative/</span>
+          <span class="italic">action</span>
+        </h1>
+
+        <Prose
+          class="prose-a:dark:text-sky-400 prose-a:text-sky-500 text-zinc-800 dark:text-zinc-200 max-w-[500px] prose-p:leading-7"
+        >
+          <p>
+            The world’s a pretty scary place for transgender people. Now what?
+            Trans/form calls for affirmative action by providing links to trans
+            led, run and centered donation drives, organisations, mutual aid
+            groups, collectives, and projects that exist around sensitisation,
+            advocacy, evidence building and trans affirmative action. Nothing
+            about us, without us (as borrowed from our disabled and sex working
+            siblings)
+          </p>
+        </Prose>
+      </div>
+    </div>
+
+    <hr class="mt-16 mb-8" />
+
+    <h2
+      class="text-3xl font-oswald dark:text-zinc-200 my-3"
+      id="archive-container"
+    >
+      Choose a Language
+    </h2>
+
+    {
+      types.length > 0 ? (
+        <div class="inline-block relative">
+          <select
+            id="affirmative-type-select"
+            name="affirmative-type-select"
+            class="appearance-none px-3 pr-6 py-1 border-2 border-zinc-600 rounded-xl"
+          >
+            {types.map((typeData) => {
+              return (
+                <option
+                  value={typeData.id}
+                  selected={selectedAffirmativeActionType === typeData.id}
+                >
+                  {typeData.name}
+                </option>
+              );
+            })}
+          </select>
+          <div class="absolute right-2 top-[7px] pointer-events-none">
+            <ChevronDownIcon size={20} />
+          </div>
+        </div>
+      ) : null
+    }
+
+    <!-- grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 -->
+    {
+      list.length > 0 ? (
+        <ul
+          id="affirmative-action-list-container"
+          class="mt-8 flex flex-col flex-wrap"
+        >
+          {list.map(async (el) => {
+            const { name, url } = el.data ?? {};
+            const { Content } = await el.render();
+
+            return (
+              <li>
+                <div class="shadow-transform border-[1px] border-zinc-200 dark:border-zinc-800 flex flex-col gap-2 p-4">
+                  <span
+                    class="text-zinc-800 dark:text-zinc-200 text-sm rounded-md block"
+                    title={url}
+                  >
+                    {name}
+                  </span>
+
+                  <a
+                    href={url}
+                    class="flex gap-1 text-sky-500 dark:text-sky-400"
+                    title={url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <div class="w-4">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={24}
+                        height={24}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width={2}
+                        stroke-line-cap="round"
+                        stroke-line-join="round"
+                        class="lucide lucide-external-link w-4 h-4 mr-1"
+                      >
+                        <path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                      </svg>
+                    </div>
+                    <span class="text-xs truncate">
+                      {url.replace("https://", "")}
+                    </span>
+                  </a>
+
+                  {el.body.trim() === "" ? null : (
+                    <div class="text-xs mt-2 text-zinc-500 dark:text-zinc-400 prose-a:text-sky-500 prose-a:dark:text-sky-400">
+                      <Content />
+                    </div>
+                  )}
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p class="mt-6">Nothing found for these filters.</p>
+      )
+    }
+  </main>
+</BaseLayout>
+
+<script>
+  import { init } from "@root/src/utils/client/flexmasonry/flex-masonry.js";
+
+  init("#affirmative-action-list-container", {
+    responsive: true,
+    breakpointCols: {
+      "min-width: 280px": 1,
+      "min-width: 768px": 2,
+      "min-width: 1024px": 3,
+    },
+    gap: 8,
+  });
+</script>
+
+<script>
+  import type { CollectionEntry } from "astro:content";
+
+  function extractPathParams(url: string) {
+    const parts = new URL(url).pathname.split("/").filter(Boolean);
+
+    const pathParams = {
+      type:
+        (parts[1] as CollectionEntry<"affirmative-action-type">["id"]) || null,
+    };
+
+    return pathParams;
+  }
+
+  function constructUrl(
+    type: CollectionEntry<"affirmative-action-type">["id"],
+  ) {
+    let baseUrl = "/affirmative-action";
+    return `${baseUrl}/${type}`;
+  }
+
+  const typeSelectEl = document.querySelector(
+    "#affirmative-type-select",
+  ) as HTMLSelectElement;
+
+  typeSelectEl.addEventListener("change", (e) => {
+    const target = e.target as HTMLSelectElement;
+    const newTypeValue =
+      target.value as CollectionEntry<"affirmative-action-type">["id"];
+    // const { type } = extractPathParams(window.location.href);
+    window.location.href = constructUrl(newTypeValue);
+  });
+</script>

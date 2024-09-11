@@ -1,6 +1,7 @@
 import defaultTheme from "tailwindcss/defaultTheme";
 import plugin from "tailwindcss/plugin";
 import typographyPlugin from "@tailwindcss/typography";
+import type { Config } from 'tailwindcss'
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -49,21 +50,21 @@ export default {
         },
         sidebar: {
           "0%": {
-            opacity: 0,
+            opacity: "0",
             transform: "translateX(-100%)",
           },
           "100%": {
-            opacity: 1,
+            opacity: "1",
             transform: "translateX(0)",
           },
         },
         "sidebar-unmount": {
           "0%": {
-            opacity: 1,
+            opacity: "1",
             transform: "translateX(0)",
           },
           "100%": {
-            opacity: 0,
+            opacity: "0",
             transform: "translateX(-100%)",
           },
         },
@@ -119,7 +120,7 @@ export default {
     },
   },
   plugins: [
-    function ({ addBase, theme }) {
+    plugin(function ({ addBase, theme }) {
       addBase({
         ":root": {
           "--color-yellow-transform":
@@ -145,7 +146,7 @@ export default {
           "--shadow-transform": "hsl(240 5.9% 10%) 0px 8px 24px",
         },
       });
-    },
+    }),
     plugin(({ matchUtilities }) => {
       matchUtilities({
         perspective: (value) => ({
@@ -155,4 +156,4 @@ export default {
     }),
     typographyPlugin,
   ],
-};
+} satisfies Config;

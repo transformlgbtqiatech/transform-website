@@ -1,0 +1,318 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { Content as TitleContent } from "../../singletons-data/regional-archives/title.mdx";
+import Prose from "@components/astro/Prose.astro";
+import tailwindConfig from "@root/tailwind.config.ts";
+import resolveConfig from "tailwindcss/resolveConfig";
+import { ChevronDownIcon } from "lucide-react";
+import type { RegionalArchivesPageProps } from "@root/src/pages/regional-archives/_utils";
+
+const config = resolveConfig(tailwindConfig);
+type Props = RegionalArchivesPageProps;
+
+const {
+  regionalLanguages = [],
+  regionalArchivesMediums = [],
+  selectedLanguageId,
+  selectedMediumId,
+  regionalArchivesList,
+} = Astro.props;
+---
+
+<BaseLayout title="Regional Archives" description="Regional Archives">
+  <main class="max-w-5xl mx-auto py-6 px-6 lg:py-20">
+    <div class="flex flex-col lg:flex-row gap-10 justify-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={344}
+        height={264}
+        class="flex-shrink-0 w-full lg:w-auto lg:h-[90%]"
+      >
+        <path
+          fill={config.theme.colors.red.transform}
+          d="M0 0H343.562c.261.415.373.76.4 1.247.374 6.715.036 13.654.036 20.394l.003 40.634L344 186.794l.005 56.329c0 3.17.415 17.009-.102 19.264-.048.205-.13.398-.225.585l-.116 1.028H0V0z"
+        ></path>
+        <path
+          fill="#EEDDE4"
+          d="M0 93.297l.77-.106.007 55.217L.8 163.66c.003 2.244.278 4.986-.116 7.177-.326.145-.495.198-.684.518V93.297z"
+        ></path>
+        <path
+          fill="#FEFDFD"
+          d="M0 0h.742l.032 81.756 268.724-.03c.93-.532 1.527-1.367 2.2-2.178 14.444-17.394 28.438-35.21 42.65-52.8l14.17-17.537c2.286-2.83 4.963-5.645 6.927-8.685L335.424 0h7.343l-.005.49c-5.598 7.577-11.89 14.792-17.815 22.123l-34.586 42.81-106.52 131.806-34.954 43.251c-6.041 7.472-12.296 14.846-18.133 22.475l-.542 1.045h-8.179l-.011-.57c.748-.184 1.248-.379 1.776-.955 2.635-2.873 5.01-6.12 7.461-9.155l14.356-17.782 43.501-53.854c-5.304.309-10.778.05-16.099.05l-31.189-.001-97.117-.002h-29.39c-3.98-.012-10.51-.517-14.267.155-.418.583-.296 1.439-.299 2.133L0 183.731v-12.376c.189-.32.358-.373.684-.518.052.627.008 1.044.383 1.576 2.472.275 5.038.114 7.525.101l11.954-.023H61.7l134.829.013c4.169-4.638 7.971-9.794 11.896-14.652l23.349-28.909 19.806-24.491c3.645-4.505 7.602-8.961 10.912-13.714l-170.605-.013-59.492-.005c-10.446-.001-21.028-.383-31.451.098-.28.593-.168 1.698-.174 2.373L0 93.297V0z"
+        ></path>
+        <path
+          d="M.755 184.019c.003-.694-.12-1.55.299-2.133 3.758-.672 10.287-.167 14.268-.155h29.39l97.116.002 31.189.001c5.321 0 10.795.259 16.099-.05l-43.501 53.854-14.356 17.782c-2.451 3.035-4.826 6.282-7.461 9.155-.528.576-1.028.771-1.776.955l.011.57H0v-80.269l.755.288z"
+        ></path>
+        <path
+          fill="#EEDDE4"
+          d="M0 183.731l.755.288c.062 26.389.437 52.845.017 79.227l-.772-.31v-79.205z"
+        ></path>
+        <path
+          fill="#FEFDFD"
+          d="M0 262.936l.772.31 91.534-.021c3.497 0 27.994-.41 29.716.205l.011.57H0v-1.064z"
+        ></path>
+        <path
+          fill={config.theme.colors.orange.transform}
+          d="M.742 0h334.682l.021.526c-1.964 3.04-4.641 5.855-6.927 8.685l-14.17 17.538c-14.212 17.59-28.206 35.405-42.65 52.799-.673.81-1.27 1.646-2.2 2.178l-268.724.03L.742 0z"
+        ></path>
+        <path
+          fill={config.theme.colors.yellow.transform}
+          d="M342.767 0h.795c.261.415.373.76.4 1.247.374 6.715.036 13.654.036 20.394l.003 40.634L344 186.794l.005 56.329c0 3.17.415 17.009-.102 19.264-.048.205-.13.398-.225.585l-.116 1.028h-213.35l.542-1.045c5.837-7.629 12.092-15.003 18.133-22.475l34.954-43.251 106.52-131.806 34.586-42.81c5.925-7.33 12.217-14.546 17.815-22.123l.005-.49z"
+        ></path>
+        <path
+          fill="#FEFDFD"
+          d="M130.212 264l.542-1.045c1.94.693 36.733.271 41.239.272l131.693.004c5.452 0 37.562.445 39.382-.204l.61-.055-.116 1.028h-213.35z"
+        ></path>
+        <path
+          fill="#FEDEC4"
+          d="M342.767 0h.795c.261.415.373.76.4 1.247.374 6.715.036 13.654.036 20.394l.003 40.634L344 186.794l.005 56.329c0 3.17.415 17.009-.102 19.264-.048.205-.13.398-.225.585l-.61.055c.035-.121.085-.278.109-.406.51-2.69.195-5.921.182-8.68l-.022-14.562.003-58.573.003-118.895-.018-40.417c-.014-6.384.241-12.903-.053-19.271-.038-.821-.04-1.045-.51-1.733l.005-.49z"
+        ></path>
+      </svg>
+
+      <div>
+        <h1
+          class="text-4xl lg:text-5xl font-oswald mb-6 flex flex-wrap dark:text-zinc-200"
+        >
+          <span class="font-semibold">Regional/</span>
+          <span class="italic">archives</span>
+        </h1>
+
+        <Prose
+          class="prose-a:dark:text-sky-400 prose-a:text-sky-500 text-zinc-800 dark:text-zinc-200 max-w-[500px]"
+        >
+          <TitleContent />
+        </Prose>
+      </div>
+    </div>
+
+    <hr class="my-8" />
+
+    <h2
+      class="text-3xl font-oswald dark:text-zinc-200 my-3"
+      id="archive-container"
+    >
+      Choose a Language
+    </h2>
+
+    {
+      regionalLanguages.length > 0 ? (
+        <div class="inline-block relative">
+          <select
+            id="language-select"
+            name="language-select"
+            class="appearance-none px-3 py-1 pr-6 border-2 border-zinc-600 rounded-xl"
+          >
+            {regionalLanguages.map((languageData) => {
+              return (
+                <option
+                  value={languageData.id}
+                  selected={selectedLanguageId === languageData.id}
+                >
+                  {languageData.language}
+                </option>
+              );
+            })}
+          </select>
+          <div class="absolute right-1 top-[7px] pointer-events-none">
+            <ChevronDownIcon size={20} />
+          </div>
+        </div>
+      ) : null
+    }
+
+    {
+      regionalArchivesMediums?.length > 0 ? (
+        <div class="inline-block relative">
+          <select
+            name="reltional-archives-medium"
+            id="reltional-archives-medium"
+            class="appearance-none px-3 py-1 pr-6 border-2 border-zinc-600 rounded-xl"
+          >
+            {regionalArchivesMediums.map((medium) => {
+              return (
+                <option
+                  value={medium.id}
+                  selected={selectedMediumId === medium.id}
+                >
+                  {medium.data.name}
+                </option>
+              );
+            })}
+          </select>
+          <div class="absolute right-1 top-[7px] pointer-events-none">
+            <ChevronDownIcon size={20} />
+          </div>
+        </div>
+      ) : null
+    }
+
+    {
+      regionalArchivesList.length > 0 ? (
+        <ul
+          class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          id="archive-list-container"
+        >
+          {regionalArchivesList?.map(async (el) => {
+            const { title, url, year, authorOrCreator, medium } = el.data ?? {};
+            const { Content } = await el.render();
+
+            return (
+              <li class="shadow-transform rounded-t-md border-[1px] border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 flex flex-col ">
+                <div class="rounded-t-md bg-zinc-900 dark:bg-zinc-700 text-zinc-200 p-6 flex flex-col gap-2">
+                  <div class="flex gap-1">
+                    <p class="text-zinc-900 bg-zinc-200 rounded-full py-[2px] px-[10px] text-xs w-fit font-semibold">
+                      {medium}
+                    </p>
+
+                    {/* <p class="text-zinc-900 bg-zinc-200 rounded-full py-[2px] px-[10px] text-xs w-fit font-semibold">
+                      {language}
+                    </p> */}
+                  </div>
+
+                  {/* <p class="text-zinc-900 bg-zinc-200 rounded-full py-[2px] px-[10px] text-xs w-fit font-semibold">
+                    {language}
+                  </p> */}
+
+                  <p class="text-lg font-medium line-clamp-1" title={title}>
+                    {title}
+                  </p>
+                </div>
+
+                <div class="p-4 dark:bg-zinc-800 flex-1">
+                  <a
+                    href={url}
+                    class="flex gap-1 text-sky-500 dark:text-sky-400"
+                    title={url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <div class="w-4">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width={24}
+                        height={24}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width={2}
+                        stroke-line-cap="round"
+                        stroke-line-join="round"
+                        class="lucide lucide-external-link w-4 h-4 mr-1"
+                      >
+                        <path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                      </svg>
+                    </div>
+                    <span class="text-xs truncate">
+                      {url.replace("https://", "")}
+                    </span>
+                  </a>
+
+                  <div class="flex gap-2 text-xs text-zinc-500 dark:text-zinc-400 mt-2 font-medium">
+                    <span>{authorOrCreator}</span>
+                    {year ? (
+                      <>
+                        <span>&middot;</span>
+                        <span>{year}</span>
+                      </>
+                    ) : null}
+                  </div>
+                  {/* 
+              {el.body.trim() === "" ? null : (
+                <hr class="my-3 text-zinc-500" />
+              )} */}
+
+                  <div class="text-sm text-zinc-500 dark:text-zinc-400 mt-4 mb-3">
+                    <Content />
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p class="mt-6">No archive found for these filters.</p>
+      )
+    }
+  </main>
+</BaseLayout>
+
+<script>
+  const languageSelectEl = document.querySelector(
+    "#language-select",
+  ) as HTMLSelectElement;
+
+  function extractPathParams(url: string) {
+    const parts = new URL(url).pathname.split("/").filter(Boolean);
+
+    const pathParams = {
+      language: parts[1] || null,
+      medium: parts[2] || null,
+    };
+
+    return pathParams;
+  }
+
+  function constructUrl(
+    language: string | null = null,
+    medium: string | null = null,
+  ) {
+    let baseUrl = "/regional-archives";
+
+    if (language) {
+      baseUrl += `/${language}`;
+    }
+
+    const { language: languageFromUrl } = extractPathParams(
+      window.location.href,
+    );
+
+    if (medium) {
+      if (!languageFromUrl) {
+        baseUrl += `/${language ?? "english"}/${medium}`;
+      } else if (medium === "all") {
+        baseUrl += `/`;
+      } else {
+        baseUrl += `/${medium}`;
+      }
+    }
+
+    return baseUrl;
+  }
+
+  languageSelectEl.addEventListener("change", (e) => {
+    const target = e.target as HTMLSelectElement;
+    const languageId = target.value;
+    const { medium } = extractPathParams(window.location.href);
+    window.location.href = constructUrl(languageId, medium);
+  });
+
+  const regionalArchivesMediumSelectEl = document.querySelector(
+    "#reltional-archives-medium",
+  ) as HTMLSelectElement;
+
+  regionalArchivesMediumSelectEl.addEventListener("change", (e) => {
+    const target = e.target as HTMLSelectElement;
+    const mediumId = target.value;
+    const { language } = extractPathParams(window.location.href);
+    window.location.href = constructUrl(language, mediumId);
+  });
+
+  // function scrollToList() {
+  //   const archiveContainerEl = document.querySelector(
+  //     "#archive-container",
+  //   ) as HTMLElement;
+
+  //   archiveContainerEl.scrollIntoView({
+  //     behavior: "smooth",
+  //     block: "start",
+  //   });
+  // }
+
+  // document.addEventListener("astro:page-load", scrollToList);
+
+  // if (document.readyState === "loading") {
+  //   document.addEventListener("DOMContentLoaded", scrollToList);
+  // } else {
+  //   scrollToList();
+  // }
+</script>

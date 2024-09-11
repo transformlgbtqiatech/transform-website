@@ -1,0 +1,11 @@
+---
+import RegionalArchive from "@components/astro/RegionalArchive.astro";
+import { getAllRegionalArchivePages } from "./_utils";
+import type { RegionalArchivesPageProps } from "./_utils";
+
+export const getStaticPaths = getAllRegionalArchivePages;
+
+type Props = RegionalArchivesPageProps;
+---
+
+<RegionalArchive {...Astro.props} />
