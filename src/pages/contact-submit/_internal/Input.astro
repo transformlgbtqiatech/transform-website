@@ -1,13 +1,11 @@
 ---
-type Props = {
-  name: string;
-  placeholder: string;
-};
+type Props = astroHTML.JSX.InputHTMLAttributes;
+const { type, ...rest } = Astro.props;
 ---
 
 <input
   type="text"
-  name={Astro.props.name}
   class="bg-white border-[1px] border-zinc-400 rounded-md p-1 px-3 text-zinc-700 font-medium w-full placeholder:text-zinc-400 placeholder:font-normal"
-  placeholder={Astro.props.placeholder}
+  transition:persist
+  {...rest}
 />

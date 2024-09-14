@@ -2,9 +2,9 @@ import type { AstroIntegration } from "astro";
 import { fileURLToPath } from "node:url";
 import { createIndex } from "pagefind";
 import path from "node:path";
-import { mkdir, readdir, copyFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { findRootDir } from "../utils/server/find-root-dir";
+import { copyDirectory } from "../utils/server/copy-dir";
 
 // /vercel/path0/.vercel/output/
 // /vercel/path0/.vercel/output/static/_astro
@@ -79,25 +79,5 @@ export function astroPagefindIntegration(): AstroIntegration {
         }
       }
     }
-  }
-}
-
-async function copyDirectory(src: string, dest: string) {
-  try {
-    await mkdir(dest, { recursive: true });
-    const entries = await readdir(src, { withFileTypes: true });
-
-    for (const entry of entries) {
-      const srcPath = path.join(src, entry.name);
-      const destPath = path.join(dest, entry.name);
-
-      if (entry.isDirectory()) {
-        await copyDirectory(srcPath, destPath);
-      } else {
-        await copyFile(srcPath, destPath);
-      }
-    }
-  } catch (error) {
-    console.error('Error copying directory:', error);
   }
 }

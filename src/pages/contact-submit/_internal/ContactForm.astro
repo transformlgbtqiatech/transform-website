@@ -6,6 +6,7 @@ import Select from "./Select.astro";
 import TextArea from "./TextArea.astro";
 import { getCollection } from "astro:content";
 import { submitTypeSelectOptions } from "./select-options";
+import { actions } from "astro:actions";
 
 const identityGroups = await getCollection("identity-groups");
 const violenceSubCategories = await getCollection("violence-sub-categories");
@@ -27,7 +28,11 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
 );
 ---
 
-<form action="post" class="flex flex-col gap-4 lg:max-w-[400px] flex-1">
+<form
+  method="POST"
+  class="flex flex-col gap-4 lg:max-w-[400px] flex-1"
+  action={actions.submitContactForm}
+>
   <Label labelText="Name">
     <div>
       <Input name="name" placeholder="Your Name" />
@@ -40,7 +45,7 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
   </Label>
 
   <Label labelText="Please choose a subject">
-    <Select nameAndId="contact-submit-type" options={submitTypeSelectOptions} />
+    <Select nameAndId="contactSubmitType" options={submitTypeSelectOptions} />
   </Label>
 
   <Label
@@ -48,7 +53,7 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
     className="hidden"
     id="identity-group-select-label"
   >
-    <Select nameAndId="identity-group" options={identitySelectOptions} />
+    <Select nameAndId="identityGroup" options={identitySelectOptions} />
   </Label>
 
   <Label
@@ -57,7 +62,7 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
     id="violence-sub-category-select-label"
   >
     <Select
-      nameAndId="violence-sub-category"
+      nameAndId="violenceSubCategory"
       options={violenceSubCategorySelectOptions}
     />
   </Label>
@@ -86,7 +91,7 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
   ) as HTMLLabelElement;
 
   const submitTypeEl = document.querySelector(
-    "#contact-submit-type",
+    "#contactSubmitType",
   ) as HTMLSelectElement;
 
   const conditionalEls = [
@@ -97,12 +102,14 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
   function showConditionalFormFields() {
     conditionalEls.forEach((el) => {
       el.classList.remove("hidden");
+      el.querySelector("select")?.removeAttribute("disabled");
     });
   }
 
   function hideConditionalFormFields() {
     conditionalEls.forEach((el) => {
       el.classList.add("hidden");
+      el.querySelector("select")?.setAttribute("disabled", "disabled");
     });
   }
 
