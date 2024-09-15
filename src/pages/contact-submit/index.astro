@@ -5,34 +5,70 @@ import ContactForm from "./_internal/ContactForm.astro";
 import Socials from "@components/Socials.astro";
 import { actions } from "astro:actions";
 import { isInputError } from "astro:actions";
-import util from "node:util";
+import type { SubmitType } from "./_internal/select-options";
 
 export const prerender = false;
 
 const result = Astro.getActionResult(actions.submitContactForm);
 const inputErrors = isInputError(result?.error) ? result.error.fields : {};
 
-// console.info(
-//   util.inspect(inputErrors, {
-//     depth: null,
-//     colors: true,
-//   }),
-//   "\n",
-//   util.inspect(result, {
-//     depth: null,
-//     colors: true,
-//   }),
-// );
+export type ContactFormInputErrors = typeof inputErrors;
 
 if (result && !result.error) {
-  Astro.redirect("/");
+  const searchParams = new URLSearchParams();
+  searchParams.set("success", "true");
+
+  if (result.data.input?.contactSubmitType) {
+    searchParams.set("type", result.data.input.contactSubmitType);
+  }
+
+  if (
+    result.data.input?.identityGroup &&
+    result.data.input?.violenceSubCategory
+  ) {
+    searchParams.set("identityGroup", result.data.input.identityGroup);
+    searchParams.set(
+      "violenceSubCategory",
+      result.data.input.violenceSubCategory,
+    );
+  }
+
+  const queryString = searchParams.toString();
+  return Astro.redirect(`/contact-submit?${queryString}`);
 }
+
+const isSuccessFormSubmission =
+  Astro.url.searchParams.get("success") === "true";
+const type = Astro.url.searchParams.get("type") as SubmitType;
+const identityGroup = Astro.url.searchParams.get("identityGroup");
+const violenceSubCategory = Astro.url.searchParams.get("violenceSubCategory");
 ---
 
 <BaseLayout
   title="Contact Submit To Transform"
   description="Contact Submit To Transform"
 >
+  {
+    isSuccessFormSubmission ? (
+      <p class="bg-green-600 text-white p-2 text-center">
+        <span>Your message has been submitted.</span>
+
+        {type === "contribute" ? (
+          <span>
+            After it's accepted by our moderators, it'll show on the lived
+            experiences section of{" "}
+            <a
+              href={`/transform/${identityGroup}-${violenceSubCategory}`}
+              class="underline"
+            >
+              this page
+            </a>
+          </span>
+        ) : null}
+      </p>
+    ) : null
+  }
+
   <main class="max-w-5xl mx-auto py-6 px-6 lg:py-20">
     <div class="flex flex-col lg:flex-row gap-10 justify-center">
       <div class="w-full lg:w-[489px] lg:h-[138px] flex-shrink-0">
@@ -118,7 +154,7 @@ if (result && !result.error) {
       </div> -->
 
       <div class="mt-6 lg:mt-0 w-full lg:w-1/2 flex justify-end">
-        <ContactForm />
+        <ContactForm inputErrors={inputErrors} />
       </div>
     </div>
   </main>

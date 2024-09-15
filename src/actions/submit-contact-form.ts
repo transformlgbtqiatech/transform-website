@@ -10,7 +10,7 @@ export const submitContactForm = defineAction({
     email: z.string().email().optional(),
     identityGroup: z.string().optional(),
     violenceSubCategory: z.string().optional(),
-    message: z.string().min(10),
+    message: z.string().min(5),
   }),
   handler: async (input) => {
     await transformSheet.loadInfo();

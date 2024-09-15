@@ -7,6 +7,7 @@ import TextArea from "./TextArea.astro";
 import { getCollection } from "astro:content";
 import { submitTypeSelectOptions } from "./select-options";
 import { actions } from "astro:actions";
+import type { ContactFormInputErrors } from "../index.astro";
 
 const identityGroups = await getCollection("identity-groups");
 const violenceSubCategories = await getCollection("violence-sub-categories");
@@ -26,6 +27,16 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
     };
   },
 );
+
+type Props = {
+  inputErrors: ContactFormInputErrors;
+};
+
+function makeErrorString(errors: string[] = []) {
+  return errors.join(", ");
+}
+
+const { inputErrors } = Astro.props;
 ---
 
 <form
@@ -33,43 +44,71 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
   class="flex flex-col gap-4 lg:max-w-[400px] flex-1"
   action={actions.submitContactForm}
 >
-  <Label labelText="Name">
-    <div>
-      <Input name="name" placeholder="Your Name" />
-      <LabelDescription> Leave empty to stay anonymous </LabelDescription>
-    </div>
-  </Label>
+  <div>
+    <Label labelText="Name">
+      <div>
+        <Input name="name" placeholder="Your Name" />
+        <LabelDescription> Leave empty to stay anonymous </LabelDescription>
+      </div>
+    </Label>
 
-  <Label labelText="Email">
-    <Input name="email" placeholder="Your Email" />
-  </Label>
+    <p>
+      {makeErrorString(inputErrors.name)}
+    </p>
+  </div>
 
-  <Label labelText="Please choose a subject">
-    <Select nameAndId="contactSubmitType" options={submitTypeSelectOptions} />
-  </Label>
+  <div>
+    <Label labelText="Email">
+      <Input name="email" placeholder="Your Email" />
+    </Label>
 
-  <Label
-    labelText="Identity Group"
-    className="hidden"
-    id="identity-group-select-label"
-  >
-    <Select nameAndId="identityGroup" options={identitySelectOptions} />
-  </Label>
+    <p>
+      {makeErrorString(inputErrors.email)}
+    </p>
+  </div>
 
-  <Label
-    labelText="Violence Sub Category"
-    className="hidden"
-    id="violence-sub-category-select-label"
-  >
-    <Select
-      nameAndId="violenceSubCategory"
-      options={violenceSubCategorySelectOptions}
-    />
-  </Label>
+  <div>
+    <Label labelText="Please choose a subject">
+      <Select nameAndId="contactSubmitType" options={submitTypeSelectOptions} />
+    </Label>
 
-  <Label labelText="Your message">
-    <TextArea nameAndId="message" />
-  </Label>
+    <p>
+      {makeErrorString(inputErrors.contactSubmitType)}
+    </p>
+  </div>
+
+  <div id="identity-group-select-label" class="hidden">
+    <Label labelText="Identity Group">
+      <Select nameAndId="identityGroup" options={identitySelectOptions} />
+    </Label>
+
+    <p>
+      {makeErrorString(inputErrors.identityGroup)}
+    </p>
+  </div>
+
+  <div class="hidden" id="violence-sub-category-select-label">
+    <Label labelText="Violence Sub Category">
+      <Select
+        nameAndId="violenceSubCategory"
+        options={violenceSubCategorySelectOptions}
+      />
+    </Label>
+
+    <p>
+      {makeErrorString(inputErrors.violenceSubCategory)}
+    </p>
+  </div>
+
+  <div>
+    <Label labelText="Your message">
+      <TextArea nameAndId="message" required />
+    </Label>
+
+    <p class="mt-2 text-xs text-red-500">
+      {makeErrorString(inputErrors.message)}
+    </p>
+  </div>
 
   <button
     class="text-left font-medium bg-yellow-transform text-white lg:w-fit px-5 py-2 rounded-full"

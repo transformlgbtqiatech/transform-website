@@ -92,6 +92,7 @@ const queryClient = new QueryClient({
 export function LivedExperiences(props: LivedExperiencesProps) {
   return (
     <QueryClientProvider client={queryClient}>
+      <h2 className="text-2xl font-medium">Lived Experiences</h2>
       <LivedExperiencesInternal {...props} />
     </QueryClientProvider>
   );
