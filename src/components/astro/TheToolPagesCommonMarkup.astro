@@ -2,7 +2,7 @@
 import "shepherd.js/dist/css/shepherd.css";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
-import KnowledgeSidebar from "@components/astro/KnowledgeSidebar.astro";
+import Sidebars from "@components/astro/Sidebars.astro";
 import type { ToolPagesProps } from "../../pages/transform/[slug]/_get-static-paths";
 import Prose from "@components/astro/Prose.astro";
 import Footnote from "@components/astro/Footnote.astro";
@@ -49,7 +49,7 @@ const {
     <div
       class="flex gap-2 items-center dark:text-zinc-200 text-zinc-500 lg:absolute lg:-left-10 lg:top-11"
     >
-      <KnowledgeSidebar
+      <Sidebars
         preSelectedSlugs={{
           identityGroupSlug: identityGroupSlug,
           violenceSubCategorySlug: violenceSubCategorySlug,

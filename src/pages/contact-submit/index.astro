@@ -3,12 +3,101 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import HeroSvg from "./_internal/HeroSvg.astro";
 import ContactForm from "./_internal/ContactForm.astro";
 import Socials from "@components/Socials.astro";
+import { actions } from "astro:actions";
+import { isInputError } from "astro:actions";
+import type { SubmitType } from "./_internal/select-options";
+
+export const prerender = false;
+
+const result = Astro.getActionResult(actions.submitContactForm);
+const inputErrors = isInputError(result?.error) ? result.error.fields : {};
+
+let browerChallengeErrorMessage: string | null = null;
+
+if (result?.error?.code === "FORBIDDEN") {
+  browerChallengeErrorMessage = result?.error?.message;
+}
+
+export type ContactFormInputErrors = typeof inputErrors;
+
+if (result && !result.error) {
+  const searchParams = new URLSearchParams();
+  searchParams.set("success", "true");
+
+  if (result.data.input?.contactSubmitType) {
+    searchParams.set("type", result.data.input.contactSubmitType);
+  }
+
+  if (
+    result.data.input?.identityGroup &&
+    result.data.input?.violenceSubCategory &&
+    result.data.input?.contactSubmitType === "contribute"
+  ) {
+    searchParams.set("identityGroup", result.data.input.identityGroup);
+    searchParams.set(
+      "violenceSubCategory",
+      result.data.input.violenceSubCategory,
+    );
+  }
+
+  const queryString = searchParams.toString();
+  return Astro.redirect(`/contact-submit?${queryString}`);
+}
+
+const isSuccessFormSubmission =
+  Astro.url.searchParams.get("success") === "true";
+const type = Astro.url.searchParams.get("type") as SubmitType;
+const identityGroup = Astro.url.searchParams.get("identityGroup");
+const violenceSubCategory = Astro.url.searchParams.get("violenceSubCategory");
 ---
 
 <BaseLayout
   title="Contact Submit To Transform"
   description="Contact Submit To Transform"
 >
+  <script
+    slot="head"
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer></script>
+
+  {
+    isSuccessFormSubmission ? (
+      <p class="bg-green-600 text-white p-2 text-center">
+        <span>Your message has been submitted.</span>
+
+        {type === "contribute" ? (
+          <span>
+            After it's accepted by our moderators, it'll show on the lived
+            experiences section of{" "}
+            <a
+              href={`/transform/${identityGroup}-${violenceSubCategory}`}
+              class="underline"
+            >
+              this page
+            </a>
+          </span>
+        ) : null}
+      </p>
+    ) : null
+  }
+
+  {
+    browerChallengeErrorMessage ? (
+      <p class="bg-red-600 text-white p-2 text-center">
+        <span>
+          Browser challenged failed. Are you sure you are not a bot? If yes{" "}
+          <a href="/contact-submit" class="underline">
+            try again
+          </a>
+          <span>
+            . If it still persists contact us at any of our social handles.
+          </span>
+        </span>
+      </p>
+    ) : null
+  }
+
   <main class="max-w-5xl mx-auto py-6 px-6 lg:py-20">
     <div class="flex flex-col lg:flex-row gap-10 justify-center">
       <div class="w-full lg:w-[489px] lg:h-[138px] flex-shrink-0">
@@ -78,7 +167,13 @@ import Socials from "@components/Socials.astro";
             Follow us (please?)
           </h2>
 
-          <Socials type="blackOnWhite" />
+          <div class="dark:hidden">
+            <Socials type="blackOnWhite" />
+          </div>
+
+          <div class="hidden dark:block">
+            <Socials type="whiteOnBlack" darkBgClass="bg-zinc-800" />
+          </div>
         </div>
       </div>
 
@@ -88,7 +183,7 @@ import Socials from "@components/Socials.astro";
       </div> -->
 
       <div class="mt-6 lg:mt-0 w-full lg:w-1/2 flex justify-end">
-        <ContactForm />
+        <ContactForm inputErrors={inputErrors} />
       </div>
     </div>
   </main>

@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from "astro:transitions";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import "@utils/client/flexmasonry/flex-masonry.css";
 import HeroSvg from "./hero-svg.astro";
@@ -11,6 +12,9 @@ const { selectedAffirmativeActionType, types, list } = Astro.props;
 ---
 
 <BaseLayout title="Affirmative Action" description="Affirmative Action">
+  <Fragment slot="head">
+    <ViewTransitions />
+  </Fragment>
   <main class="max-w-5xl mx-auto py-6 px-6 lg:py-20">
     <div class="flex flex-col lg:flex-row gap-10 justify-center">
       <div class="w-full lg:w-[344px] lg:h-[264px]">
@@ -47,7 +51,7 @@ const { selectedAffirmativeActionType, types, list } = Astro.props;
       class="text-3xl font-oswald dark:text-zinc-200 my-3"
       id="archive-container"
     >
-      Choose a Language
+      Choose a type
     </h2>
 
     {

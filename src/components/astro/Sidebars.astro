@@ -1,5 +1,5 @@
 ---
-import { KnowledgeSidebar as KnowledgeSidebarReact } from "@components/react/KnowledgeSidebar";
+import { Sidebars as SidebarsReact } from "@components/react/Sidebars";
 import { getCollection } from "astro:content";
 import { readJsonFile } from "@root/src/utils/server/read-json-file-from-root";
 
@@ -81,7 +81,7 @@ const { openKnowledgeSidebarByDefault, preSelectedSlugs, isDetailPage } =
   Astro.props;
 ---
 
-<KnowledgeSidebarReact
+<SidebarsReact
   client:idle
   identityGroupsList={identityGroupsList}
   subCategoriesList={subCategoriesList}

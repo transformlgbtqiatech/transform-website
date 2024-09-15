@@ -1,7 +1,7 @@
 import clsx from "clsx";
-import type { SideBarToolProps } from "./KnowledgeSidebar";
+import type { SideBarToolProps } from "./Sidebars";
 import { useState } from "react";
-import type { PreSelectedSlugsProp } from "@components/astro/KnowledgeSidebar.astro";
+import type { PreSelectedSlugsProp } from "@components/astro/Sidebars.astro";
 import { useBreakPoint } from "./hooks/use-breakpoint";
 import { ArrowLeft } from "lucide-react";
 import { useStore } from "@nanostores/react";
@@ -42,11 +42,11 @@ export default function TransformKnowledgeSidebarContent(
 
   const initialSelectedIdentitySlug = !isTourOver
     ? null
-    : props.preSelectedSlugs?.identityGroupSlug ?? null;
+    : (props.preSelectedSlugs?.identityGroupSlug ?? null);
 
   const initialSelectedViolenceSubCategorySlug = !isTourOver
     ? null
-    : props.preSelectedSlugs?.violenceSubCategorySlug ?? null;
+    : (props.preSelectedSlugs?.violenceSubCategorySlug ?? null);
 
   const [selectedIdentitySlug, setSelectedIdentitySlug] = useState<
     string | null
@@ -95,13 +95,13 @@ export default function TransformKnowledgeSidebarContent(
   const showApplyButton = lessThanLgBreakpoint
     ? false
     : !isTourOver
-    ? selectedViolenceSubCategorySlug && selectedIdentitySlug
-    : selectedViolenceSubCategorySlug && selectedIdentitySlug
-    ? getSelectionIsNotOfCurrentPage(
-        selectedIdentitySlug,
-        selectedViolenceSubCategorySlug,
-      )
-    : false;
+      ? selectedViolenceSubCategorySlug && selectedIdentitySlug
+      : selectedViolenceSubCategorySlug && selectedIdentitySlug
+        ? getSelectionIsNotOfCurrentPage(
+            selectedIdentitySlug,
+            selectedViolenceSubCategorySlug,
+          )
+        : false;
 
   const showAssaultSubCategoryCol = lessThanLgBreakpoint
     ? visibleColumn === "assult-sub-categories-col"

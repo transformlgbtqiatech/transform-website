@@ -5,14 +5,16 @@ import type {
   ViolenceCategory,
   ViolenceSubCategory,
 } from "@cms/collections/collection-types";
-import type { PreSelectedSlugsProp } from "@components/astro/KnowledgeSidebar.astro";
+import type { PreSelectedSlugsProp } from "@components/astro/Sidebars.astro";
 import { FilterIcon } from "lucide-react";
 import { useStore } from "@nanostores/react";
 import {
   knowledgeSidebarModalState as knowledgeSidebarModalState,
+  livedExperiencesModalState,
   tourState,
 } from "@store/global";
 import { walkthrough, walkthroughLS } from "@utils/client/walkthrough";
+import { LivedExperiences } from "./LivedExperiences";
 
 export type SideBarToolProps = {
   identityGroupsList: Array<{
@@ -30,13 +32,15 @@ export type SideBarToolProps = {
   openKnowledgeSidebarByDefault?: boolean;
 };
 
-export function KnowledgeSidebar(
+export function Sidebars(
   props: SideBarToolProps & PreSelectedSlugsProp & { isDetailPage: boolean },
 ) {
   const $knowledgeSidebarModalState = useStore(knowledgeSidebarModalState);
+  const $livedExperiencesModalState = useStore(livedExperiencesModalState);
+
   const $tourState = useStore(tourState);
 
-  const closeModal = () => {
+  const closeKnowledgeModal = () => {
     const walkthroughLSState = walkthroughLS.get();
 
     const isTourOver =
@@ -49,8 +53,17 @@ export function KnowledgeSidebar(
 
     knowledgeSidebarModalState.set(false);
   };
-  const openModal = () => {
+
+  const openKnowledgeModal = () => {
     knowledgeSidebarModalState.set(true);
+  };
+
+  const openLivedExperiencesModal = () => {
+    livedExperiencesModalState.set(true);
+  };
+
+  const closeLivedExperiencesModal = () => {
+    livedExperiencesModalState.set(false);
   };
 
   return (
@@ -65,7 +78,7 @@ export function KnowledgeSidebar(
         <DialogTrigger
           className="focus:outline-2 focus:outline-blue-600 dark:focus:outline-outline-blue-400 focus:outline-offset-4 rounded-md"
           onClick={() => {
-            openModal();
+            openKnowledgeModal();
           }}
         >
           <span
@@ -92,22 +105,45 @@ export function KnowledgeSidebar(
           descriptionVisuallyHidden={true}
           descriptionClassName="max-w-[90%]"
           uiType="sidebar"
-          onEscapeKeyDown={closeModal}
-          onCloseInteraction={closeModal}
-          onPointerDownOutside={closeModal}
+          onEscapeKeyDown={closeKnowledgeModal}
+          onCloseInteraction={closeKnowledgeModal}
+          onPointerDownOutside={closeKnowledgeModal}
         >
           <TransformKnowledgeSidebarContent {...props} />
         </DialogContent>
       </Dialog>
 
-      <button>
-        <span
-          className="w-12 h-12 bg-orange-transform hover:bg-orange-transform/90 rounded-full text-white flex items-center justify-center"
-          id="lived-experiences-trigger-button"
+      <Dialog open={$livedExperiencesModalState}>
+        <DialogTrigger
+          className="focus:outline-2 focus:outline-blue-600 dark:focus:outline-outline-blue-400 focus:outline-offset-4 rounded-md"
+          onClick={() => {
+            openLivedExperiencesModal();
+          }}
         >
-          L
-        </span>
-      </button>
+          <span
+            className="w-12 h-12 bg-orange-transform hover:bg-orange-transform/90 rounded-full text-white flex items-center justify-center"
+            id="lived-experiences-trigger-button"
+          >
+            L
+          </span>
+        </DialogTrigger>
+
+        <DialogContent
+          className="fixed bg-zinc-50 dark:bg-zinc-800 dark:text-gray-200 will-change-transform motion-safe:data-[state=closed]:animate-sidebar-unmount motion-safe:data-[state=open]:animate-sidebar"
+          widthClass="w-[600px] lg:max-w-[75%] max-w-full"
+          title="Select identity group and sub category"
+          titleVisuallyHidden={true}
+          description="Select identity group and violence sub category. Post that you'll be show the knowledge post for that group and sub category"
+          descriptionVisuallyHidden={true}
+          descriptionClassName="max-w-[90%]"
+          uiType="sidebar"
+          onEscapeKeyDown={closeLivedExperiencesModal}
+          onCloseInteraction={closeLivedExperiencesModal}
+          onPointerDownOutside={closeLivedExperiencesModal}
+        >
+          <LivedExperiences preSelectedSlugs={props.preSelectedSlugs} />
+        </DialogContent>
+      </Dialog>
 
       <button
         onClick={() => {
