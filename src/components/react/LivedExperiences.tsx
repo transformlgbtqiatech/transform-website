@@ -42,7 +42,7 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
 
   if (isPending) {
     return (
-      <div className="h-svh flex items-center justify-center animate-spin">
+      <div className="h-[calc(100svh-80px)] flex items-center justify-center animate-spin">
         <LoaderCircle />
       </div>
     );
@@ -52,7 +52,7 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
     if (error instanceof WretchError) {
       if (error.status === 404) {
         return (
-          <div className="h-svh flex items-center justify-center">
+          <div className="h-[calc(100svh-80px)] flex items-center justify-center">
             <p>No lived experiences yet.</p>
           </div>
         );
@@ -60,7 +60,7 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
     }
 
     return (
-      <div className="h-svh flex items-center justify-center">
+      <div className="h-[calc(100svh-80px)] flex items-center justify-center">
         <p>Something unexpected went wrong. We're on it.</p>
       </div>
     );
@@ -69,9 +69,12 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
   if (data.length > 0) {
     return (
       <ul className="mt-10 flex flex-col gap-4 max-w-[500px] mx-auto">
-        {data.map((el) => {
+        {data.map((el, key) => {
           return (
-            <li className="shadow-transform p-4 rounded-lg border-[1px] border-zinc-200 dark:border-zinc-800 flex flex-col gap-4">
+            <li
+              className="shadow-transform p-4 rounded-lg border-[1px] border-zinc-200 dark:border-zinc-800 flex flex-col gap-4"
+              key={key}
+            >
               <div className="flex gap-2">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center bg-zinc-200 dark:bg-zinc-900">
                   {el.name.charAt(0)}
