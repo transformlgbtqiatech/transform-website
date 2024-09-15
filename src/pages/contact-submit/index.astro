@@ -12,6 +12,12 @@ export const prerender = false;
 const result = Astro.getActionResult(actions.submitContactForm);
 const inputErrors = isInputError(result?.error) ? result.error.fields : {};
 
+let browerChallengeErrorMessage: string | null = null;
+
+if (result?.error?.code === "FORBIDDEN") {
+  browerChallengeErrorMessage = result?.error?.message;
+}
+
 export type ContactFormInputErrors = typeof inputErrors;
 
 if (result && !result.error) {
@@ -24,7 +30,8 @@ if (result && !result.error) {
 
   if (
     result.data.input?.identityGroup &&
-    result.data.input?.violenceSubCategory
+    result.data.input?.violenceSubCategory &&
+    result.data.input?.contactSubmitType === "contribute"
   ) {
     searchParams.set("identityGroup", result.data.input.identityGroup);
     searchParams.set(
@@ -48,6 +55,12 @@ const violenceSubCategory = Astro.url.searchParams.get("violenceSubCategory");
   title="Contact Submit To Transform"
   description="Contact Submit To Transform"
 >
+  <script
+    slot="head"
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer></script>
+
   {
     isSuccessFormSubmission ? (
       <p class="bg-green-600 text-white p-2 text-center">
@@ -65,6 +78,22 @@ const violenceSubCategory = Astro.url.searchParams.get("violenceSubCategory");
             </a>
           </span>
         ) : null}
+      </p>
+    ) : null
+  }
+
+  {
+    browerChallengeErrorMessage ? (
+      <p class="bg-red-600 text-white p-2 text-center">
+        <span>
+          Browser challenged failed. Are you sure you are not a bot? If yes{" "}
+          <a href="/contact-submit" class="underline">
+            try again
+          </a>
+          <span>
+            . If it still persists contact us at any of our social handles.
+          </span>
+        </span>
       </p>
     ) : null
   }

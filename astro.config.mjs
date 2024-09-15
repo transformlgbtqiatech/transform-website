@@ -57,6 +57,10 @@ export default defineConfig({
           context: "server",
           access: "secret",
         }),
+        CLOUDFLARE_TURNSTILE_SECRET_KEY: envField.string({
+          context: "server",
+          access: "secret",
+        }),
       },
     },
   },
