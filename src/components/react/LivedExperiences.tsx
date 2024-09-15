@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import wretch from "wretch";
 import { LoaderCircle } from "lucide-react";
+import { WretchError } from "wretch/resolver";
 
 type LivedExperiencesProps = PreSelectedSlugsProp;
 
@@ -48,8 +49,21 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
   }
 
   if (error) {
-    // TODO handle error
-    return null;
+    if (error instanceof WretchError) {
+      if (error.status === 404) {
+        return (
+          <div className="h-svh flex items-center justify-center">
+            <p>No lived experiences yet.</p>
+          </div>
+        );
+      }
+    }
+
+    return (
+      <div className="h-svh flex items-center justify-center">
+        <p>Something unexpected went wrong. We're on it.</p>
+      </div>
+    );
   }
 
   if (data.length > 0) {
@@ -82,7 +96,7 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: 2,
+      retry: 1,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
     },
