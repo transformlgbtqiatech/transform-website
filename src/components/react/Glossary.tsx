@@ -2,20 +2,20 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./Tooltip";
 
 type Props = {
   name: string;
-  definition: string;
+  children: React.ReactNode;
 };
 
 export function Glossary(props: Props) {
-  const { name, definition } = props;
+  const { name, children } = props;
   return (
     <Tooltip>
       <TooltipTrigger className="border-b-2 border-dotted border-gray-400">
         <span className="js-glossary-tooltip-trigger">{name}</span>
       </TooltipTrigger>
       <TooltipContent className="bg-white rounded-xl">
-        <p className="bg-zinc-600 rounded-xl p-2 border-[1px] text-xs text-zinc-100 shadow-transform max-w-md">
-          {definition}
-        </p>
+        <div className="prose prose-p:p-2 prose-p:m-0 prose-a:text-zinc-100 prose-a:underline bg-zinc-600 rounded-xl border-[1px] text-sm text-zinc-100 shadow-transform max-w-md">
+          {children}
+        </div>
       </TooltipContent>
     </Tooltip>
   );

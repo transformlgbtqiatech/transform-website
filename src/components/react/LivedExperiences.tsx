@@ -93,7 +93,7 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
     );
   }
 
-  return <div>{JSON.stringify(data)}</div>;
+  return null;
 }
 
 const queryClient = new QueryClient({

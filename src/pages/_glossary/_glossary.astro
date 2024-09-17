@@ -1,17 +1,41 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import { glossaryPlaceholderData } from "./_data";
+import type { Render } from "astro:content";
+// import { glossaryPlaceholderData } from "./_data";
+import { getCollection } from "astro:content";
 
-// function getAllAlphabets() {
-//   const alphabets = [];
-//   for (let i = 97; i <= 122; i++) {
-//     alphabets.push(String.fromCharCode(i));
-//   }
-//   return alphabets;
-// }
+type GlossaryDataItem = {
+  name: string;
+  definitionRenderer: () => Render[".mdx"];
+};
 
-// const alphabets = getAllAlphabets();
-const alphabets = Object.keys(glossaryPlaceholderData).sort();
+const glossaryCollection = await getCollection("glossary");
+const glossaryData: Array<GlossaryDataItem> = glossaryCollection
+  .map((item) => {
+    return {
+      name: item.data.name,
+      definitionRenderer: item.render,
+    };
+  })
+  .sort();
+
+type GlossaryMap = { [alphabet: string]: Array<GlossaryDataItem> };
+
+function groupGlossaryWordsByAlphabet(
+  glossaryData: Array<GlossaryDataItem>,
+): GlossaryMap {
+  return glossaryData.reduce((acc, item) => {
+    const firstLetter = item.name.charAt(0).toLowerCase();
+    if (!acc[firstLetter]) {
+      acc[firstLetter] = [];
+    }
+    acc[firstLetter].push(item);
+    return acc;
+  }, {} as GlossaryMap);
+}
+
+const groupedGlossaryData = groupGlossaryWordsByAlphabet(glossaryData);
+const alphabets = Object.keys(groupedGlossaryData).sort();
 ---
 
 <BaseLayout title="Glossary" description="Glossary">
@@ -54,14 +78,14 @@ const alphabets = Object.keys(glossaryPlaceholderData).sort();
   >
     <ul class="flex flex-col gap-6">
       {
-        Object.entries(glossaryPlaceholderData).map(
+        Object.entries(groupedGlossaryData).map(
           ([alphabet, glossaryTerms], index) => {
             const firstGroup = index % 3 === 0;
             const secondGroup = index % 3 === 1;
             const thirdGroup = index % 3 === 2;
 
             const isLast =
-              index === Object.keys(glossaryPlaceholderData).length - 1;
+              index === Object.keys(groupedGlossaryData).length - 1;
 
             return (
               <li
@@ -90,9 +114,12 @@ const alphabets = Object.keys(glossaryPlaceholderData).sort();
                       {alphabet.toUpperCase()}
                     </p>
                   </aside>
-                  <section>
-                    <ul class="flex flex-col gap-6">
-                      {glossaryTerms.map((glossaryTerm) => {
+                  <section class="w-full">
+                    <ul class="flex flex-col gap-6 w-full">
+                      {glossaryTerms.map(async (glossaryTerm) => {
+                        const { Content } =
+                          await glossaryTerm.definitionRenderer();
+
                         return (
                           <li
                             id={alphabet}
@@ -103,12 +130,12 @@ const alphabets = Object.keys(glossaryPlaceholderData).sort();
                             <h2 class="uppercase text-2xl font-semibold">
                               {glossaryTerm.name}
                             </h2>
-                            <p class="line-clamp-5 glossary-definition">
-                              {glossaryTerm.definition}
-                            </p>
+                            <div class="prose prose-p:dark:text-zinc-200 prose-a:dark:text-zinc-200 line-clamp-5 glossary-definition">
+                              <Content />
+                            </div>
 
                             <button class="text-left border-b-2 border-sky-600 w-fit text-sm hidden read-more-btn">
-                              Read More
+                              <Content />
                             </button>
 
                             <button class="text-left border-b-2 border-sky-600 w-fit text-sm hidden read-less-btn">

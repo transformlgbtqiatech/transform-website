@@ -12,6 +12,7 @@ import {
   useInteractions,
   useMergeRefs,
   FloatingPortal,
+  safePolygon,
 } from "@floating-ui/react";
 import type { Placement } from "@floating-ui/react";
 
@@ -20,6 +21,7 @@ interface TooltipOptions {
   placement?: Placement;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  closeOnClickOutside?: boolean;
 }
 
 export function useTooltip({
@@ -54,6 +56,9 @@ export function useTooltip({
   const hover = useHover(context, {
     move: false,
     enabled: controlledOpen == null,
+    handleClose: safePolygon({
+      requireIntent: true,
+    }),
   });
   const focus = useFocus(context, {
     enabled: controlledOpen == null,
