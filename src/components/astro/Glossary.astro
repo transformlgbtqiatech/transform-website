@@ -8,13 +8,27 @@ type Props = GlossaryProps;
 type GlossaryAstroItemId = CollectionEntry<"glossary">["id"];
 export type GlossaryAstroItem = CollectionEntry<"glossary">;
 
-const entry = await getEntry(
-  "glossary",
-  Astro.props.glossaryTerm as GlossaryAstroItemId,
-);
+async function getPageProps() {
+  const entry = await getEntry(
+    "glossary",
+    Astro.props.glossaryTerm as GlossaryAstroItemId,
+  );
 
-const { data } = entry;
-const { name, definition } = data;
+  if (!entry) {
+    return null;
+  }
+
+  const { Content } = await entry.render();
+  return { Content, name: entry.data.name };
+}
+
+const pageProps = await getPageProps();
 ---
 
-<GlossaryReact name={name} definition={definition} client:idle />
+{
+  pageProps ? (
+    <GlossaryReact name={pageProps.name} client:idle>
+      <pageProps.Content />
+    </GlossaryReact>
+  ) : null
+}

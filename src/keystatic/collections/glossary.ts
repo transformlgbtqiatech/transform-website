@@ -1,9 +1,14 @@
 import { fields, collection } from "@keystatic/core";
+import { simpleEditorOptions } from "@root/src/utils/common/simple-editor-options";
 
 export const glossary = collection({
   label: "Glossary",
   slugField: "name",
-  path: "src/content/glossary/*",
+  path: "src/content/glossary/*/",
+  entryLayout: "content",
+  format: {
+    contentField: "definition",
+  },
   schema: {
     name: fields.slug({
       name: {
@@ -14,12 +19,9 @@ export const glossary = collection({
         },
       },
     }),
-    definition: fields.text({
-      label: "Definition",
-      multiline: true,
-      validation: {
-        isRequired: true,
-      },
-    }),
+    definition: fields.mdx({
+      label: "Rich Definition",
+      options: simpleEditorOptions
+    })
   },
 })
