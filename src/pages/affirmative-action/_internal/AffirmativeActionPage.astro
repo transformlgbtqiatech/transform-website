@@ -15,38 +15,32 @@ const { selectedAffirmativeActionType, types, list } = Astro.props;
   <Fragment slot="head">
     <ViewTransitions />
   </Fragment>
-  <main class="max-w-5xl mx-auto py-6 px-6 lg:py-20">
-    <div class="flex flex-col lg:flex-row gap-10 justify-center">
-      <div class="w-full lg:w-[344px] lg:h-[264px]">
-        <HeroSvg />
-      </div>
 
-      <div>
-        <h1
-          class="text-4xl lg:text-5xl font-oswald mb-6 flex flex-wrap dark:text-zinc-200"
+  <div class="py-16 bg-zinc-100 dark:bg-zinc-900 lg:text-center px-6">
+    <div class="flex flex-col gap-5">
+      <h1 class="text-6xl text-zinc-800 dark:text-zinc-200">
+        <span class="font-bold">Affirmative/</span><span class="italic"
+          >action</span
         >
-          <span class="font-semibold">Affirmative/</span>
-          <span class="italic">action</span>
-        </h1>
+      </h1>
 
-        <Prose
-          class="prose-a:dark:text-sky-400 prose-a:text-sky-500 text-zinc-800 dark:text-zinc-200 max-w-[500px] prose-p:leading-7"
-        >
-          <p>
-            The world’s a pretty scary place for transgender people. Now what?
-            Trans/form calls for affirmative action by providing links to trans
-            led, run and centered donation drives, organisations, mutual aid
-            groups, collectives, and projects that exist around sensitisation,
-            advocacy, evidence building and trans affirmative action. Nothing
-            about us, without us (as borrowed from our disabled and sex working
-            siblings)
-          </p>
-        </Prose>
-      </div>
+      <Prose
+        class="prose-a:dark:text-sky-400 prose-a:text-sky-500 text-zinc-800 dark:text-zinc-200 max-w-4xl mx-auto"
+      >
+        <p>
+          The world’s a pretty scary place for transgender people. Now what?
+          Trans/form calls for affirmative action by providing links to trans
+          led, run and centered donation drives, organisations, mutual aid
+          groups, collectives, and projects that exist around sensitisation,
+          advocacy, evidence building and trans affirmative action. Nothing
+          about us, without us (as borrowed from our disabled and sex working
+          siblings)
+        </p>
+      </Prose>
     </div>
+  </div>
 
-    <hr class="mt-16 mb-8" />
-
+  <main class="max-w-5xl mx-auto py-6 px-6">
     <h2
       class="text-3xl font-oswald dark:text-zinc-200 my-3"
       id="archive-container"

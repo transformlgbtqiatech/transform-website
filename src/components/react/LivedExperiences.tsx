@@ -8,15 +8,13 @@ import wretch from "wretch";
 import { LoaderCircle } from "lucide-react";
 import { WretchError } from "wretch/resolver";
 
-type LivedExperiencesProps = PreSelectedSlugsProp;
+type LivedExperiencesProps = PreSelectedSlugsProp & {
+  isDetailPage: boolean;
+};
 
 export function LivedExperiencesInternal(props: LivedExperiencesProps) {
   const { identityGroupSlug, violenceSubCategorySlug } =
     props.preSelectedSlugs ?? {};
-
-  if (!identityGroupSlug || !violenceSubCategorySlug) {
-    return null;
-  }
 
   const { data, isPending, error } = useQuery<
     Array<
@@ -39,6 +37,19 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
         .json();
     },
   });
+
+  if (!props.isDetailPage) {
+    return (
+      <div className="mt-10 flex flex-col gap-4 max-w-[500px] mx-auto">
+        You'll see lived experiences here once you open a tool page by clicking
+        the red filter button after you close this dialog box.
+      </div>
+    );
+  }
+
+  if (!identityGroupSlug || !violenceSubCategorySlug) {
+    return null;
+  }
 
   if (isPending) {
     return (
@@ -75,14 +86,12 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
               className="shadow-transform p-4 rounded-lg border-[1px] border-zinc-200 dark:border-zinc-800 flex flex-col gap-4"
               key={key}
             >
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center bg-zinc-200 dark:bg-zinc-900">
                   {el.name.charAt(0)}
                 </div>
-                <div>
-                  <p className="text-sm font-medium">{el.name}</p>
-                  <p className="text-xs text-zinc-500">{el.email}</p>
-                </div>
+
+                <p className="text-sm font-medium">{el.name}</p>
               </div>
 
               <p className="text-sm">{el.message}</p>
