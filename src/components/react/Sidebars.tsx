@@ -141,7 +141,10 @@ export function Sidebars(
           onCloseInteraction={closeLivedExperiencesModal}
           onPointerDownOutside={closeLivedExperiencesModal}
         >
-          <LivedExperiences preSelectedSlugs={props.preSelectedSlugs} />
+          <LivedExperiences
+            preSelectedSlugs={props.preSelectedSlugs}
+            isDetailPage={props.isDetailPage}
+          />
         </DialogContent>
       </Dialog>
 
