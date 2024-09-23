@@ -4,9 +4,13 @@ export const submitTypeSelectOptions = [
     text: "Write to us",
   },
   {
-    value: "contribute" as const,
-    text: "Contribute",
+    value: "contribute-lived-experiences" as const,
+    text: "Contribute your Lived Experience(s)",
   },
+  {
+    value: "contribute-to-different-page" as const,
+    text: 'Contribute to a different page'
+  }
 ];
 
 export type SubmitType = typeof submitTypeSelectOptions[number]['value'];

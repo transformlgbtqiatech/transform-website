@@ -1,0 +1,32 @@
+---
+import Prose from "./Prose.astro";
+
+type Props = {
+  title: {
+    normal: string;
+    slant: string;
+  };
+};
+
+const { title } = Astro.props;
+const { normal, slant } = title;
+---
+
+<div class="py-16 bg-zinc-100 dark:bg-zinc-900 lg:text-center px-6">
+  <div class="flex flex-col gap-5">
+    <h1
+      class="text-6xl text-zinc-800 dark:text-zinc-200 flex flex-col lg:flex-row justify-center"
+    >
+      <span class="font-bold">{normal}/</span><span class="italic">{slant}</span
+      >
+    </h1>
+
+    <Prose
+      class="prose-a:dark:text-sky-400 prose-a:text-sky-500 text-zinc-800 dark:text-zinc-200 max-w-4xl mx-auto prose-p:my-0"
+    >
+      <p>
+        <slot />
+      </p>
+    </Prose>
+  </div>
+</div>

@@ -12,10 +12,20 @@ export const submitContactForm = defineAction({
   input: z.object({
     contactSubmitType: z.enum(['contribute', 'write-to-us']),
     name: z.string().optional(),
-    email: z.string().email().optional(),
+    email: z.string().email('Not a valid email').optional(),
     identityGroup: z.string().optional(),
     violenceSubCategory: z.string().optional(),
-    message: z.string().min(5),
+    message: z.string({
+      errorMap(issue, ctx) {
+        if (issue.code === 'too_small') {
+          return {
+            message: 'Message is too short.'
+          }
+        }
+
+        return { message: ctx.defaultError }
+      }
+    }).min(5),
     "cf-turnstile-response": z.string()
   }),
   handler: async (input, context) => {

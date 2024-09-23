@@ -22,6 +22,7 @@ interface TooltipOptions {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   closeOnClickOutside?: boolean;
+  offet?: number;
 }
 
 export function useTooltip({
@@ -29,6 +30,7 @@ export function useTooltip({
   placement = "top",
   open: controlledOpen,
   onOpenChange: setControlledOpen,
+  offet,
 }: TooltipOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
 
@@ -41,7 +43,7 @@ export function useTooltip({
     onOpenChange: setOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(0),
+      offset(offet ?? 0),
       flip({
         crossAxis: placement.includes("-"),
         fallbackAxisSideDirection: "start",
