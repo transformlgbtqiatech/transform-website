@@ -11,6 +11,7 @@ import type { SubmitType } from "./_internal/select-options";
 import Prose from "@components/astro/Prose.astro";
 import { ContactForm } from "./_internal/ContactForm";
 import { getCollection } from "astro:content";
+import ContactFormScript from "./_internal/ContactFormScript.astro";
 
 export const prerender = false;
 
@@ -51,7 +52,6 @@ if (result && !result.error) {
 
 const isSuccessFormSubmission =
   Astro.url.searchParams.get("success") === "true";
-const type = Astro.url.searchParams.get("type") as SubmitType;
 const identityGroup = Astro.url.searchParams.get("identityGroup");
 const violenceSubCategory = Astro.url.searchParams.get("violenceSubCategory");
 
@@ -73,7 +73,23 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
     };
   },
 );
+
+const typeParam = Astro.url.searchParams.get("type");
+
+// type Props = {
+//   initialType?: SubmitType;
+// };
+
+// const { initialType } = Astro.props;
+// initialValues={initialValues}
+const initialValues: Record<string, string | undefined> = {
+  contactSubmitType: typeParam as SubmitType | undefined,
+};
+
+export type InitialValues = typeof initialValues;
 ---
+
+<ContactFormScript />
 
 <BaseLayout
   title="Contact Submit To Transform"
@@ -85,7 +101,7 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
     async
     defer></script>
 
-  {
+  <!-- {
     isSuccessFormSubmission ? (
       <p class="bg-green-600 text-white p-2 text-center">
         <span>Your message has been submitted.</span>
@@ -104,7 +120,7 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
         ) : null}
       </p>
     ) : null
-  }
+  } -->
 
   {
     browerChallengeErrorMessage ? (
@@ -156,6 +172,7 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
         <section>
           <ContactForm
             inputErrors={inputErrors}
+            initialValues={initialValues}
             identitySelectOptions={identitySelectOptions}
             violenceSubCategorySelectOptions={violenceSubCategorySelectOptions}
             client:idle

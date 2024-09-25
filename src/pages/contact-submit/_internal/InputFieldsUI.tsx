@@ -22,8 +22,8 @@ export function Label(props: LabelProps) {
       ...rest,
     },
     [
-      createElement("span", { className: labelTextClass }, text),
-      createElement("div", null, children),
+      createElement("span", { className: labelTextClass, key: 1 }, text),
+      createElement("div", { key: 2 }, children),
     ],
   );
 
@@ -77,7 +77,11 @@ export function Select(props: SelectProps) {
         {...rest}
       >
         {options.map((option) => {
-          return <option value={option.value}>{option.text}</option>;
+          return (
+            <option value={option.value} key={option.value}>
+              {option.text}
+            </option>
+          );
         })}
       </select>
 

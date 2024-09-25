@@ -1,5 +1,5 @@
 // import { Info as InfoIcon } from "lucide-react";
-import type { ContactFormInputErrors } from "../index.astro";
+import type { ContactFormInputErrors, InitialValues } from "../index.astro";
 import {
   type LivedExperiencesDataList,
   type LivedExperienceDataItem,
@@ -11,6 +11,7 @@ import {
   contributeToDifferentPageFormFieldsData,
 } from "./form-fields-data";
 import { Input, Label, Select, TextArea } from "./InputFieldsUI";
+
 // import {
 //   Tooltip,
 //   TooltipContent,
@@ -18,30 +19,51 @@ import { Input, Label, Select, TextArea } from "./InputFieldsUI";
 // } from "@components/react/Tooltip";
 import clsx from "clsx";
 import type { SubmitType } from "./select-options";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type ContactFormProps = {
   inputErrors: ContactFormInputErrors;
+  initialValues: InitialValues;
 } & LivedExperiencesFactoryOptions;
 
 export function ContactForm(props: ContactFormProps) {
+  /**
+   * `contactFormHasHydratedAtom` is used to partially progressively
+   * enhance contact form's `contactSubmitType` id-ed select field.
+   */
+  useEffect(() => {
+    if (!window.contactFormHasHydrated) {
+      window.contactFormHasHydrated = true;
+    }
+  }, []);
+
   const {
     identitySelectOptions,
     violenceSubCategorySelectOptions,
+    initialValues,
     // inputErrors,
   } = props;
 
-  const [type, setType] = useState<SubmitType>("write-to-us");
+  const [type, setType] = useState<SubmitType>(
+    (initialValues?.contactSubmitType as SubmitType | undefined) ??
+      "write-to-us",
+  );
 
   let formFieldsJsx: JSX.Element | null = null;
 
   if (type === "write-to-us") {
-    formFieldsJsx = <FormFieldListRenderer list={writeToUsFormFieldsData} />;
+    formFieldsJsx = (
+      <FormFieldListRenderer
+        list={writeToUsFormFieldsData}
+        initialValues={initialValues}
+      />
+    );
   }
 
   if (type === "contribute-lived-experiences") {
     formFieldsJsx = (
       <FormFieldListRenderer
+        initialValues={initialValues}
         list={getLivedExperiencesFormFieldsData({
           identitySelectOptions,
           violenceSubCategorySelectOptions,
@@ -52,7 +74,10 @@ export function ContactForm(props: ContactFormProps) {
 
   if (type === "contribute-to-different-page") {
     formFieldsJsx = (
-      <FormFieldListRenderer list={contributeToDifferentPageFormFieldsData} />
+      <FormFieldListRenderer
+        list={contributeToDifferentPageFormFieldsData}
+        initialValues={initialValues}
+      />
     );
   }
 
@@ -84,7 +109,7 @@ export function ContactForm(props: ContactFormProps) {
   return (
     <form className="flex flex-col gap-4 flex-1 shadow-transform border-[1px] border-zinc-200 rounded-3xl p-6 lg:p-10">
       <div className="flex flex-col gap-1">
-        <FormFieldRenderer {...typeFieldProps} />
+        <FormFieldRenderer {...typeFieldProps} initialValues={initialValues} />
         {/* TODO: how does the accessibility work for this description if required? */}
         <p className="text-xs text-zinc-500 font-normal leading-3">
           {typeLabel}
@@ -96,15 +121,35 @@ export function ContactForm(props: ContactFormProps) {
   );
 }
 
-function FormFieldListRenderer(props: { list: LivedExperiencesDataList }) {
-  const { list } = props;
+type FormFieldListRendererProps = {
+  list: LivedExperiencesDataList;
+  initialValues?: InitialValues;
+};
 
-  return list.map((el) => {
-    return <FormFieldRenderer {...el} />;
+function FormFieldListRenderer(props: FormFieldListRendererProps) {
+  const { list, initialValues } = props;
+
+  return list.map((el, index) => {
+    // const initialValue =
+    //   el.type !== "multiple" ? initialValues?.[el.id] : undefined;
+
+    return (
+      <FormFieldRenderer
+        {...el}
+        key={`${el.type}-${index}`}
+        initialValues={initialValues}
+      />
+    );
   });
 }
 
-function FormFieldRenderer(props: LivedExperienceDataItem) {
+function FormFieldRenderer(
+  props: LivedExperienceDataItem & {
+    initialValues?: InitialValues;
+  },
+) {
+  const { initialValues } = props;
+
   if (
     props.type === "text" ||
     props.type === "email" ||
@@ -145,6 +190,7 @@ function FormFieldRenderer(props: LivedExperienceDataItem) {
           options={options}
           required={required}
           onChange={onChange}
+          defaultValue={initialValues?.[id]}
         ></Select>
       </Label>
     );

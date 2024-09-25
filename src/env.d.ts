@@ -3,4 +3,5 @@
 /// <reference types="astro/client" />
 interface Window {
   themeValue?: "light" | "dark";
+  contactFormHasHydrated?: boolean;
 }
