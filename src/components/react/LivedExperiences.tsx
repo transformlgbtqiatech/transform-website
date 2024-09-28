@@ -19,11 +19,11 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
   const { data, isPending, error } = useQuery<
     Array<
       Record<
-        | "name"
+        | "nameOrPseudonym"
         | "email"
-        | "identity-group"
-        | "violence-sub-category"
-        | "message",
+        | "identityGroup"
+        | "violenceSubCategory"
+        | "livedExperienceEdited",
         string
       >
     >
@@ -88,13 +88,19 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
             >
               <div className="flex gap-2 items-center">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center bg-zinc-200 dark:bg-zinc-900">
-                  {el.name.charAt(0)}
+                  {el?.nameOrPseudonym?.charAt(0)
+                    ? el?.nameOrPseudonym?.charAt(0)
+                    : "A"}
                 </div>
 
-                <p className="text-sm font-medium">{el.name}</p>
+                <p className="text-sm font-medium">
+                  {el.nameOrPseudonym ? el.nameOrPseudonym : "Anonymous"}
+                </p>
               </div>
 
-              <p className="text-sm">{el.message}</p>
+              <p className="text-sm whitespace-pre-wrap">
+                {el.livedExperienceEdited}
+              </p>
             </li>
           );
         })}

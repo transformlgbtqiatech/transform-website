@@ -1,13 +1,9 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { Content as TitleContent } from "../../singletons-data/regional-archives/title.mdx";
-import tailwindConfig from "@root/tailwind.config.ts";
-import resolveConfig from "tailwindcss/resolveConfig";
 import { ChevronDownIcon } from "lucide-react";
 import type { RegionalArchivesPageProps } from "@root/src/pages/regional-archives/_utils";
 import Hero from "./Hero.astro";
-
-const config = resolveConfig(tailwindConfig);
 type Props = RegionalArchivesPageProps;
 
 const {

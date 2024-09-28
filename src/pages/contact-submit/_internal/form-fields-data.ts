@@ -3,6 +3,7 @@ import { submitTypeSelectOptions } from "./select-options"
 type CommonAttributes = {
   id: string
   required?: boolean
+  min?: number
   info?: string
 }
 
@@ -36,7 +37,7 @@ type Checkbox = {
 } & CommonAttributes
 
 
-type FormFieldOptions = SelectFieldData | InputTextField | TextAreaField | InputNumberField | Checkbox
+export type FormFieldOptions = SelectFieldData | InputTextField | TextAreaField | InputNumberField | Checkbox
 
 export type LivedExperienceDataItem = FormFieldOptions | {
   type: 'multiple',
@@ -72,18 +73,6 @@ export const getEmailIdFormFieldData = (options?: {
     text: 'Email ID',
     info,
     required: !!required
-  }
-}
-
-const getMessageFormFieldData = (options: { text: string }): TextAreaField => {
-  const { text } = options;
-
-  return {
-    type: 'textarea' as const,
-    id: 'livedExperience' as const,
-    text,
-    required: true,
-    info: 'Please note that submissions may be subject to edits by our team for clarity, conciseness, and formatting (e.g., fixing typos, extracting excerpts). We will ensure that your experiences are represented with care and respect.',
   }
 }
 
@@ -125,9 +114,13 @@ export const getLivedExperiencesFormFieldsData = (options: LivedExperiencesFacto
         }
       ]
     },
-    getMessageFormFieldData({
+    {
+      type: 'textarea' as const,
+      id: 'livedExperience' as const,
       text: 'Add your lived experience here',
-    })
+      required: true,
+      info: 'Please note that submissions may be subject to edits by our team for clarity, conciseness, and formatting (e.g., fixing typos, extracting excerpts). We will ensure that your experiences are represented with care and respect.',
+    }
     ,
     {
       type: 'number' as const,
@@ -160,15 +153,18 @@ export const getLivedExperiencesFormFieldsData = (options: LivedExperiencesFacto
 
 export const writeToUsFormFieldsData: LivedExperiencesDataList = [
   {
-    type: 'text',
+    type: 'text' as const,
     text: 'Name',
-    id: 'name',
+    id: 'name' as const,
     required: true,
   },
   getEmailIdFormFieldData({ required: true }),
-  getMessageFormFieldData({
-    text: 'Your Message',
-  })
+  {
+    type: 'textarea' as const,
+    id: 'livedExperience' as const,
+    text: 'Your message',
+    required: true,
+  }
 ]
 
 export const contributeToDifferentPageFormFieldsData: LivedExperiencesDataList = [
@@ -182,13 +178,13 @@ export const contributeToDifferentPageFormFieldsData: LivedExperiencesDataList =
     info: "Please provide your email if you're comfortable with the team reaching out for follow-up or potential collaboration related to your shared experience."
   }),
   {
-    type: 'textarea' as const,
+    type: 'text' as const,
     id: 'whatPagesContributeTo' as const,
     text: 'What page(s) would you like to contribute towards?',
     required: true,
   },
   {
-    type: 'text' as const,
+    type: 'textarea' as const,
     id: "addYourContribution" as const,
     text: "Add your contribution here:",
     required: true,

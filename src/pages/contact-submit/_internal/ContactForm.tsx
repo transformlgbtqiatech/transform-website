@@ -1,5 +1,12 @@
-// import { Info as InfoIcon } from "lucide-react";
-import type { ContactFormInputErrors, InitialValues } from "../index.astro";
+import { Turnstile } from "@marsidev/react-turnstile";
+import { X } from "lucide-react";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useMutation,
+} from "@tanstack/react-query";
+import { Toaster, toast } from "sonner";
+import type { InitialValues } from "../index.astro";
 import {
   type LivedExperiencesDataList,
   type LivedExperienceDataItem,
@@ -11,22 +18,54 @@ import {
   contributeToDifferentPageFormFieldsData,
 } from "./form-fields-data";
 import { Input, Label, Select, TextArea } from "./InputFieldsUI";
+import {
+  CLOUDFLARE_TURNSTILE_SITE_KEY,
+  CLOUDFLARE_DEV_TURNSTILE_SITE_ALWAYS_PASSES_VISIBLE_KEY,
+  // CLOUDFLARE_DEV_TURNSTILE_SITE_ALWAYS_BLOCKS_VISIBLE_KEY,
+} from "astro:env/client";
 
-// import {
-//   Tooltip,
-//   TooltipContent,
-//   TooltipTrigger,
-// } from "@components/react/Tooltip";
+const cloudFlareTurnstileSiteKey = import.meta.env.PROD
+  ? CLOUDFLARE_TURNSTILE_SITE_KEY
+  : CLOUDFLARE_DEV_TURNSTILE_SITE_ALWAYS_PASSES_VISIBLE_KEY;
+// CLOUDFLARE_DEV_TURNSTILE_SITE_ALWAYS_BLOCKS_VISIBLE_KEY;
+
 import clsx from "clsx";
 import type { SubmitType } from "./select-options";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { actions, isActionError, isInputError } from "astro:actions";
+import { CloudflareError } from "./CloudflareError";
+import { resetAllExcept } from "@root/src/utils/client/reset-selected-form-fields";
+
+type InputErrors = Record<string, string[]> | null;
 
 type ContactFormProps = {
-  inputErrors: ContactFormInputErrors;
+  inputErrorsFromServer: InputErrors;
   initialValues: InitialValues;
 } & LivedExperiencesFactoryOptions;
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+      staleTime: Infinity,
+    },
+  },
+});
+
 export function ContactForm(props: ContactFormProps) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ContactFormInternal {...props} />
+    </QueryClientProvider>
+  );
+}
+
+function ContactFormInternal(props: ContactFormProps) {
+  const [inputErrors, setInputErrors] = useState<InputErrors>(
+    props.inputErrorsFromServer,
+  );
+
   /**
    * `contactFormHasHydratedAtom` is used to partially progressively
    * enhance contact form's `contactSubmitType` id-ed select field.
@@ -41,7 +80,6 @@ export function ContactForm(props: ContactFormProps) {
     identitySelectOptions,
     violenceSubCategorySelectOptions,
     initialValues,
-    // inputErrors,
   } = props;
 
   const [type, setType] = useState<SubmitType>(
@@ -56,6 +94,7 @@ export function ContactForm(props: ContactFormProps) {
       <FormFieldListRenderer
         list={writeToUsFormFieldsData}
         initialValues={initialValues}
+        inputErrors={inputErrors}
       />
     );
   }
@@ -63,6 +102,7 @@ export function ContactForm(props: ContactFormProps) {
   if (type === "contribute-lived-experiences") {
     formFieldsJsx = (
       <FormFieldListRenderer
+        inputErrors={inputErrors}
         initialValues={initialValues}
         list={getLivedExperiencesFormFieldsData({
           identitySelectOptions,
@@ -77,6 +117,7 @@ export function ContactForm(props: ContactFormProps) {
       <FormFieldListRenderer
         list={contributeToDifferentPageFormFieldsData}
         initialValues={initialValues}
+        inputErrors={inputErrors}
       />
     );
   }
@@ -86,6 +127,7 @@ export function ContactForm(props: ContactFormProps) {
     onChange(e) {
       const value = e.target.value as SubmitType;
       setType(value);
+      setInputErrors(null);
     },
   };
 
@@ -106,49 +148,196 @@ export function ContactForm(props: ContactFormProps) {
       "Want to contribute to other pages on our website? We’d love to hear from you!";
   }
 
-  return (
-    <form className="flex flex-col gap-4 flex-1 shadow-transform border-[1px] border-zinc-200 rounded-3xl p-6 lg:p-10">
-      <div className="flex flex-col gap-1">
-        <FormFieldRenderer {...typeFieldProps} initialValues={initialValues} />
-        {/* TODO: how does the accessibility work for this description if required? */}
-        <p className="text-xs text-zinc-500 font-normal leading-3">
-          {typeLabel}
-        </p>
-      </div>
+  const formRef = useRef<HTMLFormElement | null>(null);
 
-      <div className="flex flex-col gap-5">{formFieldsJsx}</div>
-    </form>
+  const mutation = useMutation({
+    mutationFn: async (formData: FormData) => {
+      return actions.submitContactForm(formData);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+    onSuccess: (d) => {
+      const { error, data } = d;
+
+      if (
+        isActionError(error) &&
+        (error?.code === "FORBIDDEN" ||
+          error?.code === "CONFLICT" ||
+          error?.code === "BAD_REQUEST")
+      ) {
+        toast.error(
+          <div className="relative pt-2">
+            <CloudflareError errorCode={error?.code} />
+            <button className="absolute -top-2 -right-2">
+              <X
+                size={14}
+                onClick={() => {
+                  toast.dismiss();
+                }}
+              />
+            </button>
+          </div>,
+          {
+            duration: Infinity,
+          },
+        );
+        return;
+      }
+
+      if (error && isInputError(error)) {
+        setInputErrors(error.fields);
+      } else {
+        setInputErrors(null);
+      }
+
+      if (!error && data) {
+        if (formRef.current) {
+          resetAllExcept(formRef.current, ["contactSubmitType"]);
+        }
+
+        if (data.input.contactSubmitType === "contribute-lived-experiences") {
+          toast.success(
+            <div className="text-sm">
+              <button className="absolute top-2 right-2">
+                <X
+                  size={14}
+                  onClick={() => {
+                    toast.dismiss();
+                  }}
+                />
+              </button>
+
+              <div>
+                <span>Thanks for your lived experience submission 🌻.</span>{" "}
+                <span>
+                  After it's accepted by our moderators, it'll show on the lived
+                  experiences section of{" "}
+                  <a
+                    href={`/transform/${data.input.identityGroup}-${data.input.violenceSubCategory}`}
+                    className="underline"
+                  >
+                    this page
+                  </a>
+                </span>
+              </div>
+            </div>,
+            {
+              duration: Infinity,
+            },
+          );
+        }
+
+        if (
+          data.input.contactSubmitType === "contribute-to-different-page" ||
+          data.input.contactSubmitType === "write-to-us"
+        ) {
+          toast.success("Thanks for your submission 🌻");
+        }
+      }
+    },
+  });
+
+  return (
+    <>
+      <Toaster />
+      <form
+        ref={formRef}
+        method="POST"
+        action="?_astroAction=submitContactForm"
+        // only for dev
+        // noValidate={true}
+        className="flex flex-col gap-4 flex-1 shadow-transform border-[1px] border-zinc-200 rounded-3xl p-6 lg:p-10"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          setInputErrors(null);
+          const target = e.target as HTMLFormElement;
+          const formData = new FormData(target);
+          mutation.mutate(formData);
+        }}
+      >
+        <div className="flex flex-col gap-1">
+          <FormFieldRenderer
+            {...typeFieldProps}
+            initialValues={initialValues}
+          />
+          {/* TODO: how does the accessibility work for this description if required? */}
+          <p className="text-xs text-zinc-500 font-normal leading-3">
+            {typeLabel}
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-5">{formFieldsJsx}</div>
+
+        <Turnstile
+          siteKey={cloudFlareTurnstileSiteKey}
+          key={`${type}-${mutation.isPending}`}
+        />
+
+        <button
+          className={clsx(
+            "text-left font-medium text-white lg:w-fit px-5 py-2 rounded-full",
+            {
+              "bg-green-500": !mutation.isPending,
+              "bg-zinc-500 pointer-events-none cursor-not-allowed":
+                mutation.isPending,
+            },
+          )}
+          onClick={() => {
+            if (mutation.isPending) {
+              return;
+            }
+          }}
+        >
+          {mutation.isPending ? "Submitting..." : "Submit"}
+        </button>
+      </form>
+    </>
   );
 }
 
 type FormFieldListRendererProps = {
   list: LivedExperiencesDataList;
   initialValues?: InitialValues;
+  inputErrors?: InputErrors;
 };
 
 function FormFieldListRenderer(props: FormFieldListRendererProps) {
-  const { list, initialValues } = props;
+  const { list, initialValues, inputErrors } = props;
 
   return list.map((el, index) => {
-    // const initialValue =
-    //   el.type !== "multiple" ? initialValues?.[el.id] : undefined;
-
     return (
       <FormFieldRenderer
         {...el}
         key={`${el.type}-${index}`}
         initialValues={initialValues}
+        inputErrors={inputErrors}
       />
     );
   });
 }
 
+function makeErrorString(errors: string[] = []) {
+  return errors.join(", ");
+}
+
+function ErrorMessage(props: { error?: string[] }) {
+  if (!props.error) {
+    return null;
+  }
+
+  return (
+    <p className="text-xs text-red-500 mt-1">{makeErrorString(props.error)}</p>
+  );
+}
+
 function FormFieldRenderer(
   props: LivedExperienceDataItem & {
     initialValues?: InitialValues;
+    inputErrors?: InputErrors;
   },
 ) {
-  const { initialValues } = props;
+  const { initialValues, inputErrors } = props;
 
   if (
     props.type === "text" ||
@@ -162,6 +351,7 @@ function FormFieldRenderer(
         text={<LabelWithIcon text={text} info={info} required={required} />}
       >
         <Input required={required} id={id} nameAndId={id} type={type} />
+        <ErrorMessage error={inputErrors?.[id]} />
       </Label>
     );
   }
@@ -170,11 +360,16 @@ function FormFieldRenderer(
     const { info, id, required, text } = props;
 
     return (
-      <Label
-        text={<LabelWithIcon text={text} info={info} required={required} />}
-      >
-        <TextArea required={required} id={id} nameAndId={id} />
-      </Label>
+      <div>
+        <Label
+          text={<LabelWithIcon text={text} info={info} required={required} />}
+        >
+          <TextArea required={required} id={id} nameAndId={id} />
+        </Label>
+        <div className="-mt-2">
+          <ErrorMessage error={inputErrors?.[id]} />
+        </div>
+      </div>
     );
   }
 
@@ -182,28 +377,38 @@ function FormFieldRenderer(
     const { info, id, required, text, options, onChange } = props;
 
     return (
-      <Label
-        text={<LabelWithIcon text={text} info={info} required={required} />}
-      >
-        <Select
-          nameAndId={id}
-          options={options}
-          required={required}
-          onChange={onChange}
-          defaultValue={initialValues?.[id]}
-        ></Select>
-      </Label>
+      <div>
+        <Label
+          text={<LabelWithIcon text={text} info={info} required={required} />}
+        >
+          <Select
+            nameAndId={id}
+            options={options}
+            required={required}
+            onChange={onChange}
+            defaultValue={initialValues?.[id]}
+          ></Select>
+        </Label>
+        <ErrorMessage error={inputErrors?.[id]} />
+      </div>
     );
   }
 
   if (props.type === "checkbox") {
-    const { text, info, required } = props;
+    const { text, info, required, id } = props;
     return (
-      <Label
-        text={<LabelWithIcon text={text} info={info} required={required} />}
-      >
-        <input type="checkbox" required={required} />
-      </Label>
+      <div>
+        <Label
+          text={<LabelWithIcon text={text} info={info} required={required} />}
+        >
+          <input
+            type="checkbox"
+            name="consentForLivedExperienceUse"
+            required={required}
+          />
+        </Label>
+        <ErrorMessage error={inputErrors?.[id]} />
+      </div>
     );
   }
 
@@ -245,29 +450,6 @@ function LabelWithIcon(props: LabelWithIconProps) {
         </span>
         <p className="text-xs text-zinc-500 font-normal">{info}</p>
       </div>
-      {/* <Info info={info} /> */}
     </div>
   );
 }
-
-// function Info(props: { info?: string }) {
-//   const { info } = props;
-
-//   if (info) {
-//     return (
-//       <Tooltip offet={10}>
-//         <TooltipTrigger className="flex-shrink-0">
-//           <InfoIcon size={12} />
-//         </TooltipTrigger>
-
-//         <TooltipContent className="bg-white rounded-xl">
-//           <div className="prose prose-p:p-2 prose-p:m-0 prose-a:text-zinc-100 prose-a:underline bg-zinc-600 rounded-xl border-[1px] text-sm text-zinc-100 shadow-transform max-w-md">
-//             <p>{info}</p>
-//           </div>
-//         </TooltipContent>
-//       </Tooltip>
-//     );
-//   }
-
-//   return <div className="w-3 h-full" />;
-// }

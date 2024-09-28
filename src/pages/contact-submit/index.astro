@@ -1,30 +1,33 @@
 ---
-import BaseLayout from "@layouts/BaseLayout.astro";
-import Socials from "@components/Socials.astro";
-import { actions } from "astro:actions";
-import { isInputError } from "astro:actions";
 import Hero from "@components/astro/Hero.astro";
-import { Content as WhyThisInfoContent } from "../../singletons-data/contact-submit/whyThisInfo.mdx";
-import { Content as BuyUsAKoFiContent } from "../../singletons-data/contact-submit/buyUsAKoFi.mdx";
-
-import type { SubmitType } from "./_internal/select-options";
 import Prose from "@components/astro/Prose.astro";
-import { ContactForm } from "./_internal/ContactForm";
+import Socials from "@components/Socials.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { actions, isActionError, isInputError } from "astro:actions";
 import { getCollection } from "astro:content";
+import { Content as BuyUsAKoFiContent } from "../../singletons-data/contact-submit/buyUsAKoFi.mdx";
+import { Content as WhyThisInfoContent } from "../../singletons-data/contact-submit/whyThisInfo.mdx";
+import { CloudflareError } from "./_internal/CloudflareError";
+import { ContactForm } from "./_internal/ContactForm";
 import ContactFormScript from "./_internal/ContactFormScript.astro";
+import type { SubmitType } from "./_internal/select-options";
 
 export const prerender = false;
 
 const result = Astro.getActionResult(actions.submitContactForm);
-const inputErrors = isInputError(result?.error) ? result.error.fields : {};
+const inputErrors = isInputError(result?.error) ? result.error.fields : null;
 
-let browerChallengeErrorMessage: string | null = null;
+let browserChallengeErrorCode: "FORBIDDEN" | "CONFLICT" | "BAD_REQUEST" | null =
+  null;
 
-if (result?.error?.code === "FORBIDDEN") {
-  browerChallengeErrorMessage = result?.error?.message;
+if (
+  isActionError(result?.error) &&
+  (result?.error?.code === "FORBIDDEN" ||
+    result?.error?.code === "CONFLICT" ||
+    result?.error?.code === "BAD_REQUEST")
+) {
+  browserChallengeErrorCode = result?.error?.code;
 }
-
-export type ContactFormInputErrors = typeof inputErrors;
 
 if (result && !result.error) {
   const searchParams = new URLSearchParams();
@@ -34,11 +37,7 @@ if (result && !result.error) {
     searchParams.set("type", result.data.input.contactSubmitType);
   }
 
-  if (
-    result.data.input?.identityGroup &&
-    result.data.input?.violenceSubCategory &&
-    result.data.input?.contactSubmitType === "contribute"
-  ) {
+  if (result.data.input?.contactSubmitType === "contribute-lived-experiences") {
     searchParams.set("identityGroup", result.data.input.identityGroup);
     searchParams.set(
       "violenceSubCategory",
@@ -46,14 +45,14 @@ if (result && !result.error) {
     );
   }
 
-  const queryString = searchParams.toString();
-  return Astro.redirect(`/contact-submit?${queryString}`);
+  return Astro.redirect(`/contact-submit?${searchParams.toString()}`);
 }
 
 const isSuccessFormSubmission =
   Astro.url.searchParams.get("success") === "true";
 const identityGroup = Astro.url.searchParams.get("identityGroup");
 const violenceSubCategory = Astro.url.searchParams.get("violenceSubCategory");
+const type = Astro.url.searchParams.get("type");
 
 const identityGroups = await getCollection("identity-groups");
 const violenceSubCategories = await getCollection("violence-sub-categories");
@@ -76,12 +75,6 @@ const violenceSubCategorySelectOptions = violenceSubCategories.map(
 
 const typeParam = Astro.url.searchParams.get("type");
 
-// type Props = {
-//   initialType?: SubmitType;
-// };
-
-// const { initialType } = Astro.props;
-// initialValues={initialValues}
 const initialValues: Record<string, string | undefined> = {
   contactSubmitType: typeParam as SubmitType | undefined,
 };
@@ -95,13 +88,7 @@ export type InitialValues = typeof initialValues;
   title="Contact Submit To Transform"
   description="Contact Submit To Transform"
 >
-  <script
-    slot="head"
-    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-    async
-    defer></script>
-
-  <!-- {
+  {
     isSuccessFormSubmission ? (
       <p class="bg-green-600 text-white p-2 text-center">
         <span>Your message has been submitted.</span>
@@ -120,20 +107,12 @@ export type InitialValues = typeof initialValues;
         ) : null}
       </p>
     ) : null
-  } -->
+  }
 
   {
-    browerChallengeErrorMessage ? (
+    browserChallengeErrorCode ? (
       <p class="bg-red-600 text-white p-2 text-center">
-        <span>
-          Browser challenged failed. Are you sure you are not a bot? If yes{" "}
-          <a href="/contact-submit" class="underline">
-            try again
-          </a>
-          <span>
-            . If it still persists contact us at any of our social handles.
-          </span>
-        </span>
+        <CloudflareError errorCode={browserChallengeErrorCode} />
       </p>
     ) : null
   }
@@ -155,26 +134,15 @@ export type InitialValues = typeof initialValues;
         recommend? We'd love to hear it all—let us know
       </p>
     </Hero>
-    <!-- <div class="flex flex-col lg:flex-row gap-10 justify-center">
-      <div class="w-full lg:w-[489px] lg:h-[138px] flex-shrink-0">
-        <HeroSvg />
-      </div>
-
-      <p class="text-zinc-800 dark:text-zinc-200 max-w-[500px] leading-7">
-        Transform relies on your feedback, appraisal and contribution! Our work
-        needs to be updated constantly and we are eager to work with members of
-        our community to improve and expand on this tool.
-      </p>
-    </div> -->
 
     <section class="max-w-4xl mx-auto py-6 px-3 lg:px-6">
       <div class="flex flex-col gap-8 lg:mt-10 justify-between">
         <section>
           <ContactForm
-            inputErrors={inputErrors}
             initialValues={initialValues}
             identitySelectOptions={identitySelectOptions}
             violenceSubCategorySelectOptions={violenceSubCategorySelectOptions}
+            inputErrorsFromServer={inputErrors}
             client:idle
           />
         </section>
