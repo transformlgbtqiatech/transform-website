@@ -276,7 +276,7 @@ function ContactFormInternal(props: ContactFormProps) {
 
         <button
           className={clsx(
-            "text-left font-medium text-white lg:w-fit px-5 py-2 rounded-full",
+            "text-center font-medium text-white lg:w-fit px-5 py-2 rounded-full",
             {
               "bg-green-500": !mutation.isPending,
               "bg-zinc-500 pointer-events-none cursor-not-allowed":
