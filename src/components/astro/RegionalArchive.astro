@@ -1,13 +1,9 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { Content as TitleContent } from "../../singletons-data/regional-archives/title.mdx";
-import Prose from "@components/astro/Prose.astro";
-import tailwindConfig from "@root/tailwind.config.ts";
-import resolveConfig from "tailwindcss/resolveConfig";
 import { ChevronDownIcon } from "lucide-react";
 import type { RegionalArchivesPageProps } from "@root/src/pages/regional-archives/_utils";
-
-const config = resolveConfig(tailwindConfig);
+import Hero from "./Hero.astro";
 type Props = RegionalArchivesPageProps;
 
 const {
@@ -20,21 +16,14 @@ const {
 ---
 
 <BaseLayout title="Regional Archives" description="Regional Archives">
-  <div class="py-16 bg-zinc-100 dark:bg-zinc-900 lg:text-center px-6">
-    <div class="flex flex-col gap-5">
-      <h1 class="text-6xl text-zinc-800 dark:text-zinc-200">
-        <span class="font-bold">Regional/</span><span class="italic"
-          >archives</span
-        >
-      </h1>
-
-      <Prose
-        class="prose-a:dark:text-sky-400 prose-a:text-sky-500 text-zinc-800 dark:text-zinc-200 max-w-4xl mx-auto"
-      >
-        <TitleContent />
-      </Prose>
-    </div>
-  </div>
+  <Hero
+    title={{
+      normal: "Regional",
+      slant: "archives",
+    }}
+  >
+    <TitleContent />
+  </Hero>
 
   <main class="max-w-5xl mx-auto py-6 px-6 lg:py-8">
     <!-- <hr class="mb-8" /> -->

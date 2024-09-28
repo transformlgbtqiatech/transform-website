@@ -1,0 +1,12 @@
+<script>
+  import { formTypeData } from "./form-fields-data";
+  const formTypeSelectEl = document.getElementById(formTypeData.id);
+
+  formTypeSelectEl?.addEventListener("change", (e) => {
+    const target = e.target as HTMLSelectElement;
+
+    if (!window.contactFormHasHydrated) {
+      window.location.href = `/contact-submit/?type=${target.value}`;
+    }
+  });
+</script>

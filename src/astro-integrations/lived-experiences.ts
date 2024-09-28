@@ -7,6 +7,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { copyDirectory } from '../utils/server/copy-dir';
 import { findRootDir } from '../utils/server/find-root-dir';
+import { LIVED_EXPERIENCE_ID } from '../utils/common/googlesheet';
 
 const VERCEL_OUTPUT_DIR = '.vercel/output/static';
 
@@ -53,10 +54,10 @@ export function astroLiveExperiencesIntegration(): AstroIntegration {
         const transformSheet = new GoogleSpreadsheet(SHEET_ID, jwt);
 
         await transformSheet.loadInfo();
-        const contributeSheet = transformSheet.sheetsById[11415622];
-        await contributeSheet.loadHeaderRow();
-        const headerValues = contributeSheet.headerValues;
-        const rows = await contributeSheet.getRows();
+        const livedExperienceSheet = transformSheet.sheetsById[LIVED_EXPERIENCE_ID];
+        await livedExperienceSheet.loadHeaderRow();
+        const headerValues = livedExperienceSheet.headerValues;
+        const rows = await livedExperienceSheet.getRows();
         const rowData: Record<string, Array<Record<string, string>>> = {}
 
         for (const row of rows) {
@@ -65,12 +66,12 @@ export function astroLiveExperiencesIntegration(): AstroIntegration {
             rowObj[colName] = row.get(colName)
           })
 
-          const identityGroupValue = rowObj["identity-group"]
-          const violenceSubCategoryValue = rowObj["violence-sub-category"]
+          const identityGroupValue = rowObj["identityGroup"]
+          const violenceSubCategoryValue = rowObj["violenceSubCategory"]
 
           const fileNameKey = `${identityGroupValue}__${violenceSubCategoryValue}`
 
-          if (rowObj["approved"] === 'yes') {
+          if (rowObj["approved"] === 'TRUE') {
             if (!rowData[fileNameKey]) {
               rowData[fileNameKey] = [rowObj]
             } else {

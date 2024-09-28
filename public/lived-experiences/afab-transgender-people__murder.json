@@ -1,65 +1,16 @@
 [
   {
-    "name": "Ojas Khurana",
-    "email": "ojask1998@gmail.com",
-    "subject": "contribute",
-    "identity-group": "afab-transgender-people",
-    "violence-sub-category": "murder",
-    "message": "Test message from Ojas",
-    "approved": "yes"
-  },
-  {
-    "name": "Natasha Sarkar",
-    "email": "natashasarkar@gmail.com",
-    "subject": "contribute",
-    "identity-group": "afab-transgender-people",
-    "violence-sub-category": "murder",
-    "message": "Test from natasha",
-    "approved": "yes"
-  },
-  {
-    "name": "A Proud Trans Person",
-    "email": "yay@yay.com",
-    "subject": "contribute",
-    "identity-group": "afab-transgender-people",
-    "violence-sub-category": "murder",
-    "message": "A proud person check message",
-    "approved": "yes"
-  },
-  {
-    "name": "Anonymous",
-    "email": "Anonymous",
-    "subject": "contribute",
-    "identity-group": "afab-transgender-people",
-    "violence-sub-category": "murder",
-    "message": "Check check maadi anonymous",
-    "approved": "yes"
-  },
-  {
-    "name": "Check Maadi",
-    "email": "maadi@maadi.com",
-    "subject": "contribute",
-    "identity-group": "afab-transgender-people",
-    "violence-sub-category": "murder",
-    "message": "Check maadi yeah science",
-    "approved": "yes"
-  },
-  {
-    "name": "Arihant Verma",
-    "email": "arihantverma1994@gmail.com",
-    "subject": "contribute",
-    "identity-group": "afab-transgender-people",
-    "violence-sub-category": "murder",
-    "message": "Check maadi",
-    "approved": "yes"
-  },
-  {
-    "name": "Check Check",
-    "email": "check@check.com",
-    "subject": "contribute",
-    "identity-group": "afab-transgender-people",
-    "violence-sub-category": "murder",
-    "message": "check check yeah scheck nice",
-    "approved": "yes"
+    "nameOrPseudonym": "",
+    "howDoYouIdentify": "he/him",
+    "identityGroup": "afab-transgender-people",
+    "violenceSubCategory": "murder",
+    "livedExperience": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "age": "",
+    "location": "",
+    "otherPagesForLivedExperience": "",
+    "consentForLivedExperienceUse": "FALSE",
+    "email": "",
+    "livedExperienceEdited": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nThis is edited",
+    "approved": "TRUE"
   }
 ]

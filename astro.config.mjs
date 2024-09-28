@@ -61,6 +61,34 @@ export default defineConfig({
           context: "server",
           access: "secret",
         }),
+        CLOUDFLARE_TURNSTILE_SITE_KEY: envField.string({
+          context: "client",
+          access: "public",
+        }),
+        // DEV ONLY FROM NOW ON
+        CLOUDFLARE_DEV_TURNSTILE_SECRET_KEY_ALWAYS_FAILS: envField.string({
+          context: "server",
+          access: "secret",
+        }),
+        CLOUDFLARE_DEV_TURNSTILE_SECRET_KEY_TOKEN_ALREADY_SPENT:
+          envField.string({
+            context: "server",
+            access: "secret",
+          }),
+        CLOUDFLARE_DEV_TURNSTILE_SECRET_KEY_ALWAYS_PASSES: envField.string({
+          context: "server",
+          access: "secret",
+        }),
+        CLOUDFLARE_DEV_TURNSTILE_SITE_ALWAYS_PASSES_VISIBLE_KEY:
+          envField.string({
+            context: "client",
+            access: "public",
+          }),
+        CLOUDFLARE_DEV_TURNSTILE_SITE_ALWAYS_BLOCKS_VISIBLE_KEY:
+          envField.string({
+            context: "client",
+            access: "public",
+          }),
       },
     },
   },
