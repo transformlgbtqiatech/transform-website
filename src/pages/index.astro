@@ -1,8 +1,66 @@
 ---
+import { Image } from "astro:assets";
+import FullViewPortLayout from "@components/astro/FullViewPortLayout.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
+import HomePageViewportImage from "../assets/images/home/main.png";
+import HomePageViewportImageDarkMode from "../assets/images/home/main-dark.png";
+import { cms } from "@cms/reader";
+
+const homePageData = await cms.singletons.homePage.read();
 ---
 
 <!-- TODO update title and description -->
 <BaseLayout title="The/Tool" description="The/Tool">
-  <div>check</div>
+  <FullViewPortLayout>
+    <div class="flex flex-col lg:flex-row h-full items-center justify-center">
+      <div class="max-w-lg flex flex-col gap-4">
+        <h1
+          class="text-6xl lg:text-7xl lg:tracking-tighter flex gap-1 dark:text-zinc-200"
+        >
+          <span class="font-bold tracking-wide">trans</span>
+          <span>/</span>
+          <span class="italic">form</span>
+        </h1>
+
+        <p class="uppercase text-2xl font-oswald flex gap-2 flex-wrap">
+          <span class="text-yellow-transform dark:text-yellow-transformLight"
+            >Self/Educational.</span
+          >
+          <span class="text-orange-transform dark:text-orange-transformLight"
+            >Collaborative.</span
+          >
+          <span class="text-red-transform dark:text-red-transformLight"
+            >Intersectional.</span
+          >
+        </p>
+
+        <p class="dark:text-zinc-200 leading-7">
+          {homePageData?.mainDescription}
+        </p>
+      </div>
+
+      <div>
+        <Image
+          src={HomePageViewportImage}
+          alt="Normalization, degradation, assault association diagram"
+          class="dark:hidden"
+        />
+        <Image
+          src={HomePageViewportImageDarkMode}
+          alt="Normalization, degradation, assault association diagram"
+          class="hidden dark:block"
+        />
+      </div>
+    </div>
+  </FullViewPortLayout>
+
+  <FullViewPortLayout>
+    <ul>
+      {
+        homePageData?.aboutUsCards?.map((card) => {
+          return <li>{/* start from here */}</li>;
+        })
+      }
+    </ul>
+  </FullViewPortLayout>
 </BaseLayout>

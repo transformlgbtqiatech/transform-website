@@ -1,0 +1,25 @@
+{
+  "mainDescription": "Trans/form is envisioned as an accessible self-educational tool that centers intersectionality while addressing the violence faced by transgender people across axes of (dis)privilege in India and South Asia. Trans/form traces the layers of violence transgender individuals experience, combining voices and stories that reveal how the normalization of small, everyday acts of transphobia builds into patterns of degradation and, in the most severe cases, assault.",
+  "aboutUsCards": [
+    {
+      "title": "OUR STORY: THE GAP",
+      "titleColor": "yellow",
+      "description": "Initiatives emphasising intersectionality in violence faced by\nthe trans community do not exist, thus largely invisibilizing\ndistinctive atrocities various identity groups face on account of\ntheir gender identity as well as religion, sexuality, ability, caste,\noccupation, ethnicity and so on. The knowledge available in\nthese spheres is generally scattered and inaccessible to the\nmajority, which in turn fuels misinformation leading to\nstigmatization and superficial stereotyping. Moreover,\nknowledge and evidence that has been historically created by\nTrans people are often not taken seriously, and thus not used\nin research and policy work that impacts our lives.\n\nTransform was first conceptualised as a ‘trans version’ of the\nrape culture pyramid, which is popularly used as a tool to\nunderstand how ‘small acts’ of violence that go unchecked\noften lead to ‘big acts’ of violence that are not taken seriously.\nAs we continued building the tool, the shape of the pyramid\ndid not serve the purpose we had in mind: to show that\nviolence is cyclical, and that understanding the structural\nnature of violence is the only way to tackle it. We also did not\nwant the information on Transform to be reductive to a few\nwords, phrases and communities- so we let it get big to\nencompass as many people as possible in all our\ncommunities. We then took it to our first set of reviewers to\ntell us what they thought about the project and its scope."
+    },
+    {
+      "title": "OUR CONTRIBUTION: TRANS/FORM",
+      "titleColor": "orange",
+      "description": "Transform seeks to bridge this gap by serving as an\ninclusionary collaborative platform helping dismantle and\neducate on trans experiences as narrated and reviewed by\nTrans people. The scope of Transform makes it adaptable in\neducational institutes; a self-educational resource wherein\nusers of all ages and abilities can filter and control the content\nthey interact with about trans identities and trans persons’\nlived experiences of violence, marginalization, and\ntransmisogyny; and public cyberspace encouraging\ninterdisciplinary cross-cultural learning and advocacy. As a\ndesign-intensive microsite complete with a unique trigger\nwarning and consent tools that bring control into the hands of\neach user, it will be a one-of-a-kind accessible tool advocating\nfor better policy, and a progressive movement creating spaces\nfor the trans community in a disproportionately violent world."
+    },
+    {
+      "title": "BE A PART OF TRANS/FORM",
+      "titleColor": "red",
+      "description": "With Trans/form, we want to make space for more Trans people\nto work in trans led/run environments, and we hope to make this\nan evidence collection mechanism that we can use to advocate\nfor ourselves. There are many ways to contribute to the tool; you\ncan add your narrative, links and information to the tool. You can\nalso review the tool when we call for reviewers periodically.\n\nAnd if you are an ally/friend, you can buy us a Kofi!"
+    },
+    {
+      "title": "MEET US! (SORT OF)",
+      "titleColor": "black",
+      "youtubeVideoLink": "https://www.youtube.com/watch?v=PFtjXzZAY-8"
+    }
+  ]
+}
