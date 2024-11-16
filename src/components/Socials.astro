@@ -5,21 +5,31 @@ import Linkedin from "@components/astro/icons/linkedin.astro";
 import Youtube from "@components/astro/icons/youtube.astro";
 
 type Props = {
-  type?: "whiteOnBlack" | "blackOnWhite";
-  darkBgClass?: string;
+  type?: "whiteOnBlack" | "blackOnWhite" | "yellowOnWhite";
 };
 
-const { type = "whiteOnBlack", darkBgClass } = Astro.props;
+const { type = "whiteOnBlack" } = Astro.props;
 
-const conditionalClassName =
-  type === "whiteOnBlack"
-    ? `${darkBgClass ?? "bg-black"} text-white`
-    : "bg-white text-black";
+let conditionalClassName = "";
+
+if (type === "whiteOnBlack") {
+  conditionalClassName = `text-white`;
+}
+
+if (type === "blackOnWhite") {
+  conditionalClassName = "bg-white text-black";
+}
+
+if (type === "yellowOnWhite") {
+  conditionalClassName =
+    "text-yellow-transform dark:text-yellow-transformLight";
+}
+
 const commonClassName = "inline-block w-8 p-1";
 const className = `${conditionalClassName} ${commonClassName}`;
 ---
 
-<ul class="flex gap-2 text-black">
+<ul class="flex gap-2">
   <li>
     <a href="#" class={className}>
       <Facebook />

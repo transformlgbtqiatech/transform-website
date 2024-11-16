@@ -40,10 +40,10 @@ importers:
         version: 0.7.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@keystatic/astro':
         specifier: ^5.0.0
-        version: 5.0.0(@keystatic/core@0.5.35(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(astro@4.16.12(@types/node@20.14.10)(rollup@4.21.2)(typescript@5.4.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 5.0.0(@keystatic/core@0.5.39(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(astro@4.16.12(@types/node@20.14.10)(rollup@4.21.2)(typescript@5.4.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@keystatic/core':
-        specifier: ^0.5.35
-        version: 0.5.35(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.5.39
+        version: 0.5.39(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@markdoc/markdoc':
         specifier: ^0.4.0
         version: 0.4.0(@types/react@18.3.3)(react@18.3.1)
@@ -104,6 +104,9 @@ importers:
       htm:
         specifier: ^3.1.1
         version: 3.1.1
+      lite-youtube-embed:
+        specifier: ^0.3.3
+        version: 0.3.3
       lucide-react:
         specifier: ^0.395.0
         version: 0.395.0(react@18.3.1)
@@ -913,8 +916,8 @@ packages:
   '@juggle/resize-observer@3.4.0':
     resolution: {integrity: sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==}
 
-  '@keystar/ui@0.7.11':
-    resolution: {integrity: sha512-lBAKglgCsYOj3pYiOnCr14jvKHIvbnaCxkCKCHGsl15nOjRbKylAwbbMvd3vi/cUyXe+qX3kdn/YtAbVwkyjCg==}
+  '@keystar/ui@0.7.12':
+    resolution: {integrity: sha512-dZlr2VYhEVU/jSaC1/o3iRoS2TBYv7o5odqyBD/5qXuuiaFJZjbZ9wO5PrjxLT7SxjLAomOlBdpUgSha0GiTlw==}
     peerDependencies:
       next: '>=14'
       react: ^18.2.0
@@ -941,8 +944,8 @@ packages:
       react: ^18.2.0
       react-dom: ^18.2.0
 
-  '@keystatic/core@0.5.35':
-    resolution: {integrity: sha512-Ki4xm4eqhralqM/ugV2kQjdp5dN4d/9pWEG2eyftbzgBVeGAohxFDlXyfUiSJXW1YlX+P4+tUmJMjlCHZQHU7w==}
+  '@keystatic/core@0.5.39':
+    resolution: {integrity: sha512-bOnNXT32ZrAs+s1g/Z1D8QEzkGQ5svVyhsAXM+bcR7kN+4ZoFvWGLMrosyCBflh+b3CuvcxPP1rD2v+stc/1AQ==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -2957,6 +2960,10 @@ packages:
     resolution: {integrity: sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==}
     engines: {node: '>= 0.6'}
 
+  cookie@1.0.1:
+    resolution: {integrity: sha512-Xd8lFX4LM9QEEwxQpF9J9NTUh8pmdJO0cyRJhFiDoLTk2eH8FXlRv2IFGYVadZpqI3j8fhNrSdKCeYPxiAhLXw==}
+    engines: {node: '>=18'}
+
   cosmiconfig@7.1.0:
     resolution: {integrity: sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA==}
     engines: {node: '>=10'}
@@ -3010,9 +3017,6 @@ packages:
     peerDependenciesMeta:
       supports-color:
         optional: true
-
-  decimal.js-light@2.5.1:
-    resolution: {integrity: sha512-qIMFpTMZmny+MMIitAB6D7iVPEorVw6YQRWkvarTkT4tBeSLLiHzcwj6q0MmYSFCiVpiqPJTJEYIrpcPzVEIvg==}
 
   decode-named-character-reference@1.0.2:
     resolution: {integrity: sha512-O8x12RzrUF8xyVcY0KJowWsmaJxQbmy0/EtnNtHRpsOcT7dFk5W598coHqBVpmWo1oQQfsCqfCmkZN5DJrZVdg==}
@@ -3796,6 +3800,9 @@ packages:
 
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
+
+  lite-youtube-embed@0.3.3:
+    resolution: {integrity: sha512-gFfVVnj6NRjxVfJKo3qoLtpi0v5mn3AcR4eKD45wrxQuxzveFJUb+7Cr6uV6n+DjO8X3p0UzPPquhGt0H/y+NA==}
 
   load-yaml-file@0.2.0:
     resolution: {integrity: sha512-OfCBkGEw4nN6JLtgRidPX6QxjBQGQf72q3si2uvqyFEMbycSFFHwAZeXx6cJgFM9wmLrf9zBwCP3Ivqa+LLZPw==}
@@ -6253,7 +6260,7 @@ snapshots:
 
   '@juggle/resize-observer@3.4.0': {}
 
-  '@keystar/ui@0.7.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@keystar/ui@0.7.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.24.7
       '@emotion/css': 11.11.2
@@ -6437,10 +6444,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@keystatic/astro@5.0.0(@keystatic/core@0.5.35(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(astro@4.16.12(@types/node@20.14.10)(rollup@4.21.2)(typescript@5.4.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@keystatic/astro@5.0.0(@keystatic/core@0.5.39(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(astro@4.16.12(@types/node@20.14.10)(rollup@4.21.2)(typescript@5.4.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.24.7
-      '@keystatic/core': 0.5.35(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@keystatic/core': 0.5.39(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@types/react': 18.3.3
       astro: 4.16.12(@types/node@20.14.10)(rollup@4.21.2)(typescript@5.4.5)
       cookie: 0.5.0
@@ -6448,7 +6455,7 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       set-cookie-parser: 2.6.0
 
-  '@keystatic/core@0.5.35(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@keystatic/core@0.5.39(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.24.7
       '@braintree/sanitize-url': 6.0.4
@@ -6456,7 +6463,7 @@ snapshots:
       '@emotion/weak-memoize': 0.3.1
       '@floating-ui/react': 0.24.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@internationalized/string': 3.2.3
-      '@keystar/ui': 0.7.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@keystar/ui': 0.7.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@markdoc/markdoc': 0.4.0(@types/react@18.3.3)(react@18.3.1)
       '@react-aria/focus': 3.18.2(react@18.3.1)
       '@react-aria/i18n': 3.12.2(react@18.3.1)
@@ -6479,8 +6486,7 @@ snapshots:
       '@urql/exchange-auth': 2.2.0(@urql/core@5.0.6(graphql@16.8.2))
       '@urql/exchange-graphcache': 7.1.2(@urql/core@5.0.6(graphql@16.8.2))(graphql@16.8.2)
       '@urql/exchange-persisted': 4.3.0(@urql/core@5.0.6(graphql@16.8.2))
-      cookie: 0.5.0
-      decimal.js-light: 2.5.1
+      cookie: 1.0.1
       emery: 1.4.3
       escape-string-regexp: 4.0.0
       fast-deep-equal: 3.1.3
@@ -6493,14 +6499,14 @@ snapshots:
       lru-cache: 10.2.2
       match-sorter: 6.3.4
       mdast-util-from-markdown: 2.0.1
-      mdast-util-gfm: 3.0.0
       mdast-util-gfm-autolink-literal: 2.0.0
       mdast-util-gfm-strikethrough: 2.0.0
+      mdast-util-gfm-table: 2.0.0
       mdast-util-mdx: 3.0.0
       mdast-util-to-markdown: 2.1.0
-      micromark-extension-gfm: 3.0.0
       micromark-extension-gfm-autolink-literal: 2.0.0
       micromark-extension-gfm-strikethrough: 2.0.0
+      micromark-extension-gfm-table: 2.0.0
       micromark-extension-mdxjs: 3.0.0
       minimatch: 9.0.4
       partysocket: 0.0.22
@@ -9439,6 +9445,8 @@ snapshots:
 
   cookie@0.7.2: {}
 
+  cookie@1.0.1: {}
+
   cosmiconfig@7.1.0:
     dependencies:
       '@types/parse-json': 4.0.2
@@ -9474,8 +9482,6 @@ snapshots:
   debug@4.3.7:
     dependencies:
       ms: 2.1.3
-
-  decimal.js-light@2.5.1: {}
 
   decode-named-character-reference@1.0.2:
     dependencies:
@@ -10359,6 +10365,8 @@ snapshots:
   lilconfig@3.1.2: {}
 
   lines-and-columns@1.2.4: {}
+
+  lite-youtube-embed@0.3.3: {}
 
   load-yaml-file@0.2.0:
     dependencies:

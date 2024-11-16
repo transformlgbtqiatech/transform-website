@@ -1,4 +1,5 @@
 import { fields, singleton } from "@keystatic/core";
+import { simpleEditorOptions } from "@root/src/utils/common/simple-editor-options";
 
 const aboutUsCard = fields.object({
   title: fields.text({
@@ -18,9 +19,9 @@ const aboutUsCard = fields.object({
     ],
     defaultValue: 'black'
   }),
-  description: fields.text({
+  description: fields.mdx({
     label: 'Description',
-    multiline: true,
+    options: simpleEditorOptions
   }),
   youtubeVideoLink: fields.url({
     label: 'YouTube Video Link',
@@ -50,6 +51,36 @@ export const homePage = singleton({
           return item.fields.title.value || 'Please select a card'
         }
       }
-    )
+    ),
+    acknowledgementsFunders: fields.object({
+      description: fields.mdx({
+        label: 'Funders Description',
+        options: simpleEditorOptions,
+      }),
+      funderImages: fields.array(
+        fields.object({
+          image: fields.image({
+            label: 'Add Funders Image',
+            directory: 'src/assets/images/home/funders',
+            publicPath: '/images/home/funders'
+          }),
+          alt: fields.text({
+            label: 'Alt Text',
+            validation: {
+              isRequired: true,
+              length: {
+                max: 600
+              }
+            }
+          })
+        }),
+        {
+          label: 'Funders Images',
+          itemLabel: (item) => {
+            return item.fields.alt.value || 'Please select an image'
+          }
+        }
+      )
+    })
   }
 })
