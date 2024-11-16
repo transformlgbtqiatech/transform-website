@@ -1,0 +1,144 @@
+---
+import BreathInOutAnimation from "@components/astro/BreathInOutAnimation.astro";
+import FullViewPortLayout from "@components/astro/FullViewPortLayout.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import MainDescriptionContent from "../singletons-data/trigger-toolkit/mainDescription.mdx";
+import Prose from "@components/astro/Prose.astro";
+
+const groundYourselfData = [
+  {
+    text: "see",
+    color: "red",
+  },
+  {
+    text: "feel",
+    color: "dark-orange",
+  },
+  {
+    text: "hear",
+    color: "orange",
+  },
+  {
+    text: "smell",
+    color: "dark-yellow",
+  },
+  {
+    text: "taste",
+    color: "yellow",
+  },
+] as const;
+
+const textClass = (color: (typeof groundYourselfData)[number]["color"]) => [
+  "w-12 h-12 lg:w-24 lg:h-24 rounded-full",
+  {
+    "text-yellow-transform dark:text-yellow-transformLight": color === "yellow",
+  },
+  {
+    "text-[#d83c29]": color === "dark-orange",
+  },
+  {
+    "text-orange-transform dark:text-orange-transformLight": color === "orange",
+  },
+  {
+    "text-[#f68530]": color === "dark-yellow",
+  },
+  {
+    "text-red-transform dark:text-red-transformLight": color === "red",
+  },
+];
+---
+
+<BaseLayout
+  title="Transform | Trigger Toolkit"
+  description="Transform | Trigger Tookit"
+>
+  <FullViewPortLayout
+    className="py-4 pb-10 lg:py-0 lg:pb-0"
+    headerOffset={true}
+  >
+    <div
+      class="flex flex-col lg:flex-row h-full items-center justify-center gap-10 lg:gap-16"
+    >
+      <div class="max-w-lg flex flex-col gap-4">
+        <h1
+          class="text-6xl lg:text-7xl lg:tracking-tighter flex flex-wrap gap-1 dark:text-zinc-200"
+        >
+          <span class="font-bold tracking-wide">trigger</span>
+          <span class="font-bold">/</span>
+          <span class="italic">form</span>
+        </h1>
+
+        <Prose
+          class="prose-a:dark:text-sky-400 prose-a:text-sky-500 text-zinc-800 dark:text-zinc-200 prose-p:my-0 max-w-none leading-6 prose-p:py-2"
+        >
+          <MainDescriptionContent />
+        </Prose>
+      </div>
+
+      <div
+        class="w-full aspect-square p-2 lg:p-0 lg:w-[400px] lg:h-[400px] flex-shrink-0"
+      >
+        <BreathInOutAnimation />
+      </div>
+    </div>
+  </FullViewPortLayout>
+
+  <FullViewPortLayout className="bg-zinc-100 dark:bg-zinc-700">
+    <div class="py-4 lg:py-10 flex flex-col gap-10">
+      <h2
+        class="text-4xl lg:text-6xl lg:tracking-tighter flex justify-center gap-1 dark:text-zinc-200"
+      >
+        <span class="font-bold tracking-wide">ground yourself, {" "}</span>
+        <span class="italic">search for</span>
+      </h2>
+    </div>
+
+    <ul class="flex flex-col max-w-xl mx-auto gap-6 mt-6 lg:mt-0">
+      {
+        groundYourselfData.map((el, index, arr) => {
+          const textNumber = arr.length - index;
+
+          return (
+            <li class="flex items-center gap-4 text-2xl lg:text-[42px]">
+              <div
+                class:list={[
+                  "w-12 h-12 lg:w-24 lg:h-24 rounded-full",
+                  {
+                    "bg-yellow-transform dark:bg-yellow-transformLight":
+                      el.color === "yellow",
+                  },
+                  {
+                    "bg-[#d83c29]": el.color === "dark-orange",
+                  },
+                  {
+                    "bg-orange-transform dark:bg-orange-transformLight":
+                      el.color === "orange",
+                  },
+                  {
+                    "bg-[#f68530]": el.color === "dark-yellow",
+                  },
+                  {
+                    "bg-red-transform dark:bg-red-transformLight":
+                      el.color === "red",
+                  },
+                ]}
+              />
+
+              <section class="p-2 lg:p-6 lg:py-8 rounded-2xl shadow-transform border-[1px] border-zinc-300 dark:border-zinc-900 dark:bg-zinc-900 bg-white flex-1">
+                <span class:list={["font-bold", ...textClass(el.color)]}>
+                  {textNumber}
+                </span>
+
+                <span>things you can</span>
+
+                <span class:list={["font-bold", ...textClass(el.color)]}>
+                  {el.text}
+                </span>
+              </section>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </FullViewPortLayout>
+</BaseLayout>

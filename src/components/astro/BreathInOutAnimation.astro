@@ -1,0 +1,127 @@
+<div
+  role="img"
+  aria-label="An animation asking you to slowly breathe in and out."
+  class="w-full h-full"
+  id="circle-container"
+>
+  <!-- outer circle -->
+  <div
+    class="border-2 border-zinc-300 rounded-full w-full h-full p-20 relative"
+    id="outer-circle"
+  >
+    <!-- inner circle -->
+    <div
+      class="border-2 border-zinc-300 bg-zinc-200 rounded-full w-full h-full absolute"
+      id="inner-circle"
+    >
+      <p
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full text-center font-bold text-lg text-zinc-400 uppercase"
+        id="breathing-text"
+      >
+        <span
+          id="breathe-in-text"
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
+          >Breathe In</span
+        >
+        <span
+          id="breathe-out-text"
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
+          >Breathe Out</span
+        >
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes pulse {
+    0% {
+      width: 35%; /* Starting at 75% of outer circle (35% from dot) */
+      height: 35%;
+    }
+    50% {
+      width: 75%; /* Max expansion to 85% (15% from outer circle) */
+      height: 75%;
+    }
+    100% {
+      width: 35%;
+      height: 35%;
+    }
+  }
+
+  @keyframes textPulse {
+    0%,
+    100% {
+      font-size: 0.5em;
+    }
+    50% {
+      font-size: 1.5em;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    @keyframes textPulse {
+      0%,
+      100% {
+        font-size: 1em;
+      }
+      50% {
+        font-size: 2.4em;
+      }
+    }
+  }
+
+  @keyframes breatheInText {
+    0% {
+      opacity: 0.2;
+    }
+    25% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes breatheOutText {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  #breathe-in-text {
+    animation: breatheInText 10s ease-in-out infinite;
+  }
+
+  #breathe-out-text {
+    animation: breatheOutText 10s ease-in-out infinite;
+  }
+
+  #inner-circle {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 10s ease-in-out infinite;
+  }
+
+  #breathing-text {
+    animation: textPulse 10s ease-in-out infinite;
+  }
+
+  .transition-hide {
+    transition: opacity 1s ease;
+    opacity: 0;
+  }
+</style>
