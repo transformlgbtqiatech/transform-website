@@ -11,6 +11,9 @@ import type { MarkdownInstance } from "astro";
 import "lite-youtube-embed/src/lite-yt-embed.css";
 import Socials from "@components/Socials.astro";
 import FundersDescriptionContent from "../singletons-data/home-page/acknowledgementsFunders/description.mdx";
+import Explore from "@components/astro/icons/explore.astro";
+import TeachWithTransform from "@components/astro/icons/teach-with-transform.astro";
+import BreathInOutAnimation from "@components/astro/BreathInOutAnimation.astro";
 
 const homePageData = await cms.singletons.homePage.read();
 
@@ -43,16 +46,22 @@ const startExploringCards = [
     text: "Explore the Tool",
     link: "/transform",
     color: "yellow",
+    Icon: Explore,
+    iconColorClass: "text-[#c78332]",
   },
   {
     text: "Our Trigger Toolkit",
     link: "/trigger-toolkit",
-    color: "orange",
+    color: "",
+    Icon: BreathInOutAnimation,
+    iconColorClass: "",
   },
   {
     text: "Teach With Us",
     link: "/teach-with-transform",
     color: "red",
+    Icon: TeachWithTransform,
+    iconColorClass: "text-[#681114]",
   },
 ] as const;
 ---
@@ -218,6 +227,11 @@ const startExploringCards = [
       <ul class="flex flex-col lg:flex-row gap-10 lg:gap-20 justify-center">
         {
           startExploringCards.map((card) => {
+            const isBreathInOutAnimationIcon =
+              card.Icon === BreathInOutAnimation;
+            const iconProps = isBreathInOutAnimationIcon
+              ? { textSize: "sm" }
+              : {};
             return (
               <li class="hover:scale-110 transition-transform duration-200 ease-in-out">
                 <a
@@ -231,16 +245,24 @@ const startExploringCards = [
                         "bg-yellow-transform dark:bg-yellow-transformLight":
                           card.color === "yellow",
                       },
-                      {
-                        "bg-orange-transform dark:bg-orange-transformLight":
-                          card.color === "orange",
-                      },
+                      // {
+                      //   "bg-orange-transform dark:bg-orange-transformLight":
+                      //     card.color === "",
+                      // },
                       {
                         "bg-red-transform dark:bg-red-transformLight":
                           card.color === "red",
                       },
                     ]}
-                  />
+                  >
+                    {isBreathInOutAnimationIcon ? (
+                      <BreathInOutAnimation textSize="xs" variant="orange" />
+                    ) : (
+                      <div class:list={[card.iconColorClass, "w-full h-full"]}>
+                        <card.Icon />
+                      </div>
+                    )}
+                  </div>
 
                   <span class="font-oswald text-xl lg:text-3xl uppercase text-center dark:text-zinc-200">
                     {card.text}
