@@ -28,6 +28,48 @@ const aboutUsCard = fields.object({
   })
 })
 
+const featureOrCollaboration = fields.object({
+  title: fields.text({
+    label: 'Title',
+    validation: {
+      isRequired: true
+    }
+  }),
+  subTitle: fields.text({
+    label: 'Sub Title',
+    multiline: true
+  }),
+  resource: fields.conditional(
+    fields.select(
+      {
+        label: 'Select Resource Type',
+        options: [
+          { label: 'Youtube Video URL', value: 'video' },
+          { label: 'Link', value: 'link' }
+        ],
+        defaultValue: 'link'
+      }
+    ), {
+    link: fields.object({
+      text: fields.text({
+        label: 'Link Text',
+        validation: {
+          isRequired: true
+        }
+      }),
+      link: fields.url({
+        label: 'Link URL',
+        validation: {
+          isRequired: true
+        }
+      })
+    }),
+    video: fields.url({
+      label: 'YouTube Video Link',
+    })
+  }),
+})
+
 export const homePage = singleton({
   label: "Home Page",
   path: 'src/singletons-data/home-page',
@@ -81,6 +123,15 @@ export const homePage = singleton({
           }
         }
       )
-    })
+    }),
+    featuresAndCollaborations: fields.array(
+      featureOrCollaboration,
+      {
+        label: 'Features and Collaborations',
+        itemLabel: (item) => {
+          return item.fields.title.value || 'Please select a feature or collaboration'
+        }
+      }
+    )
   }
 })

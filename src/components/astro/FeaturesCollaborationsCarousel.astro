@@ -1,0 +1,155 @@
+---
+import { cms } from "@cms/reader";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+const homePageData = await cms.singletons.homePage.read();
+---
+
+<div class="embla w-full m-auto relative rounded-2xl">
+  <div class="flex gap-2">
+    <button
+      class="rounded-full border-1 border-zinc-100 dark:bg-white p-3 shadow-2xl shadow-zinc-500 hover:shadow-zinc-800 prev-embla-btn z-50 disabled:cursor-not-allowed disabled:opacity-30"
+    >
+      <ChevronLeft />
+    </button>
+
+    <button
+      class="rounded-full border-1 border-zinc-100 dark:bg-white p-3 shadow-2xl shadow-zinc-500 hover:shadow-zinc-800 next-embla-btn z-50 disabled:cursor-not-allowed disabled:opacity-30"
+    >
+      <ChevronRight />
+    </button>
+  </div>
+
+  <div class="overflow-hidden embla-viewport mt-6">
+    <ul
+      class="h-full w-full flex carousel-container scrollbar-hide touch-pan-y touch-pinch-zoom backface-visible gap-8"
+    >
+      {
+        homePageData?.featuresAndCollaborations.map((el) => {
+          const ytIdExtractorRegex =
+            /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|.+\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+          const youtubeVideoId =
+            el.resource.discriminant === "video"
+              ? (el.resource.value?.match(ytIdExtractorRegex)?.[1] ?? null)
+              : null;
+
+          return (
+            <li class="grow-0 shrink-0 basis-full max-w-full lg:basis-[31.5%] min-w-0 rounded-2xl snap-center relative flex flex-col gap-4 p-6 mb-6 border-2 border-zinc-100 dark:border-zinc-900 dark:bg-zinc-900 shadow-transform">
+              <h3
+                class="uppercase font-oswald text-2xl line-clamp-1 text-zinc-800 dark:text-zinc-200"
+                title={el.title}
+              >
+                {el.title}
+              </h3>
+
+              <p
+                class="lg:whitespace-pre-line text-sm text-zinc-800 dark:text-zinc-200 line-clamp-6"
+                title={el.subTitle}
+              >
+                {el.subTitle}
+              </p>
+
+              {el.resource.discriminant === "link" ? (
+                <a
+                  href={el.resource.value.link}
+                  class="inline-block bg-zinc-500 py-2 px-4 w-fit rounded-lg text-white mt-auto"
+                >
+                  {el.resource.value.text}
+                </a>
+              ) : null}
+
+              {youtubeVideoId ? (
+                <lite-youtube
+                  videoid={youtubeVideoId}
+                  playlabel="Play: Crayon Physics Deluxe - Trailer HD"
+                />
+              ) : null}
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</div>
+
+<script>
+  import type { EmblaOptionsType } from "embla-carousel";
+  import type { EmblaCarouselType } from "embla-carousel";
+  import EmblaCarousel from "embla-carousel";
+
+  const addTogglePrevNextBtnsActive = (
+    emblaApi: EmblaCarouselType,
+    prevBtn: HTMLButtonElement,
+    nextBtn: HTMLButtonElement,
+  ) => {
+    const togglePrevNextBtnsState = () => {
+      if (emblaApi.canScrollPrev()) prevBtn.removeAttribute("disabled");
+      else prevBtn.setAttribute("disabled", "disabled");
+
+      if (emblaApi.canScrollNext()) nextBtn.removeAttribute("disabled");
+      else nextBtn.setAttribute("disabled", "disabled");
+    };
+
+    emblaApi
+      .on("select", togglePrevNextBtnsState)
+      .on("init", togglePrevNextBtnsState)
+      .on("reInit", togglePrevNextBtnsState);
+
+    return () => {
+      prevBtn.removeAttribute("disabled");
+      nextBtn.removeAttribute("disabled");
+    };
+  };
+
+  const addPrevNextBtnsClickHandlers = (
+    emblaApi: EmblaCarouselType,
+    prevBtn: HTMLButtonElement,
+    nextBtn: HTMLButtonElement,
+  ) => {
+    const scrollPrev = () => {
+      emblaApi.scrollPrev();
+    };
+    const scrollNext = () => {
+      emblaApi.scrollNext();
+    };
+    prevBtn.addEventListener("click", scrollPrev, false);
+    nextBtn.addEventListener("click", scrollNext, false);
+
+    const removeTogglePrevNextBtnsActive = addTogglePrevNextBtnsActive(
+      emblaApi,
+      prevBtn,
+      nextBtn,
+    );
+
+    return () => {
+      removeTogglePrevNextBtnsActive();
+      prevBtn.removeEventListener("click", scrollPrev, false);
+      nextBtn.removeEventListener("click", scrollNext, false);
+    };
+  };
+
+  function main() {
+    const emblaNode = document.querySelector(".embla-viewport") as HTMLElement;
+    const prevBtnNode = document.querySelector(
+      ".prev-embla-btn",
+    ) as HTMLButtonElement;
+    const nextBtnNode = document.querySelector(
+      ".next-embla-btn",
+    ) as HTMLButtonElement;
+
+    if (!emblaNode || !prevBtnNode || !nextBtnNode) return;
+    const options: EmblaOptionsType = { align: "start" };
+
+    const emblaApi = EmblaCarousel(emblaNode, options);
+
+    const removePrevNextBtnsClickHandlers = addPrevNextBtnsClickHandlers(
+      emblaApi,
+      prevBtnNode,
+      nextBtnNode,
+    );
+
+    emblaApi.on("destroy", removePrevNextBtnsClickHandlers);
+  }
+
+  main();
+</script>

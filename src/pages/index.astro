@@ -14,6 +14,7 @@ import FundersDescriptionContent from "../singletons-data/home-page/acknowledgem
 import Explore from "@components/astro/icons/explore.astro";
 import TeachWithTransform from "@components/astro/icons/teach-with-transform.astro";
 import BreathInOutAnimation from "@components/astro/BreathInOutAnimation.astro";
+import FeaturesCollaborationsCarousel from "@components/astro/FeaturesCollaborationsCarousel.astro";
 
 const homePageData = await cms.singletons.homePage.read();
 
@@ -136,7 +137,7 @@ const startExploringCards = [
               card?.youtubeVideoLink?.match(ytIdExtractorRegex)?.[1] ?? null;
 
             return (
-              <li class="lg:w-[46%] xl:w-[42%] relative about-us-card">
+              <li class="lg:w-[46%] xl:w-[42%] relative about-us-card mb-6 lg:mb-0">
                 <div class="flex flex-col gap-4 p-6 rounded-2xl shadow-transform border-2 border-zinc-300 dark:border-zinc-900 dark:bg-zinc-900">
                   <p
                     class:list={[
@@ -211,6 +212,10 @@ const startExploringCards = [
         <span class="font-bold italic">/</span>
         <span class="italic">collaborations</span>
       </h2>
+
+      <div>
+        <FeaturesCollaborationsCarousel />
+      </div>
     </div>
   </FullViewPortLayout>
 
