@@ -34,5 +34,46 @@
         "alt": "Check 3"
       }
     ]
-  }
+  },
+  "featuresAndCollaborations": [
+    {
+      "title": "Podcast",
+      "subTitle": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper",
+      "resource": {
+        "discriminant": "link",
+        "value": {
+          "text": "Click for more!",
+          "link": "https://google.com"
+        }
+      }
+    },
+    {
+      "title": "Lecture at LSE",
+      "resource": {
+        "discriminant": "link",
+        "value": {
+          "text": "Click for more!",
+          "link": "https://google.com"
+        }
+      }
+    },
+    {
+      "title": "Video",
+      "resource": {
+        "discriminant": "video",
+        "value": "https://www.youtube.com/watch?v=PFtjXzZAY-8"
+      }
+    },
+    {
+      "title": "Research",
+      "subTitle": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper",
+      "resource": {
+        "discriminant": "link",
+        "value": {
+          "text": "Click for more!",
+          "link": "https://google.com"
+        }
+      }
+    }
+  ]
 }

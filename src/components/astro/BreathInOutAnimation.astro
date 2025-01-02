@@ -1,31 +1,67 @@
+---
+type Props = {
+  textSize?: "xs" | "sm" | "md" | "lg" | "xl";
+  variant?: "orange" | "grey";
+};
+
+const { textSize = "xl", variant = "grey" } = Astro.props;
+---
+
 <div
   role="img"
   aria-label="An animation asking you to slowly breathe in and out."
-  class="w-full h-full"
+  class="w-full h-full contain-size"
   id="circle-container"
 >
   <!-- outer circle -->
   <div
-    class="border-4 border-zinc-300 rounded-full w-full h-full p-20 relative shadow-2xl"
+    class:list={[
+      "border-4 rounded-full w-full h-full p-20 relative shadow-2xl",
+      {
+        "border-zinc-300": variant === "grey",
+        "border-orange-transform dark:border-orange-transformLight bg-orange-transform dark:bg-orange-transformLight":
+          variant === "orange",
+      },
+    ]}
     id="outer-circle"
   >
     <!-- inner circle -->
+    <!-- border-zinc-30 -->
     <div
-      class="border-2 border-zinc-300 bg-zinc-200 rounded-full w-full h-full absolute"
+      class:list={[
+        "border-2 rounded-full w-full h-full absolute",
+        {
+          "border-zinc-300 bg-zinc-200": variant === "grey",
+          "border-[#b54226] bg-[#b54226]": variant === "orange",
+        },
+      ]}
       id="inner-circle"
     >
       <p
-        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full text-center font-bold text-lg text-zinc-400 uppercase"
+        class:list={[
+          "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full text-center font-bold uppercase",
+          {
+            "text-zinc-500": variant === "grey",
+            "text-zinc-100": variant === "orange",
+          },
+          {
+            "text-sm lg:text-xl": textSize === "xl",
+            "text-sm lg:text-lg": textSize === "lg",
+            "text-sm lg:text-md": textSize === "md",
+            "text-sm lg:text-sm": textSize === "sm",
+            "text-sm lg:text-xs": textSize === "xs",
+          },
+        ]}
         id="breathing-text"
       >
         <span
           id="breathe-in-text"
-          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
+          class="motion-safe:absolute motion-safe:top-1/2 motion-safe:left-1/2 motion-safe:-translate-x-1/2 motion-safe:-translate-y-1/2 w-full"
           >Breathe In</span
         >
         <span
           id="breathe-out-text"
-          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
+          class="motion-safe:absolute motion-safe:top-1/2 motion-safe:left-1/2 motion-safe:-translate-x-1/2 motion-safe:-translate-y-1/2 w-full"
           >Breathe Out</span
         >
       </p>
@@ -44,8 +80,8 @@
       height: 75%;
     }
     100% {
-      width: 35%;
-      height: 35%;
+      width: 40%;
+      height: 40%;
     }
   }
 
@@ -101,6 +137,9 @@
     }
   }
 
+  /* @container (max-width: 15rem) {
+  } */
+
   #breathe-in-text {
     animation: breatheInText 10s ease-in-out infinite;
   }
@@ -116,8 +155,22 @@
     animation: pulse 10s ease-in-out infinite;
   }
 
+  @media (prefers-reduced-motion) {
+    #breathe-in-text {
+      animation: none;
+    }
+
+    #breathe-out-text {
+      animation: none;
+    }
+
+    #inner-circle {
+      animation: none;
+    }
+  }
+
   #breathing-text {
-    animation: textPulse 10s ease-in-out infinite;
+    /* animation: textPulse 10s ease-in-out infinite; */
   }
 
   .transition-hide {
