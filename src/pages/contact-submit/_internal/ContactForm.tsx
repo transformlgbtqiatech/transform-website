@@ -262,7 +262,7 @@ function ContactFormInternal(props: ContactFormProps) {
             initialValues={initialValues}
           />
           {/* TODO: how does the accessibility work for this description if required? */}
-          <p className="text-xs text-zinc-500 font-normal leading-3">
+          <p className="text-xs text-zinc-500 font-normal leading-4">
             {typeLabel}
           </p>
         </div>

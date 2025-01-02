@@ -1,8 +1,307 @@
 ---
+import { Image } from "astro:assets";
+import FullViewPortLayout from "@components/astro/FullViewPortLayout.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
+import HomePageViewportImage from "../assets/images/home/main.png";
+import HomePageViewportImageDarkMode from "../assets/images/home/main-dark.png";
+import { cms } from "@cms/reader";
+import "@utils/client/flexmasonry/flex-masonry.css";
+import Prose from "@components/astro/Prose.astro";
+import type { MarkdownInstance } from "astro";
+import "lite-youtube-embed/src/lite-yt-embed.css";
+import Socials from "@components/Socials.astro";
+import FundersDescriptionContent from "../singletons-data/home-page/acknowledgementsFunders/description.mdx";
+
+const homePageData = await cms.singletons.homePage.read();
+
+// type take from: https://5-0-0-beta.docs.astro.build/en/guides/imports/
+// the Generic argument to `MarkdownInstance` is empty because the mdx file doesn't have frontmatter
+const aboutUsContentGlob = import.meta.glob<MarkdownInstance<{}>>(
+  "../singletons-data/home-page/aboutUsCards/**/*.mdx",
+);
+
+const aboutUsDescriptions = Object.values(aboutUsContentGlob);
+
+const promises = homePageData?.aboutUsCards?.map(async (card, index) => {
+  const { description, ...rest } = card;
+
+  const descMarkdownString = await description();
+
+  return {
+    ...rest,
+    description: await aboutUsDescriptions[index](),
+    hasDescription: !!descMarkdownString.trim(),
+  };
+});
+
+const fundersData = homePageData?.acknowledgementsFunders;
+
+const aboutUsCards = promises ? await Promise.all(promises) : [];
+
+const startExploringCards = [
+  {
+    text: "Explore the Tool",
+    link: "/transform",
+    color: "yellow",
+  },
+  {
+    text: "Our Trigger Toolkit",
+    link: "/trigger-toolkit",
+    color: "orange",
+  },
+  {
+    text: "Teach With Us",
+    link: "/teach-with-transform",
+    color: "red",
+  },
+] as const;
 ---
 
 <!-- TODO update title and description -->
-<BaseLayout title="The/Tool" description="The/Tool">
-  <div>check</div>
+<BaseLayout title="Transform home page" description="Transform home page">
+  <FullViewPortLayout
+    className="py-4 pb-10 lg:py-0 lg:pb-0"
+    headerOffset={true}
+  >
+    <div
+      class="flex flex-col lg:flex-row h-full items-center justify-center gap-10 lg:gap-0"
+    >
+      <div class="max-w-lg flex flex-col gap-4">
+        <h1
+          class="text-6xl lg:text-7xl lg:tracking-tighter flex gap-1 dark:text-zinc-200"
+        >
+          <span class="font-bold tracking-wide">trans</span>
+          <span>/</span>
+          <span class="italic">form</span>
+        </h1>
+
+        <p class="uppercase text-2xl font-oswald flex gap-2 flex-wrap">
+          <span class="text-yellow-transform dark:text-yellow-transformLight"
+            >Self/Educational.</span
+          >
+          <span class="text-orange-transform dark:text-orange-transformLight"
+            >Collaborative.</span
+          >
+          <span class="text-red-transform dark:text-red-transformLight"
+            >Intersectional.</span
+          >
+        </p>
+
+        <p class="dark:text-zinc-200 leading-7">
+          {homePageData?.mainDescription}
+        </p>
+      </div>
+
+      <div>
+        <Image
+          src={HomePageViewportImage}
+          alt="Normalization, degradation, assault association diagram"
+          class="dark:hidden"
+        />
+        <Image
+          src={HomePageViewportImageDarkMode}
+          alt="Normalization, degradation, assault association diagram"
+          class="hidden dark:block"
+        />
+      </div>
+    </div>
+  </FullViewPortLayout>
+
+  <FullViewPortLayout className="bg-zinc-100 dark:bg-zinc-700">
+    <div class="py-4 lg:py-10 flex flex-col gap-10">
+      <h2
+        class="text-4xl lg:text-5xl lg:tracking-tighter flex justify-center gap-1 dark:text-zinc-200"
+      >
+        <span class="font-bold tracking-wide">about</span>
+        <span class="font-bold italic">/</span>
+        <span class="italic">us</span>
+      </h2>
+      <!--  flex flex-col lg:flex-wrap gap-y-6 gap-x-4 -->
+      <ul class="about-us-container">
+        {
+          aboutUsCards?.map((card) => {
+            const titleColor = card.titleColor;
+            const ytIdExtractorRegex =
+              /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/|.+\?v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const youtubeVideoId =
+              card?.youtubeVideoLink?.match(ytIdExtractorRegex)?.[1] ?? null;
+
+            return (
+              <li class="lg:w-[46%] xl:w-[42%] relative about-us-card">
+                <div class="flex flex-col gap-4 p-6 rounded-2xl shadow-transform border-2 border-zinc-300 dark:border-zinc-900 dark:bg-zinc-900">
+                  <p
+                    class:list={[
+                      "font-oswald text-2xl lg:text-3xl uppercase",
+                      {
+                        "text-yellow-transform dark:text-yellow-transformLight":
+                          titleColor === "yellow",
+                      },
+                      {
+                        "text-orange-transform dark:text-orange-transformLight":
+                          titleColor === "orange",
+                      },
+                      {
+                        "text-red-transform dark:text-red-transformLight":
+                          titleColor === "red",
+                      },
+                      {
+                        "text-zinc-800 dark:text-zinc-200":
+                          titleColor === "black",
+                      },
+                    ]}
+                  >
+                    {card.title}
+                  </p>
+
+                  {card.hasDescription ? (
+                    <Prose class="prose-a:dark:text-sky-400 prose-a:text-sky-500 text-zinc-800 dark:text-zinc-200 prose-p:my-0 max-w-none text-sm leading-6 prose-p:py-2">
+                      <card.description.Content />
+                    </Prose>
+                  ) : null}
+
+                  {youtubeVideoId ? (
+                    <lite-youtube
+                      videoid={youtubeVideoId}
+                      playlabel="Play: Crayon Physics Deluxe - Trailer HD"
+                    />
+                  ) : null}
+                </div>
+              </li>
+            );
+          })
+        }
+
+        <!-- just so that I don't have to do weird javascript stuff to make last item of flex masonry work -->
+        <li></li>
+
+        <li class="lg:w-[46%] xl:w-[42%] relative about-us-card">
+          <div
+            class="flex flex-col gap-4 p-6 rounded-2xl shadow-transform border-2 border-zinc-300 dark:border-zinc-900 dark:bg-zinc-900"
+          >
+            <p
+              class:list={[
+                "font-oswald text-2xl lg:text-3xl uppercase text-zinc-800 dark:text-zinc-200",
+              ]}
+            >
+              Follow our work!
+            </p>
+
+            <Socials type="yellowOnWhite" />
+          </div>
+        </li>
+      </ul>
+    </div>
+  </FullViewPortLayout>
+
+  <FullViewPortLayout>
+    <div class="py-4 lg:py-10 flex flex-col gap-10">
+      <h2
+        class="text-4xl lg:text-5xl lg:tracking-tighter flex flex-wrap justify-center gap-1 dark:text-zinc-200"
+      >
+        <span class="font-bold tracking-wide">features</span>
+        <span class="font-bold italic">/</span>
+        <span class="italic">collaborations</span>
+      </h2>
+    </div>
+  </FullViewPortLayout>
+
+  <FullViewPortLayout className="bg-zinc-100 dark:bg-zinc-700">
+    <div class="py-4 lg:py-10 flex flex-col gap-12 lg:gap-16">
+      <h2
+        class="text-4xl lg:text-5xl lg:tracking-tighter flex flex-wrap justify-center gap-1 dark:text-zinc-200"
+      >
+        <span class="font-bold tracking-wide">start</span>
+        <span class="font-bold italic">/</span>
+        <span class="italic">exploring</span>
+      </h2>
+
+      <ul class="flex flex-col lg:flex-row gap-10 lg:gap-20 justify-center">
+        {
+          startExploringCards.map((card) => {
+            return (
+              <li class="hover:scale-110 transition-transform duration-200 ease-in-out">
+                <a
+                  href={card.link}
+                  class="flex flex-col items-center gap-4 lg:gap-8"
+                >
+                  <div
+                    class:list={[
+                      "w-40 h-40 lg:w-60 lg:h-60 rounded-full",
+                      {
+                        "bg-yellow-transform dark:bg-yellow-transformLight":
+                          card.color === "yellow",
+                      },
+                      {
+                        "bg-orange-transform dark:bg-orange-transformLight":
+                          card.color === "orange",
+                      },
+                      {
+                        "bg-red-transform dark:bg-red-transformLight":
+                          card.color === "red",
+                      },
+                    ]}
+                  />
+
+                  <span class="font-oswald text-xl lg:text-3xl uppercase text-center dark:text-zinc-200">
+                    {card.text}
+                  </span>
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </FullViewPortLayout>
+
+  <FullViewPortLayout>
+    <div class="flex flex-col gap-10">
+      <div class="py-4 lg:py-10 flex flex-col gap-12 lg:gap-16">
+        <h2
+          class="text-3xl lg:text-5xl lg:tracking-tighter flex flex-wrap justify-center gap-1 dark:text-zinc-200"
+        >
+          <span class="font-bold tracking-wide">acknowledgements</span>
+          <span class="font-bold italic">/</span>
+          <span class="italic">funders</span>
+        </h2>
+      </div>
+
+      <div class="grid lg:grid-cols-3 max-w-4xl mx-auto gap-10 justify-center">
+        {
+          fundersData?.funderImages?.map((imageData) => {
+            return (
+              <Image
+                src={`/src/assets${imageData.image}`}
+                alt={imageData.alt}
+                width={300}
+                height={80}
+                class="object-contain"
+              />
+            );
+          })
+        }
+      </div>
+
+      <Prose
+        class="prose-a:dark:text-sky-400 prose-a:text-sky-500 text-zinc-800 dark:text-zinc-200 prose-p:my-0 max-w-none text-center leading-6 prose-p:py-2"
+      >
+        <FundersDescriptionContent />
+      </Prose>
+    </div>
+  </FullViewPortLayout>
 </BaseLayout>
+
+<script>
+  import { init } from "@root/src/utils/client/flexmasonry/flex-masonry.js";
+
+  init(".about-us-container", {
+    responsive: true,
+    breakpointCols: {
+      "min-width: 280px": 1,
+      "min-width: 768px": 2,
+    },
+    gap: 8,
+  });
+</script>
+
+<script src="lite-youtube-embed/src/lite-yt-embed.js"></script>

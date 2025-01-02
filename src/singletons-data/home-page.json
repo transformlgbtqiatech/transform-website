@@ -1,0 +1,38 @@
+{
+  "mainDescription": "Trans/form is envisioned as an accessible self-educational tool that centers intersectionality while addressing the violence faced by transgender people across axes of (dis)privilege in India and South Asia. Trans/form traces the layers of violence transgender individuals experience, combining voices and stories that reveal how the normalization of small, everyday acts of transphobia builds into patterns of degradation and, in the most severe cases, assault.",
+  "aboutUsCards": [
+    {
+      "title": "OUR STORY: THE GAP",
+      "titleColor": "yellow"
+    },
+    {
+      "title": "OUR CONTRIBUTION: TRANS/FORM",
+      "titleColor": "orange"
+    },
+    {
+      "title": "MEET US! (SORT OF)",
+      "titleColor": "black",
+      "youtubeVideoLink": "https://www.youtube.com/watch?v=PFtjXzZAY-8"
+    },
+    {
+      "title": "BE A PART OF TRANS/FORM",
+      "titleColor": "red"
+    }
+  ],
+  "acknowledgementsFunders": {
+    "funderImages": [
+      {
+        "image": "/images/home/funders/acknowledgementsFunders/funderImages/0/image.png",
+        "alt": "Check One"
+      },
+      {
+        "image": "/images/home/funders/acknowledgementsFunders/funderImages/1/image.png",
+        "alt": "Check 2"
+      },
+      {
+        "image": "/images/home/funders/acknowledgementsFunders/funderImages/2/image.png",
+        "alt": "Check 3"
+      }
+    ]
+  }
+}

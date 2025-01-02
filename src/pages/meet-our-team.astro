@@ -13,6 +13,7 @@ const alumniImagesResolverMap = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/images/team/alumni/**/*.{jpeg,jpg,png,gif,avif,webp}",
 );
 
+// NOTE, cms singletone API could be used like on home page. Don't know why it didn't hit me before, here, or I don't remember if I had tried it and it had not worked.
 const sidebarJSON = (await readJsonFile("./src/singletons-data/team.json")) as {
   members: Array<Member>;
   alumni: Array<Member>;
