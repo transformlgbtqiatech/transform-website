@@ -1,20 +1,21 @@
 ---
-import { ViewTransitions } from "astro:transitions";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import "@utils/client/flexmasonry/flex-masonry.css";
 import { ChevronDownIcon } from "lucide-react";
 import type { AffirmativeActionPageProps } from "./utils";
 import Hero from "@components/astro/Hero.astro";
+import { render } from "astro:content";
+import { Image } from "astro:assets";
 
 type Props = AffirmativeActionPageProps;
 const { selectedAffirmativeActionType, types, list } = Astro.props;
+
+const affirmativeActionImagesResolverMap = import.meta.glob<{
+  default: ImageMetadata;
+}>("/src/assets/images/affirmative-action/**/*.{jpeg,jpg,png,gif,avif,webp}");
 ---
 
 <BaseLayout title="Affirmative Action" description="Affirmative Action">
-  <Fragment slot="head">
-    <ViewTransitions />
-  </Fragment>
-
   <Hero
     title={{
       normal: "Affirmative",
@@ -97,12 +98,29 @@ const { selectedAffirmativeActionType, types, list } = Astro.props;
           class="mt-8 flex flex-col flex-wrap"
         >
           {list.map(async (el) => {
-            const { name, url } = el.data ?? {};
-            const { Content } = await el.render();
+            const { name, url, thumbnailImage } = el.data ?? {};
+            const { Content } = await render(el);
+            const { src, alt } = thumbnailImage ?? {};
+
+            const imagePath = src ? `/src/assets${src}` : null;
+
+            const imageGetter = imagePath
+              ? affirmativeActionImagesResolverMap[imagePath]
+              : null;
+
+            console.log(imagePath, affirmativeActionImagesResolverMap);
 
             return (
               <li class="mb-3 md:mb-0">
                 <div class="shadow-transform border-[1px] border-zinc-200 dark:border-zinc-800 flex flex-col gap-2 p-4 rounded-md">
+                  {src && imageGetter && alt ? (
+                    <Image
+                      src={imageGetter()}
+                      alt={alt}
+                      class="rounded-md mb-2"
+                    />
+                  ) : null}
+
                   <span
                     class="text-zinc-800 dark:text-zinc-200 text-sm rounded-md block"
                     title={url}
@@ -138,11 +156,9 @@ const { selectedAffirmativeActionType, types, list } = Astro.props;
                     </span>
                   </a>
 
-                  {el.body.trim() === "" ? null : (
-                    <div class="text-xs mt-2 text-zinc-500 dark:text-zinc-400 prose-a:text-sky-500 prose-a:dark:text-sky-400">
-                      <Content />
-                    </div>
-                  )}
+                  <div class="text-xs mt-2 text-zinc-500 dark:text-zinc-400 prose-a:text-sky-500 prose-a:dark:text-sky-400">
+                    <Content />
+                  </div>
                 </div>
               </li>
             );

@@ -45,24 +45,62 @@ const people = [...membersWithMetaData, ...alumniWithMetaData];
   title="Meet Our Team at Transform"
   description="Meet Our Team at Transform"
 >
-  <main class="p-6 lg:p-10">
-    <ul
-      class="flex flex-col lg:flex-wrap content-center md:h-[4000px] gap-y-6 gap-x-4 team-container md:max-w-2xl lg:max-w-7xl mx-auto"
-    >
+  <main class="p-6 lg:p-10 md:max-w-2xl lg:max-w-7xl mx-auto">
+    <!-- This was the manual flex masonry implementation class  -->
+    <!-- md:h-[4000px] flex flex-col lg:flex-wrap content-center gap-y-6 gap-x-4 team-container md:max-w-2xl lg:max-w-7xl mx-auto-->
+    <ul class="team-container">
       {
-        people.map((person) => {
-          return (
-            <li class="lg:w-[46%] xl:w-[42%] relative team-card">
-              <MemberCard {...person} />
-            </li>
-          );
-        })
+        people
+          .filter((el) => el.type === "Crew")
+          .map((person) => {
+            return (
+              <li class="lg:w-[45%] xl:w-[41%] relative team-card">
+                <MemberCard {...person} />
+              </li>
+            );
+          })
       }
     </ul>
+
+    <h2
+      class="uppercase font-oswald text-center text-3xl lg:text-5xl font-medium my-12"
+    >
+      Alumni
+    </h2>
+
+    <ul class="team-container">
+      {
+        people
+          .filter((el) => el.type === "Alumnus")
+          .map((person) => {
+            return (
+              <li class="lg:w-[45%] xl:w-[41%] relative team-card">
+                <MemberCard {...person} />
+              </li>
+            );
+          })
+      }
+    </ul>
+
+    <h2></h2>
   </main>
 </BaseLayout>
 
-<style>
+<script>
+  import { init } from "@root/src/utils/client/flexmasonry/flex-masonry.js";
+
+  init(".team-container", {
+    responsive: true,
+    breakpointCols: {
+      "min-width: 280px": 1,
+      "min-width: 768px": 2,
+    },
+    gap: 12,
+  });
+</script>
+
+<!-- below is the implementation of flex masonry manually, with complicated logic to ensure that one column's last item isn't very long so as to make the UI weird. -->
+<!-- <style>
   /* for three columns */
   /* .team-card:nth-child(3n + 1) {
     order: 1;
@@ -95,9 +133,9 @@ const people = [...membersWithMetaData, ...alumniWithMetaData];
     width: 0;
     order: 2;
   }
-</style>
+</style> -->
 
-<script>
+<!-- <script>
   import resolveConfig from "tailwindcss/resolveConfig";
   import tailwindConfig from "@root/tailwind.config.ts";
 
@@ -346,4 +384,4 @@ const people = [...membersWithMetaData, ...alumniWithMetaData];
       } & (typeof colWiseDataArr)[0][1];
     };
   }
-</script>
+</script> -->

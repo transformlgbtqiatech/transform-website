@@ -4,29 +4,8 @@ import FullViewPortLayout from "@components/astro/FullViewPortLayout.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import MainDescriptionContent from "../singletons-data/trigger-toolkit/mainDescription.mdx";
 import Prose from "@components/astro/Prose.astro";
-
-const groundYourselfData = [
-  {
-    text: "see",
-    color: "red",
-  },
-  {
-    text: "feel",
-    color: "dark-orange",
-  },
-  {
-    text: "hear",
-    color: "orange",
-  },
-  {
-    text: "smell",
-    color: "dark-yellow",
-  },
-  {
-    text: "taste",
-    color: "yellow",
-  },
-] as const;
+import { groundYourselfData } from "@utils/constants/ground-yourself-data";
+import { GroundYourselfDataIconSelector } from "@components/react/GroundYourselfDataIconSelector";
 
 const textClass = (color: (typeof groundYourselfData)[number]["color"]) => [
   "w-12 h-12 lg:w-24 lg:h-24 rounded-full",
@@ -122,7 +101,9 @@ const textClass = (color: (typeof groundYourselfData)[number]["color"]) => [
                       el.color === "red",
                   },
                 ]}
-              />
+              >
+                <GroundYourselfDataIconSelector id={el.text} />
+              </div>
 
               <section class="p-2 lg:p-6 lg:py-8 rounded-2xl shadow-transform border-[1px] border-zinc-300 dark:border-zinc-900 dark:bg-zinc-900 bg-white flex-1">
                 <span class:list={["font-bold", ...textClass(el.color)]}>

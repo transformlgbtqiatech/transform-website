@@ -1,12 +1,12 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import type { Render } from "astro:content";
+import { render } from "astro:content";
 // import { glossaryPlaceholderData } from "./_data";
 import { getCollection } from "astro:content";
 
 type GlossaryDataItem = {
   name: string;
-  definitionRenderer: () => Render[".mdx"];
+  definitionRenderer: () => ReturnType<typeof render>;
 };
 
 const glossaryCollection = await getCollection("glossary");
@@ -14,7 +14,7 @@ const glossaryData: Array<GlossaryDataItem> = glossaryCollection
   .map((item) => {
     return {
       name: item.data.name,
-      definitionRenderer: item.render,
+      definitionRenderer: () => render(item),
     };
   })
   .sort();
@@ -135,7 +135,7 @@ const alphabets = Object.keys(groupedGlossaryData).sort();
                             </div>
 
                             <button class="text-left border-b-2 border-sky-600 w-fit text-sm hidden read-more-btn">
-                              <Content />
+                              Read More
                             </button>
 
                             <button class="text-left border-b-2 border-sky-600 w-fit text-sm hidden read-less-btn">

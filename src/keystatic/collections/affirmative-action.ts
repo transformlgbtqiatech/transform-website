@@ -1,5 +1,6 @@
 import { fields, collection } from "@keystatic/core";
 import { simpleEditorOptions } from "@root/src/utils/common/simple-editor-options";
+import { imageSchema } from "@root/src/utils/server/cms-image-schema";
 
 export const affirmativeAction = collection({
   label: "Affirmative Action",
@@ -35,6 +36,13 @@ export const affirmativeAction = collection({
     overview: fields.mdx({
       label: 'Title',
       options: simpleEditorOptions,
-    })
+    }),
+    thumbnailImage: imageSchema({
+      imageOptions: {
+        label: 'Thumbnail Image',
+        publicPath: '/images/affirmative-action',
+        validation: false
+      }
+    }),
   }
 })
