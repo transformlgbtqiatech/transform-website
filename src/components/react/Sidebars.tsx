@@ -6,7 +6,6 @@ import type {
   ViolenceSubCategory,
 } from "@cms/collections/collection-types";
 import type { PreSelectedSlugsProp } from "@components/astro/Sidebars.astro";
-import { FilterIcon } from "lucide-react";
 import { useStore } from "@nanostores/react";
 import {
   knowledgeSidebarModalState as knowledgeSidebarModalState,
@@ -15,6 +14,9 @@ import {
 } from "@store/global";
 import { walkthrough, walkthroughLS } from "@utils/client/walkthrough";
 import { LivedExperiences } from "./LivedExperiences";
+import { FilterIcon } from "./icons/filter";
+import { LivedExperiencesIcon } from "./icons/lived-experiences";
+import { QuestionMarkIcon } from "./icons/question-mark";
 
 export type SideBarToolProps = {
   identityGroupsList: Array<{
@@ -82,10 +84,10 @@ export function Sidebars(
           }}
         >
           <span
-            className="w-12 h-12 bg-red-transform hover:bg-red-transform/90 rounded-full text-white flex items-center justify-center"
+            className="w-12 h-12 bg-red-transform hover:bg-red-transform/90 rounded-full text-white flex items-center justify-center p-1"
             id="knowledge-sidebar-trigger"
           >
-            <FilterIcon size={20} />
+            <FilterIcon />
           </span>
         </DialogTrigger>
         {/* </TooltipTrigger> */}
@@ -121,10 +123,10 @@ export function Sidebars(
           }}
         >
           <span
-            className="w-12 h-12 bg-orange-transform hover:bg-orange-transform/90 rounded-full text-white flex items-center justify-center"
+            className="w-12 h-12 bg-orange-transform hover:bg-orange-transform/90 rounded-full text-white flex items-center justify-center p-1"
             id="lived-experiences-trigger-button"
           >
-            L
+            <LivedExperiencesIcon />
           </span>
         </DialogTrigger>
 
@@ -157,10 +159,10 @@ export function Sidebars(
         }}
       >
         <span
-          className="w-12 h-12 bg-yellow-transform hover:bg-yellow-transform/90 rounded-full text-white flex items-center justify-center"
+          className="w-12 h-12 bg-yellow-transform hover:bg-yellow-transform/90 rounded-full text-white flex items-center justify-center p-1"
           id="walkthrough-welcome"
         >
-          W
+          <QuestionMarkIcon />
         </span>
       </button>
     </div>

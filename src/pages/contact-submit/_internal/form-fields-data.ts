@@ -29,6 +29,7 @@ type InputNumberField = {
 type TextAreaField = {
   type: 'textarea',
   text: string,
+  max?: number
 } & CommonAttributes
 
 type Checkbox = {
@@ -120,6 +121,7 @@ export const getLivedExperiencesFormFieldsData = (options: LivedExperiencesFacto
       text: 'Add your lived experience here',
       required: true,
       info: 'Please note that submissions may be subject to edits by our team for clarity, conciseness, and formatting (e.g., fixing typos, extracting excerpts). We will ensure that your experiences are represented with care and respect.',
+      max: 2400 // ~400 words
     }
     ,
     {

@@ -100,14 +100,16 @@ function ContactFormInternal(props: ContactFormProps) {
   }
 
   if (type === "contribute-lived-experiences") {
+    const list = getLivedExperiencesFormFieldsData({
+      identitySelectOptions,
+      violenceSubCategorySelectOptions,
+    });
+
     formFieldsJsx = (
       <FormFieldListRenderer
         inputErrors={inputErrors}
         initialValues={initialValues}
-        list={getLivedExperiencesFormFieldsData({
-          identitySelectOptions,
-          violenceSubCategorySelectOptions,
-        })}
+        list={list}
       />
     );
   }
@@ -357,14 +359,30 @@ function FormFieldRenderer(
   }
 
   if (props.type === "textarea") {
-    const { info, id, required, text } = props;
+    const { info, id, required, text, min, max } = props;
+
+    const conditionalTextAreaProps: { minlength?: number; maxlength?: number } =
+      {};
+    if (min) conditionalTextAreaProps.minlength = min;
+    if (max) conditionalTextAreaProps.maxlength = max;
 
     return (
       <div>
         <Label
           text={<LabelWithIcon text={text} info={info} required={required} />}
         >
-          <TextArea required={required} id={id} nameAndId={id} />
+          <TextArea
+            required={required}
+            id={id}
+            nameAndId={id}
+            {...conditionalTextAreaProps}
+          />
+
+          {conditionalTextAreaProps.maxlength ? (
+            <p className="text-xs text-zinc-500 italic text-right">
+              Maximum {conditionalTextAreaProps.maxlength} characters allowed
+            </p>
+          ) : null}
         </Label>
         <div className="-mt-2">
           <ErrorMessage error={inputErrors?.[id]} />
