@@ -1,20 +1,16 @@
 ---
-import { ViewTransitions } from "astro:transitions";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import "@utils/client/flexmasonry/flex-masonry.css";
 import { ChevronDownIcon } from "lucide-react";
 import type { AffirmativeActionPageProps } from "./utils";
 import Hero from "@components/astro/Hero.astro";
+import { render } from "astro:content";
 
 type Props = AffirmativeActionPageProps;
 const { selectedAffirmativeActionType, types, list } = Astro.props;
 ---
 
 <BaseLayout title="Affirmative Action" description="Affirmative Action">
-  <Fragment slot="head">
-    <ViewTransitions />
-  </Fragment>
-
   <Hero
     title={{
       normal: "Affirmative",
@@ -98,7 +94,7 @@ const { selectedAffirmativeActionType, types, list } = Astro.props;
         >
           {list.map(async (el) => {
             const { name, url } = el.data ?? {};
-            const { Content } = await el.render();
+            const { Content } = await render(el);
 
             return (
               <li class="mb-3 md:mb-0">
@@ -138,11 +134,9 @@ const { selectedAffirmativeActionType, types, list } = Astro.props;
                     </span>
                   </a>
 
-                  {el.body.trim() === "" ? null : (
-                    <div class="text-xs mt-2 text-zinc-500 dark:text-zinc-400 prose-a:text-sky-500 prose-a:dark:text-sky-400">
-                      <Content />
-                    </div>
-                  )}
+                  <div class="text-xs mt-2 text-zinc-500 dark:text-zinc-400 prose-a:text-sky-500 prose-a:dark:text-sky-400">
+                    <Content />
+                  </div>
                 </div>
               </li>
             );

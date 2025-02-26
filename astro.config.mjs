@@ -27,9 +27,12 @@ const adapter = import.meta.env.PROD
   ? vercelServerLessAdapter()
   : nodeAdapter();
 
+// for dev
+// const adapter = nodeAdapter();
+
 // https://astro.build/config
 export default defineConfig({
-  output: "hybrid",
+  output: "static",
   devToolbar: {
     enabled: false,
   },
@@ -46,50 +49,45 @@ export default defineConfig({
     remarkPlugins: [keystaticFootnotes],
   },
   adapter,
-  experimental: {
-    env: {
-      schema: {
-        GOOGLE_SERVICE_AUTH_CLIENT_EMAIL: envField.string({
-          context: "server",
-          access: "secret",
-        }),
-        GOOGLE_SERVICE_AUTH_KEY: envField.string({
-          context: "server",
-          access: "secret",
-        }),
-        CLOUDFLARE_TURNSTILE_SECRET_KEY: envField.string({
-          context: "server",
-          access: "secret",
-        }),
-        CLOUDFLARE_TURNSTILE_SITE_KEY: envField.string({
-          context: "client",
-          access: "public",
-        }),
-        // DEV ONLY FROM NOW ON
-        CLOUDFLARE_DEV_TURNSTILE_SECRET_KEY_ALWAYS_FAILS: envField.string({
-          context: "server",
-          access: "secret",
-        }),
-        CLOUDFLARE_DEV_TURNSTILE_SECRET_KEY_TOKEN_ALREADY_SPENT:
-          envField.string({
-            context: "server",
-            access: "secret",
-          }),
-        CLOUDFLARE_DEV_TURNSTILE_SECRET_KEY_ALWAYS_PASSES: envField.string({
-          context: "server",
-          access: "secret",
-        }),
-        CLOUDFLARE_DEV_TURNSTILE_SITE_ALWAYS_PASSES_VISIBLE_KEY:
-          envField.string({
-            context: "client",
-            access: "public",
-          }),
-        CLOUDFLARE_DEV_TURNSTILE_SITE_ALWAYS_BLOCKS_VISIBLE_KEY:
-          envField.string({
-            context: "client",
-            access: "public",
-          }),
-      },
+  env: {
+    schema: {
+      GOOGLE_SERVICE_AUTH_CLIENT_EMAIL: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      GOOGLE_SERVICE_AUTH_KEY: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      CLOUDFLARE_TURNSTILE_SECRET_KEY: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      CLOUDFLARE_TURNSTILE_SITE_KEY: envField.string({
+        context: "client",
+        access: "public",
+      }),
+      // DEV ONLY FROM NOW ON
+      CLOUDFLARE_DEV_TURNSTILE_SECRET_KEY_ALWAYS_FAILS: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      CLOUDFLARE_DEV_TURNSTILE_SECRET_KEY_TOKEN_ALREADY_SPENT: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      CLOUDFLARE_DEV_TURNSTILE_SECRET_KEY_ALWAYS_PASSES: envField.string({
+        context: "server",
+        access: "secret",
+      }),
+      CLOUDFLARE_DEV_TURNSTILE_SITE_ALWAYS_PASSES_VISIBLE_KEY: envField.string({
+        context: "client",
+        access: "public",
+      }),
+      CLOUDFLARE_DEV_TURNSTILE_SITE_ALWAYS_BLOCKS_VISIBLE_KEY: envField.string({
+        context: "client",
+        access: "public",
+      }),
     },
   },
 });

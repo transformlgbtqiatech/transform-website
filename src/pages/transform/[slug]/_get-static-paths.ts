@@ -29,7 +29,7 @@ export async function getStaticPathsToolPages() {
           identityGroupSlug,
           violenceSubCategorySlug,
           knowledgePost,
-          knowledgePostSlug: knowledgePostData?.slug
+          knowledgePostSlug: knowledgePostData?.id
         },
       };
     });

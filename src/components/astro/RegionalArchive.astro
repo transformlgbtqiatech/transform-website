@@ -4,6 +4,7 @@ import { Content as TitleContent } from "../../singletons-data/regional-archives
 import { ChevronDownIcon } from "lucide-react";
 import type { RegionalArchivesPageProps } from "@root/src/pages/regional-archives/_utils";
 import Hero from "./Hero.astro";
+import { render } from "astro:content";
 type Props = RegionalArchivesPageProps;
 
 const {
@@ -95,7 +96,7 @@ const {
         >
           {regionalArchivesList?.map(async (el) => {
             const { title, url, year, authorOrCreator, medium } = el.data ?? {};
-            const { Content } = await el.render();
+            const { Content } = await render(el);
 
             return (
               <li class="shadow-transform rounded-t-md border-[1px] border-zinc-300 dark:border-zinc-800 dark:bg-zinc-900 flex flex-col ">

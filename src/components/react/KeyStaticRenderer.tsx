@@ -10,7 +10,7 @@ const config = {
   tags: markdocTagsForCustomRender,
 };
 
-console.info(JSON.stringify(config, null, 2));
+// console.info(JSON.stringify(config, null, 2));
 
 // console.info(JSON.stringify(markdocTagsForCustomRender, null, 2));
 

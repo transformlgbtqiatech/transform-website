@@ -1,6 +1,7 @@
 ---
 import type { GlossaryProps } from "@cms/keystatic-config-components/keystatic-config-components";
 import { Glossary as GlossaryReact } from "@components/react/Glossary";
+import { render } from "astro:content";
 import { getEntry } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 type Props = GlossaryProps;
@@ -18,7 +19,7 @@ async function getPageProps() {
     return null;
   }
 
-  const { Content } = await entry.render();
+  const { Content } = await render(entry);
   return { Content, name: entry.data.name };
 }
 
