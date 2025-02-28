@@ -1,0 +1,1 @@
+export const contentOpacityFadeInClass = "content-opacity-fade-in";

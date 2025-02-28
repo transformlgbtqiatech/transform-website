@@ -1,0 +1,100 @@
+---
+import { getCollection } from "astro:content";
+import { ChevronDown } from "lucide-react";
+
+const identityGroupsList = await getCollection("identity-groups");
+const violenceSubCategoriesList = await getCollection(
+  "violence-sub-categories",
+);
+
+const selectClassName =
+  "appearance-none px-3 pr-6 py-1 border-2 border-zinc-200 rounded-lg w-full text-zinc-900 dark:bg-zinc-200";
+
+type Props = {
+  selectedIdentitySlug?: string;
+  selectedViolenceSubCategorySlug?: string;
+};
+
+const {
+  selectedIdentitySlug = "all",
+  selectedViolenceSubCategorySlug = "all",
+} = Astro.props;
+---
+
+<form class="flex flex-col lg:flex-row gap-3 lg:w-3/5">
+  <label for="identity-group" class="flex flex-col gap-1 relative">
+    <span class="text-sm font-medium text-zinc-500 dark:text-zinc-300"
+      >Identity Group</span
+    >
+    <select class={selectClassName} name="identity-group" id="identity-group">
+      <option value="all">All</option>
+      {
+        identityGroupsList.map((el) => {
+          const selected = el.id === selectedIdentitySlug;
+          return (
+            <option value={el.id} selected={selected}>
+              {el.data.name}
+            </option>
+          );
+        })
+      }
+    </select>
+
+    <div class="absolute right-2 top-8 pointer-events-none">
+      <ChevronDown size={20} />
+    </div>
+  </label>
+
+  <label for="violence-sub-category" class="flex flex-col gap-1 relative">
+    <span class="text-sm font-medium text-zinc-500 dark:text-zinc-300"
+      >Identity Group</span
+    >
+    <select
+      name="violence-sub-category"
+      id="violence-sub-category"
+      class={selectClassName}
+    >
+      <option value="all">All</option>
+      {
+        violenceSubCategoriesList.map((el) => {
+          const selected = el.id === selectedViolenceSubCategorySlug;
+          return (
+            <option value={el.id} selected={selected}>
+              {el.data.name}
+            </option>
+          );
+        })
+      }
+    </select>
+
+    <div class="absolute right-2 top-8 pointer-events-none">
+      <ChevronDown size={20} />
+    </div>
+  </label>
+
+  <button
+    type="submit"
+    class="rounded-full bg-green-600 hover:bg-green-500 px-6 py-2 text-sm text-zinc-50 h-fit w-full lg:w-fit self-start lg:self-end"
+    >Apply</button
+  >
+</form>
+
+<script>
+  const form = document.querySelector("form")!;
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const formObject = Object.fromEntries(formData.entries());
+    const identityGroup = formObject["identity-group"];
+    const violenceSubCategory = formObject["violence-sub-category"];
+
+    if (identityGroup === "all" && violenceSubCategory === "all") {
+      window.location.href = `/lived-experiences`;
+      return;
+    }
+
+    // go to `/lived-experiences/${formObject.identityGroup}/${formObject.violenceSubCategory}`
+    window.location.href = `/lived-experiences/${identityGroup}--${violenceSubCategory}`;
+  });
+</script>

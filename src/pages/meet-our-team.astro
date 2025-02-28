@@ -4,6 +4,8 @@ import type { ImageMetadata } from "astro";
 import type { Member } from "@components/astro/MemberCard.astro";
 import { readJsonFile } from "../utils/server/read-json-file-from-root";
 import MemberCard from "@components/astro/MemberCard.astro";
+import { contentOpacityFadeInClass } from "@utils/constants/content-opacity-fade-in";
+import "@utils/client/flexmasonry/flex-masonry.css";
 
 const crewImagesResolverMap = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/images/team/members/**/*.{jpeg,jpg,png,gif,avif,webp}",
@@ -48,13 +50,13 @@ const people = [...membersWithMetaData, ...alumniWithMetaData];
   <main class="p-6 lg:p-10 md:max-w-2xl lg:max-w-7xl mx-auto">
     <!-- This was the manual flex masonry implementation class  -->
     <!-- md:h-[4000px] flex flex-col lg:flex-wrap content-center gap-y-6 gap-x-4 team-container md:max-w-2xl lg:max-w-7xl mx-auto-->
-    <ul class="team-container">
+    <ul class:list={["team-container", contentOpacityFadeInClass]}>
       {
         people
           .filter((el) => el.type === "Crew")
           .map((person) => {
             return (
-              <li class="lg:w-[45%] xl:w-[41%] relative team-card">
+              <li class="relative team-card">
                 <MemberCard {...person} />
               </li>
             );
@@ -68,21 +70,19 @@ const people = [...membersWithMetaData, ...alumniWithMetaData];
       Alumni
     </h2>
 
-    <ul class="team-container">
+    <ul class:list={["team-container", contentOpacityFadeInClass]}>
       {
         people
           .filter((el) => el.type === "Alumnus")
           .map((person) => {
             return (
-              <li class="lg:w-[45%] xl:w-[41%] relative team-card">
+              <li class="relative team-card">
                 <MemberCard {...person} />
               </li>
             );
           })
       }
     </ul>
-
-    <h2></h2>
   </main>
 </BaseLayout>
 

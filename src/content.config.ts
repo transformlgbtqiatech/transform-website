@@ -1,4 +1,4 @@
-import { defineCollection } from 'astro:content';
+import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 export const affirmativeAction = defineCollection({
@@ -27,6 +27,9 @@ export const identityGroups = defineCollection({
     pattern: "*.yaml",
     base: "./src/content/identity-groups"
   }),
+  schema: z.object({
+    name: z.string()
+  })
 })
 
 export const knowledgePosts = defineCollection({
@@ -76,6 +79,10 @@ export const violenceSubCategories = defineCollection({
     pattern: "*.yaml",
     base: "./src/content/violence-sub-categories"
   }),
+  schema: z.object({
+    name: z.string(),
+    category: z.string()
+  })
 })
 
 

@@ -55,6 +55,11 @@ export function init(targets: string | Targets, options: InitOptions = {}) {
   });
 
   addEventListeners();
+
+  // fade in
+  _targets.forEach(el => {
+    el.classList.add("loaded")
+  })
 }
 
 function setUp(target: Target) {

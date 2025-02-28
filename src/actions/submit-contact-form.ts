@@ -11,6 +11,7 @@ import {
 import { getCollection } from "astro:content";
 import type { GoogleSpreadsheetWorksheet } from "google-spreadsheet";
 import { CONTRIBUTE_DIFFERENT_PAGE_ID, LIVED_EXPERIENCE_ID, WRITE_TO_US_SHEET_ID } from "../utils/common/googlesheet";
+import type { Simplify } from "type-fest";
 
 const commonSchema = z.object({
   "cf-turnstile-response": z.string()
@@ -39,8 +40,6 @@ const writeToUsSchema = z.object({
     message: "Message can't be empty",
   })
 }).merge(commonSchema)
-
-// SCHEMA 2
 
 const identityGroups = await getCollection("identity-groups");
 const violenceSubCategories = await getCollection("violence-sub-categories");
@@ -74,9 +73,9 @@ const contributeLivedExperiencesSchema = z.object({
   }).max(MAX_LONG_FORM_CONTENT, {
     message: `Can't have more than ${MAX_LONG_FORM_CONTENT} characters`
   }),
-  age: z.number().optional(),
-  location: z.string().optional(),
-  otherPagesForLivedExperience: z.string().optional(),
+  ageAndLocationWhenItHappened: z.string().optional(),
+  currentAgeAndLocation: z.string().optional(),
+  otherPagesForLivedExperience: z.string(),
   consentForLivedExperienceUse: z.boolean().optional(),
   email: z
     .string()
@@ -88,6 +87,10 @@ const contributeLivedExperiencesSchema = z.object({
     })
     .optional(),
 }).merge(commonSchema)
+
+
+export type ContributeLivedExperiences = z.infer<typeof contributeLivedExperiencesSchema>
+export type ContributeLivedExperiencesInputKeys = Simplify<keyof ContributeLivedExperiences>
 
 // SCHEMA 3
 const MAX_RELEVANT_LINKS_LENGTH = 2000;
@@ -213,7 +216,8 @@ export const submitContactForm = defineAction({
       const googleSheetInput = {
         ...input,
         livedExperienceEdited: input.livedExperience,
-        approved: false
+        approved: 'NOT_DECIDED',
+        showOnToolPage: 'NOT_DECIDED'
       }
 
       await setHeaderRowIfNeeded(
