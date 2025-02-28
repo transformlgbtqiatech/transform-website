@@ -1,0 +1,90 @@
+---
+import LivedExperienceFilters from "@components/astro/LivedExperienceFilters.astro";
+import {
+  LivedExperienceCard,
+  type LivedExperienceCardProps,
+} from "@components/react/LivedExperienceCard";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { contentOpacityFadeInClass } from "@root/src/utils/constants/content-opacity-fade-in";
+import { getCollection } from "astro:content";
+import LivedExperiencesList from "./_lived-experiences-list.astro";
+
+export const getStaticPaths = async () => {
+  const allLivedExperiences = Object.values(
+    import.meta.glob("/public/lived-experiences/all-lived-experiences.json", {
+      eager: true,
+      import: "default",
+    }),
+  )[0] as Array<LivedExperienceCardProps>;
+
+  const identityGroupsList = await getCollection("identity-groups");
+  const violenceSubCategoriesList = await getCollection(
+    "violence-sub-categories",
+  );
+
+  const identityGroupsSlugs = identityGroupsList
+    .map((el) => el.id)
+    .concat(["all"]);
+  const violenceSubCategoriesSlugs = violenceSubCategoriesList
+    .map((el) => el.id)
+    .concat(["all"]);
+
+  const promises = identityGroupsSlugs.flatMap((identityGroup) => {
+    return violenceSubCategoriesSlugs.map((violenceSubCategory) => {
+      let listToRender: Array<LivedExperienceCardProps> = [];
+
+      if (identityGroup === "all" && violenceSubCategory === "all") {
+        listToRender = allLivedExperiences;
+      }
+
+      if (identityGroup === "all" && violenceSubCategory !== "all") {
+        listToRender = allLivedExperiences.filter(
+          (el) => el.violenceSubCategory === violenceSubCategory,
+        );
+      }
+
+      if (identityGroup !== "all" && violenceSubCategory === "all") {
+        listToRender = allLivedExperiences.filter(
+          (el) => el.identityGroup === identityGroup,
+        );
+      }
+
+      if (identityGroup !== "all" && violenceSubCategory !== "all") {
+        listToRender = allLivedExperiences.filter(
+          (el) =>
+            el.identityGroup === identityGroup &&
+            el.violenceSubCategory === violenceSubCategory,
+        );
+      }
+
+      return {
+        params: {
+          slug: `${identityGroup}--${violenceSubCategory}`,
+        },
+        props: {
+          list: listToRender,
+          identityGroup,
+          violenceSubCategory,
+        },
+      };
+    });
+  });
+
+  return await Promise.all(promises);
+};
+
+const slug = Astro.params.slug;
+
+const identityGroups = await getCollection("identity-groups");
+const violenceSubCategories = await getCollection("violence-sub-categories");
+
+const { list, identityGroup, violenceSubCategory } = Astro.props;
+---
+
+<BaseLayout title="Lived Experiences" description="Lived Experiences">
+  <LivedExperiencesList
+    list={list}
+    selectedIdentitySlug={identityGroup}
+    selectedViolenceSubCategorySlug={violenceSubCategory}
+  />
+</BaseLayout>

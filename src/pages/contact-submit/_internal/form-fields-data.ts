@@ -125,16 +125,17 @@ export const getLivedExperiencesFormFieldsData = (options: LivedExperiencesFacto
     }
     ,
     {
-      type: 'number' as const,
-      id: 'age' as const,
-      text: 'Age',
-      info: 'We collect this information to map the age range at which trans individuals experience violence, helping us identify patterns and vulnerabilities across different life stages.',
+      type: 'text' as const,
+      id: 'ageAndLocationWhenItHappened' as const,
+      text: 'Where did this happen and how old were you?',
+      info: "We collect this information to map the age range at which trans individuals experience violence, helping us identity patterns and vulnerabilities across different life stages. It also helps us identify areas with less representation and to analyze how regional socio-cultural norms may contribute to violent attitudes towards trans people. We would like to have this information appear on the site under 'lived experiences', potentially under the name they have submitted.",
+      required: true
     },
     {
       type: 'text' as const,
-      id: 'location' as const,
-      text: 'Location',
-      info: 'We ask for this information to identify areas with less representation and to analyze how regional socio-cultural norms may contribute to violent attitudes towards trans people'
+      id: 'currentAgeAndLocation' as const,
+      text: 'Current age and location',
+      info: 'We collect this information to help understand the demographics of those who use trans/form, as well as understand how much time has passed since they experienced transphobic violence.'
     },
     {
       type: 'textarea' as const,

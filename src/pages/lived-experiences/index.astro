@@ -1,0 +1,24 @@
+---
+import LivedExperienceFilters from "@components/astro/LivedExperienceFilters.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import type { LivedExperienceCardProps } from "@root/src/components/react/LivedExperienceCard";
+import { LivedExperienceCard } from "@root/src/components/react/LivedExperienceCard";
+import { contentOpacityFadeInClass } from "@utils/constants/content-opacity-fade-in";
+import { getCollection } from "astro:content";
+import LivedExperiencesList from "./_lived-experiences-list.astro";
+
+const allLivedExperiences = Object.values(
+  import.meta.glob("/public/lived-experiences/all-lived-experiences.json", {
+    eager: true,
+    import: "default",
+  }),
+)[0] as Array<LivedExperienceCardProps>;
+---
+
+<BaseLayout title="Lived Experiences" description="Lived Experiences">
+  <LivedExperiencesList
+    list={allLivedExperiences}
+    selectedIdentitySlug="all"
+    selectedViolenceSubCategorySlug="all"
+  />
+</BaseLayout>

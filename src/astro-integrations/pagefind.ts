@@ -23,7 +23,7 @@ export function astroPagefindIntegration(): AstroIntegration {
         if (config.adapter?.name.startsWith('@astrojs/vercel')) {
           const url = new URL(VERCEL_OUTPUT_DIR, config.root)
           outDir = fileURLToPath(url)
-        } else if (config.adapter?.name === "@astrojs/node" && config.output === "hybrid") {
+        } else if (config.adapter?.name === "@astrojs/node" && config.output === "static") {
           outDir = fileURLToPath(config.build.client!);
         } else {
           outDir = fileURLToPath(config.outDir);

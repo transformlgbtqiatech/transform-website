@@ -140,6 +140,15 @@ const {
         scrollbar-width: none;
         -ms-overflow-style: none;
       }
+
+      .content-opacity-fade-in {
+        opacity: 0;
+        transition: opacity 0.2s ease-in;
+      }
+
+      .content-opacity-fade-in.loaded {
+        opacity: 1;
+      }
     </style>
 
     <!-- theme things -->

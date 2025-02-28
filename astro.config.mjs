@@ -7,12 +7,12 @@ import tailwind from "@astrojs/tailwind";
 import { astroPagefindIntegration } from "./src/astro-integrations/pagefind";
 import { astroLiveExperiencesIntegration } from "./src/astro-integrations/lived-experiences";
 import { keystaticFootnotes } from "./src/markdown-plugins/keystatic-footnotes.mjs";
-import vercelServerLess from "@astrojs/vercel/serverless";
+import vercel from "@astrojs/vercel";
 
 import mdx from "@astrojs/mdx";
 
 const vercelServerLessAdapter = () =>
-  vercelServerLess({
+  vercel({
     maxDuration: 10,
     imageService: true,
     // imagesConfig,

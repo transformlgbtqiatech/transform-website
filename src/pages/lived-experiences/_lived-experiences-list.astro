@@ -1,0 +1,81 @@
+---
+import "@utils/client/flexmasonry/flex-masonry.css";
+import LivedExperienceFilters from "@components/astro/LivedExperienceFilters.astro";
+import {
+  LivedExperienceCard,
+  type LivedExperienceCardProps,
+} from "@components/react/LivedExperienceCard";
+import { contentOpacityFadeInClass } from "@root/src/utils/constants/content-opacity-fade-in";
+import { getCollection } from "astro:content";
+
+type Props = {
+  list: Array<LivedExperienceCardProps>;
+  selectedIdentitySlug?: string;
+  selectedViolenceSubCategorySlug?: string;
+};
+
+const { list, selectedIdentitySlug, selectedViolenceSubCategorySlug } =
+  Astro.props;
+
+const identityGroups = await getCollection("identity-groups");
+const violenceSubCategories = await getCollection("violence-sub-categories");
+---
+
+<div class="max-w-7xl mx-auto py-14 px-6">
+  <div class="px-4 mb-8 lg:mb-6">
+    <LivedExperienceFilters
+      selectedIdentitySlug={selectedIdentitySlug}
+      selectedViolenceSubCategorySlug={selectedViolenceSubCategorySlug}
+    />
+  </div>
+
+  {
+    list.length > 0 ? (
+      <ul
+        class:list={[
+          contentOpacityFadeInClass,
+          {
+            "!content-start": list.length <= 2,
+          },
+        ]}
+      >
+        {list.map((el, i) => {
+          return (
+            <li>
+              <LivedExperienceCard
+                {...el}
+                identityGroupsList={identityGroups}
+                violenceSubCategoryList={violenceSubCategories}
+                showFilters={
+                  selectedIdentitySlug === "all" ||
+                  selectedViolenceSubCategorySlug === "all"
+                }
+              />
+            </li>
+          );
+        })}
+      </ul>
+    ) : (
+      <div class="px-6 py-4">
+        <p class="text-zinc-600 dark:text-zinc-200">
+          No lived experiences for these filter. Try others?
+        </p>
+      </div>
+    )
+  }
+</div>
+
+<script>
+  import { init } from "@root/src/utils/client/flexmasonry/flex-masonry.js";
+  import { contentOpacityFadeInClass } from "@utils/constants/content-opacity-fade-in";
+
+  init(`.${contentOpacityFadeInClass}`, {
+    responsive: true,
+    breakpointCols: {
+      "min-width: 280px": 1,
+      "min-width: 768px": 2,
+      "min-width: 1024px": 3,
+    },
+    gap: 12,
+  });
+</script>

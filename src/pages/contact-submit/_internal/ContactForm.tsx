@@ -211,16 +211,17 @@ function ContactFormInternal(props: ContactFormProps) {
               </button>
 
               <div>
-                <span>Thanks for your lived experience submission 🌻.</span>{" "}
+                <span>Thanks for sharing your lived experience with us.</span>{" "}
                 <span>
-                  After it's accepted by our moderators, it'll show on the lived
-                  experiences section of{" "}
-                  <a
+                  Your entry has been recorded. Please reach out to us at
+                  transformsouthasia@gmail.com in case of any questions or
+                  support.
+                  {/* <a
                     href={`/transform/${data.input.identityGroup}-${data.input.violenceSubCategory}`}
                     className="underline"
                   >
                     this page
-                  </a>
+                  </a> */}
                 </span>
               </div>
             </div>,

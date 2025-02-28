@@ -7,6 +7,10 @@ import {
 import wretch from "wretch";
 import { LoaderCircle } from "lucide-react";
 import { WretchError } from "wretch/resolver";
+import {
+  LivedExperienceCard,
+  type LivedExperienceCardProps,
+} from "./LivedExperienceCard";
 
 type LivedExperiencesProps = PreSelectedSlugsProp & {
   isDetailPage: boolean;
@@ -16,18 +20,8 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
   const { identityGroupSlug, violenceSubCategorySlug } =
     props.preSelectedSlugs ?? {};
 
-  const { data, isPending, error } = useQuery<
-    Array<
-      Record<
-        | "nameOrPseudonym"
-        | "email"
-        | "identityGroup"
-        | "violenceSubCategory"
-        | "livedExperienceEdited",
-        string
-      >
-    >
-  >({
+  // I had decided to fetch the data from an api when I thought all of the lived experiences would need to be shown here. But that we have separated `/lived-experience/*` pages we don't really need to do this, but keeping it as is. Ideally it would have been just a prop pass (by reading it in astro component) and show those array of lived experiences.
+  const { data, isPending, error } = useQuery<Array<LivedExperienceCardProps>>({
     queryKey: ["lived-experiences", identityGroupSlug, violenceSubCategorySlug],
     queryFn: async () => {
       return wretch(
@@ -79,32 +73,26 @@ export function LivedExperiencesInternal(props: LivedExperiencesProps) {
 
   if (data.length > 0) {
     return (
-      <ul className="mt-10 flex flex-col gap-4 max-w-[500px] mx-auto">
-        {data.map((el, key) => {
-          return (
-            <li
-              className="shadow-transform p-4 rounded-lg border-[1px] border-zinc-200 dark:border-zinc-800 flex flex-col gap-4"
-              key={key}
-            >
-              <div className="flex gap-2 items-center">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center bg-zinc-200 dark:bg-zinc-900">
-                  {el?.nameOrPseudonym?.charAt(0)
-                    ? el?.nameOrPseudonym?.charAt(0)
-                    : "A"}
-                </div>
+      <div className="flex flex-col gap-5 lg:px-10">
+        <ul className="mt-10 flex flex-col gap-4">
+          {data
+            .filter((el) => el.showOnToolPage === "TRUE")
+            .map((el, key) => {
+              return (
+                <li key={key}>
+                  <LivedExperienceCard {...el} />
+                </li>
+              );
+            })}
+        </ul>
 
-                <p className="text-sm font-medium">
-                  {el.nameOrPseudonym ? el.nameOrPseudonym : "Anonymous"}
-                </p>
-              </div>
-
-              <p className="text-sm whitespace-pre-wrap">
-                {el.livedExperienceEdited}
-              </p>
-            </li>
-          );
-        })}
-      </ul>
+        <a
+          href={`/lived-experiences/${identityGroupSlug}--${violenceSubCategorySlug}`}
+          className="text-sky-500 dark:text-sky-400 text-sm ml-1"
+        >
+          Read All Lived Experiences
+        </a>
+      </div>
     );
   }
 
